@@ -58,6 +58,13 @@
             bottom: 0;
             margin: auto;
         }
+        .hidden_div{
+            position: fixed;
+            bottom: 0;
+            background: #CCCCCC;
+            width: 100%;
+            height: 50px;
+        }
     </style>
 </head>
 <body>
@@ -65,20 +72,26 @@
         <div class="mask-parent">
 
 
-            <svg  viewBox="-400 -300 800 600" width="800" height="600" style="border: 2px red solid;">
+            <svg  viewBox="-400 -300 800 600" width="100%" height="100%" style="border: 0px red solid;">
                 <!--    -->
                 <g id="my_rocket" x="-25" y="-25">
-
-                    <animateMotion xlink:href="#my_rocket"
-                                   path="M -100 -100 A 150 150 0 1 0 0 -1 Z "
-                                   dur="3s"
+                   <animateMotion xlink:href="#my_rocket"
+                                   path="M -200 0 A 150 150 0 1 0  -200 -1 Z"
+                                   dur="8s"
                                    rotate="auto"
                                    repeatCount="indefinite"
                     ></animateMotion>
-
-                  <!--  <animateMotion path="M 0 0 H 300 Z" dur="3s" repeatCount="indefinite" />-->
+                   <!-- <path id="testPath"d="M -70 100 Q -120 120  -160 80 Q-120 40 -70 60" fill="#FF6600" stroke="none"></path>-->
+                    <!--M -120 50 L -160 0 h-100 L-170 30 L -170 50-->
+                    <!--M -120 100 L -160 160 h-100 L-170 130 L -170 110-->
+                    <!--   -->
+                    <!--M -120 50 L -160 0 h-100 L-170 30 L -170 50 L -170 110 L-170 90 h-100 L -160 60 M -120 110-->
                 </g>
-                <path id="motion-path"d="M -100 -100 A 150 150 0 1 0 0 -100 Z" fill="none" stroke="blue"></path>
+                <!--M -120 50 L -160 0 h-100 L-170 30 L -170 50
+                M -120 100 L -160 160 h-100 L-170 130 L -170 110-->
+                <!--<path id="testPath"d="M -60 50 L -110 0 L-230 30 L-120 30 L -110 50" fill="#f15d4a" stroke="blue"></path>
+                <path id="testPath1"d="M -60 110 L -110 160 L-230 120 L-120 130 L -110 110" fill="#f15d4a" stroke="blue"></path>-->
+                <!--<path id="testPath"d="M -200 0 A 150 150 0 1 0  -200 -1 Z" fill="none" stroke="blue"></path>-->
             </svg>
 
 
@@ -101,9 +114,30 @@
             </div>
         </div>
     </div>
+    <div class="hidden_div">
+        PATH<input id="path" onkeyup="update_path()" value="" style="width: 500px;"/>
+        X<input id="X" onkeyup="update()" value="0"/>
+        Y<input id="Y" onkeyup="update()" value="0"/>
+    </div>
     <script>
-        window.onload=function (){
 
+        function update(){
+            document.getElementById("my_rocket").innerHTML = '';
+            var value_X = document.getElementById("X").value;
+            var value_Y = document.getElementById("Y").value;
+            var rocket_obj = document.getElementById("my_rocket");
+            createRocket(value_X,value_Y,rocket_obj);
+            //document.getElementById("rocket_body").setAttribute("x",value_X);
+            //document.getElementById("rocket_body").setAttribute("y",value_Y);
+        }
+
+        function update_path() {
+            var value = document.getElementById("path").value;
+            document.getElementById("testPath").setAttribute("d",value);
+        }
+
+        window.onload=function (){
+            //getSymmetryPoint();
             var main_X = -50;
             var main_Y = 50;
             var rocket_obj = document.getElementById("my_rocket");
@@ -112,18 +146,28 @@
         };
         var SVG_NS = 'http://www.w3.org/2000/svg';
         function createRocket(main_X,main_Y,obj){
-            main_X=parseInt(main_X);
-            main_Y=parseInt(main_Y);
-            var body_shape = document.createElementNS(SVG_NS, 'rect');
-            var exhaust_stack_shape = document.createElementNS(SVG_NS, 'polygon');
+            var main_X=parseInt(main_X);
+            var main_Y=parseInt(main_Y);
+
+            var wing_shape_s = document.createElementNS(SVG_NS, 'path');
+            var wing_shape_x = document.createElementNS(SVG_NS, 'path');
+            var body_shape = document.createElementNS(SVG_NS, 'path');
             var window_shape = document.createElementNS(SVG_NS, 'circle');
             var head_shape = document.createElementNS(SVG_NS, 'path');
+            var flame_shape_1 = document.createElementNS(SVG_NS, 'path');
+            var flame_shape_2 = document.createElementNS(SVG_NS, 'path');
+            var flame_shape_3 = document.createElementNS(SVG_NS, 'path');
+
+            obj.appendChild(wing_shape_s);
+            obj.appendChild(wing_shape_x);
             obj.appendChild(body_shape);
-            obj.appendChild(exhaust_stack_shape);
             obj.appendChild(window_shape);
             obj.appendChild(head_shape);
-            /*火箭的身体*/
-            var body_width = 100;
+            obj.appendChild(flame_shape_1);
+            obj.appendChild(flame_shape_2);
+            obj.appendChild(flame_shape_3);
+            /*火箭的身体 点坐标逆时针旋转得到*/
+            var body_width = 120;
             var body_height = 60;
             var body_spot_1_x = main_X;
             var body_spot_1_y = main_Y;
@@ -133,27 +177,61 @@
             var body_spot_3_y = main_Y + body_height;
             var body_spot_4_x = main_X + body_width;
             var body_spot_4_y = main_Y;
-            var body_attrs_str = 'id:rocket_body,x:'+main_X+',y:'+main_Y+',width:'+body_width+',height:'+body_height+',rx:0,ry:0,fill:#DDDDDD';
-            /*火箭的排气管*/
-            var exhaust_stack_tail_x = (body_spot_1_x - 20);
-            var exhaust_stack_1 = body_spot_1_x+' '+body_spot_1_y;
-            var exhaust_stack_2 = exhaust_stack_tail_x +' '+(body_spot_1_y - 10);
-            var exhaust_stack_3 = exhaust_stack_tail_x +' '+(body_spot_2_y + 10);
-            var exhaust_stack_4 = body_spot_2_x +' '+body_spot_2_y;
-            var exhaust_stack_attrs = 'points:'+exhaust_stack_1+' '+exhaust_stack_2+' '+exhaust_stack_3+' '+exhaust_stack_4+',fill:white';
-            /*火箭的窗子*/
-            var window_attrs = 'cx:'+(body_spot_1_x+50)+',cy:'+(body_spot_1_y+30)+',r:25,fill:#33CCFF,stroke:#969696,stroke-width:5,stroke:none';
+            /*火箭的中心*/
+            var body_center_point_x = (body_spot_1_x + body_spot_4_x)/2;
+            var body_center_point_y = (body_spot_1_y + body_spot_2_y)/2;
+
+            var body_x_1 = "-120,Q0,50";
+            var body_x_2 = "-120,Q0,L50";
+            var body_y_1 = "50,30,50";
+            var body_y_2 = "110,130,110";
+            var body_d = getSymmetryPoint(body_x_1,body_x_2,body_y_1,body_y_2);
+            var body_attrs_str = 'id:rocket_body,d:'+body_d+',fill:#DDDDDD,stroke:#333333';
             /*火箭的头*/
-            var head_y = (body_spot_3_y + body_spot_4_y)/2;
-            var head_x = body_spot_4_x  + 60
-            var head_attrs = 'id:motionPath,d:M '+body_spot_4_x+' '+body_spot_4_y+' Q'+head_x+' '+head_y+' '+body_spot_3_x+' '+body_spot_3_y+',fill:#990000,stroke:#333333'
+            var head_x_1 = "50,Q130";
+            var head_y_1 = "50,80";
+            var head_y_2 = "110,80";
+            var head_d = getSymmetryPointS(head_x_1,head_y_1,head_y_2);
+            var head_attrs = 'id:rocket_head,d:'+head_d+',fill:#FF6666,stroke:#333333';
+
+
+            /**机翼*/
+            var wing_attrs_s = 'id:wing_1,d:M -60 50 L -110 0 L-230 30 L-120 30 L -110 50,fill:#f15d4a,stroke:#333333';
+            var wing_attrs_x = 'id:wing_2,d:M -60 110 L -110 160 L-230 120 L-120 130 L -110 110,fill:#f15d4a,stroke:#333333';
+            /*火箭的火焰*/
+            var flame_attrs_1 = getFlameAttrs(5,0,0,'#0000FF');
+            var flame_attrs_2 = getFlameAttrs(30,-10,10,'#3366FF');
+            var flame_attrs_3 = getFlameAttrs(50,-25,25,'#6699FF');
+            /*火箭的窗子*/
+            var window_attrs = 'cx:'+(body_center_point_x)+',cy:'+(body_center_point_y)+',r:20,fill:#33CCFF,stroke:#969696,stroke-width:5';
+            setAttr(wing_attrs_s,wing_shape_s);
+            setAttr(wing_attrs_x,wing_shape_x);
             setAttr(body_attrs_str,body_shape);
-            setAttr(exhaust_stack_attrs,exhaust_stack_shape);
             setAttr(window_attrs,window_shape);
             setAttr(head_attrs,head_shape);
+            setAttr(flame_attrs_1,flame_shape_1);
+            setAttr(flame_attrs_2,flame_shape_2);
+            setAttr(flame_attrs_3,flame_shape_3);
+        }
 
-            //select(shape);
-            //shape.setAttribute(name, value);
+
+
+        function getFlameAttrs(a,b,c,color){
+
+            var flame_spot_1_x = -250 + parseInt(a);
+
+            var flame_spot_3_y_n = 100 + parseInt(b);
+            var flame_spot_3_y_s = 60 + parseInt(c);
+
+
+
+            var flame_x_1 = "-120,Q-130," + flame_spot_1_x;
+            var flame_y_1 = flame_spot_3_y_n+ ",110,80";
+            var flame_y_2 = flame_spot_3_y_s  + ",50,80";
+            var flame_d = getSymmetryPointS(flame_x_1,flame_y_1,flame_y_2);
+
+            var flame_attrs= 'id:rocket_flame,d:'+flame_d+',fill:' + color;
+            return flame_attrs;
         }
 
         function setAttr(attrstr,shape){
@@ -164,6 +242,61 @@
                 value = shape.getAttribute(name) || attr[1];
                 shape.setAttribute(name, value);
             }
+        }
+
+        /**
+         * 获取对称点
+         * M -120 50 Q0 30 50 50 L50 110 Q0 130 -120 110 Z
+         * M -120 50 Q0 30 50 50 L50 110 Q0 130 -120 110Z
+         */
+        function getSymmetryPoint(body_x_1,body_x_2,body_y_1,body_y_2){
+            var body_x_1_arr = body_x_1.split(',');
+            var body_x_2_arr = body_x_2.split(',');
+            var body_y_1_arr = body_y_1.split(',');
+            var body_y_2_arr = body_y_2.split(',');
+            var i = 0;
+            var str = "M{}Z";
+            for (var i = 0; i <body_x_1_arr.length; i++){
+                var x1 = body_x_1_arr[i];
+                var x2 = body_x_2_arr[i];
+                var y1 = body_y_1_arr[i];
+                var y2 = body_y_2_arr[i];
+
+                var S = " " +x1 + " " + y1;
+                var X = " " +x2 + " " + y2;
+                var SX = S + "{}" + X;
+                str = str.replace("{}",SX);
+            }
+            return str.replace("{}","");
+        }
+        /*
+        * M 70 50 Q130 80 70 110Z
+        * */
+        function getSymmetryPointS(body_x_1,body_y_1,body_y_2){
+            var body_x_1_arr = body_x_1.split(',');
+            var body_y_1_arr = body_y_1.split(',');
+            var body_y_2_arr = body_y_2.split(',');
+            var i = 0;
+            var str = "M{}Z";
+            for (var i = 0; i <body_x_1_arr.length; i++){
+                var x1 = body_x_1_arr[i];
+                var y1 = body_y_1_arr[i];
+                var y2 = body_y_2_arr[i];
+
+
+                var S = " " +x1 + " " + y1;
+                var X = " " +x1 + " " + y2;
+                if(S == X){
+                    var SX = S + "{}";
+                    str = str.replace("{}",SX);
+                }else{
+                    var SX = S + "{}" + X;
+                    str = str.replace("{}",SX);
+                }
+
+
+            }
+            return str.replace("{}","");
         }
 
     </script>

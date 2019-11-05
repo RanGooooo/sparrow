@@ -65,6 +65,72 @@
             width: 100%;
             height: 50px;
         }
+        /*火焰特效*/
+        #rocket_flame {
+            /*animation: rubberBand 5s;*/
+            /*-webkit-animation:rubberBand 1s infinite linear ;*/
+            animation: rubberBand 1s 0.1s cubic-bezier(0.5, 0.07, 0.64, 1) infinite;
+        }
+
+        @keyframes rubberBand {
+        /*https://www.17sucai.com/pins/demo-show?id=25563*/
+
+            100% {
+                -webkit-transform: skew(-5deg);
+
+            }
+
+            74% {
+                -webkit-transform: skew(5deg);
+
+            }
+            58% {
+                -webkit-transform: skew(15deg);
+
+            }
+            30% {
+                -webkit-transform: skew(25deg);
+
+            }
+            0% {
+                -webkit-transform: skew(35deg);
+
+            }
+
+
+        /*0% {
+            transform: translateX(-90) scaleX(0.3);
+            background: #ff9800;
+        }
+        100% {
+            transform: translateX(-175px) scaleX(0.5);
+            background:#ffc107;
+        }*/
+
+           /* 0% {
+                transform: scale(1, 1);
+            }
+            30% {
+                transform: scale(1.85, 1);
+            }
+            40% {
+                transform: scale(0.75, 1);
+            }
+            50% {
+                transform: scale(1.15, 0.85);
+            }
+            65% {
+                transform: scale(0.95, 1);
+            }
+            75% {
+                transform: scale(1.05, 1);
+            }
+            100% {
+                transform: scale(1, 1);
+            }*/
+
+
+        }
     </style>
 </head>
 <body>
@@ -74,24 +140,32 @@
 
             <svg  viewBox="-400 -300 800 600" width="100%" height="100%" style="border: 0px red solid;">
                 <!--    -->
-                <g id="my_rocket" x="-25" y="-25">
-                   <animateMotion xlink:href="#my_rocket"
-                                   path="M -200 0 A 150 150 0 1 0  -200 -1 Z"
-                                   dur="8s"
+                <g id="my_rocket1" x="-25" y="-25">
+                   <animateMotion  xlink:href="#my_rocket1"
+                                   path="M -600 300 Q-200 -200 -100 -600 Q -500 -400 -300 -200 Q 100 200 600 300 Q 800 100 300 -200 Q 110 -310 -200 30 Q -400 230 -800 60 Z"
+                                   dur="15s"
                                    rotate="auto"
                                    repeatCount="indefinite"
                     ></animateMotion>
-                   <!-- <path id="testPath"d="M -70 100 Q -120 120  -160 80 Q-120 40 -70 60" fill="#FF6600" stroke="none"></path>-->
-                    <!--M -120 50 L -160 0 h-100 L-170 30 L -170 50-->
-                    <!--M -120 100 L -160 160 h-100 L-170 130 L -170 110-->
-                    <!--   -->
-                    <!--M -120 50 L -160 0 h-100 L-170 30 L -170 50 L -170 110 L-170 90 h-100 L -160 60 M -120 110-->
                 </g>
-                <!--M -120 50 L -160 0 h-100 L-170 30 L -170 50
-                M -120 100 L -160 160 h-100 L-170 130 L -170 110-->
-                <!--<path id="testPath"d="M -60 50 L -110 0 L-230 30 L-120 30 L -110 50" fill="#f15d4a" stroke="blue"></path>
-                <path id="testPath1"d="M -60 110 L -110 160 L-230 120 L-120 130 L -110 110" fill="#f15d4a" stroke="blue"></path>-->
+                <g id="my_rocket2" x="-25" y="-25">
+                    <animateMotion  xlink:href="#my_rocket2"
+                                    path="M -600 300 Q-200 -200 -100 -600 Q -500 -400 -300 -200 Q 100 200 600 300 Q 800 100 300 -200 Q 110 -310 -200 30 Q -400 230 -800 60 Z"
+                                    dur="10s"
+                                    rotate="auto"
+                                    repeatCount="indefinite"
+                    ></animateMotion>
+                </g>
+                <g id="my_rocket3" x="-25" y="-25">
+                    <animateMotion  xlink:href="#my_rocket3"
+                                    path="M -600 300 Q-200 -200 -100 -600 Q -500 -400 -300 -200 Q 100 200 600 300 Q 800 100 300 -200 Q 110 -310 -200 30 Q -400 230 -800 60 Z"
+                                    dur="5s"
+                                    rotate="auto"
+                                    repeatCount="indefinite"
+                    ></animateMotion>
+                </g>
                 <!--<path id="testPath"d="M -200 0 A 150 150 0 1 0  -200 -1 Z" fill="none" stroke="blue"></path>-->
+                <path id="testPath"d="M -600 300 Q-200 -200 -100 -600 Q -500 -400 -300 -200 Q 100 200 600 300 Q 800 100 300 -200 Q 110 -310 -200 30 Q -400 230 -800 60 Z" fill="none" stroke="blue"></path>
             </svg>
 
 
@@ -140,8 +214,10 @@
             //getSymmetryPoint();
             var main_X = -50;
             var main_Y = 50;
-            var rocket_obj = document.getElementById("my_rocket");
-            createRocket(main_X,main_Y,rocket_obj);
+
+            setTimeout(createRocket(main_X,main_Y,document.getElementById("my_rocket1")),1000);
+            setTimeout(createRocket(main_X,main_Y,document.getElementById("my_rocket2")),2000);
+            setTimeout(createRocket(main_X,main_Y,document.getElementById("my_rocket3")),3000);
 
         };
         var SVG_NS = 'http://www.w3.org/2000/svg';
@@ -158,14 +234,16 @@
             var flame_shape_2 = document.createElementNS(SVG_NS, 'path');
             var flame_shape_3 = document.createElementNS(SVG_NS, 'path');
 
+
+
+            obj.appendChild(flame_shape_1);
+            obj.appendChild(flame_shape_2);
+            obj.appendChild(flame_shape_3);
             obj.appendChild(wing_shape_s);
             obj.appendChild(wing_shape_x);
             obj.appendChild(body_shape);
             obj.appendChild(window_shape);
             obj.appendChild(head_shape);
-            obj.appendChild(flame_shape_1);
-            obj.appendChild(flame_shape_2);
-            obj.appendChild(flame_shape_3);
             /*火箭的身体 点坐标逆时针旋转得到*/
             var body_width = 120;
             var body_height = 60;

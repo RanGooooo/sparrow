@@ -5,15 +5,19 @@ var datas = {
         {
             "field_name":"id",
             "title":"ID",
-            "width": "15px"
+            "width": "15px",
+            "fixed":"right"
         },
         {
             "field_name":"firstName",
-            "title":"姓"
+            "title":"姓",
+            "width": "25px",
+            "fixed":"right"
         },
         {
             "field_name":"lastName",
-            "title":"名"
+            "title":"名",
+            "width": "500px"
         },
         {
             "field_name":"age",
@@ -22,7 +26,7 @@ var datas = {
 
     ],
     "result": [
-        { "firstName":"Bill" , "age":"12", "lastName":"Gates","id":"10086" },
+        { "firstName":"Bill" , "age":"12", "lastName":"Gates","id":"100861008610086" },
         { "firstName":"George" , "lastName":"Bush","id":"10010" ,"age":"12" },
         { "firstName":"Thomas" , "lastName":"Carter","id":"12315" ,"age":"12" }
     ]
@@ -33,18 +37,39 @@ list.assembleColumnName = function(column){
     var html = '';
     html +='<div class="list-row">';
     html +='<div class="run-tab">';
-    html +='<ul class="run-tab-title" style="left: -35px;">';
+    html +='<ul class="run-tab-title">';
     $(column).each(function (index,obj) {
-        var str = '';
-        var width = obj.width;
-        if(width){
-            str += 'style="width:'+width+';"';
+        var fixed = obj.fixed;
+        if(!fixed){
+            var str = '';
+            var width = obj.width;
+            if(width){
+                str += 'style="width:'+width+';"';
+            }
+            html +='<li class="run-tab-item"><cite '+str+'>'+obj.title+'</cite></li>';
         }
-        html +='<li class="run-tab-item"><cite '+str+'>'+obj.title+'</cite></li>';
     });
     html +='</ul>';
-    html +='<div class="run-tab-btn run-tab-prev" onclick="left_move();"><<</div>';
+
+
+
+    html +='<div style="position: fixed;left: 35px;height: 35px;border: 1px red solid;">';
+    html +='<div class="run-tab-item-span" onclick="left_move();"><<</div>';
+    $(column).each(function (index,obj) {
+        var fixed = obj.fixed;
+        if(fixed){
+            var str = '';
+            var width = obj.width;
+            if(width){
+                str += 'style="width:'+width+';"';
+            }
+            html +='<div class="run-tab-item-span" '+str+'>'+obj.title+'</div>';
+        }
+    });
+
+    html +='</div>';
     html +='<div class="run-tab-btn run-tab-next" onclick="right_move();">>></div>';
+
     html +='</div>';
     html +='</div>';
     return html;
@@ -54,9 +79,12 @@ list.setRow = function(index,obj){
     var html = '';
     html +='<div class="list-row" row_id="'+index+'">';
     html +='<div class="run-tab">';
-    html +='<ul class="run-tab-title" style="left:-35px;" id="row_ul_'+index+'">';
+    html +='<ul class="run-tab-title" id="row_ul_'+index+'">';
     html +='</ul>';
-    html +='<div class="run-tab-btn run-tab-prev" onclick="left_move();">'+index+'</div>';
+    html +='<div style="position: fixed;left: 35px;height: 35px;border: 1px red solid;" id="row_div_'+index+'" >';
+
+    html +='<div class="run-tab-item-span"">'+index+'</div>';
+    html +='</div>';
     html +='<div class="run-tab-btn run-tab-next" onclick="right_move();">>></div>';
     html +='</div>';
     html +='</div>';
@@ -65,17 +93,32 @@ list.setRow = function(index,obj){
 
 
 function assembleRowItem(columnList,row_obj){
-    var html = '';
+    var rowdivitemhtml = '';
+    var rowulitemhtml = '';
     $(columnList).each(function (index,column) {
         var field_name = column.field_name;
+        var width = column.width;
+        var fixed = column.fixed;
+        var str = '';
+        if(width){
+            str += 'style="width:'+width+';"';
+        }
         var value = getValue(row_obj,field_name);
-        html +='<li class="run-tab-item"><cite>'+value+'</cite></li>';
+        if(fixed){
+            rowdivitemhtml +='<div class="run-tab-item-span" '+str+'>'+value+'</div>';
+        }else {
+            rowulitemhtml +='<li class="run-tab-item"><cite '+str+'>'+value+'</cite></li>';
+        }
+
     });
-    return html;
+    var map = {};
+    map.rowdivitemhtml = rowdivitemhtml;
+    map.rowulitemhtml = rowulitemhtml;
+    return map;
 }
 
+
 function getValue(obj,field_name){
-    debugger;
     for (var key in obj) {
         console.log("================>>>")
         if(key === field_name){
@@ -98,7 +141,11 @@ function showbody() {
     $('.list-body').append(rowListHtml);
 
     $(result).each(function (index,obj) {
-        $("#row_ul_" + index).append(assembleRowItem(column,obj));
+        var map = assembleRowItem(column,obj);
+
+        $("#row_div_" + index).append(map.rowdivitemhtml);
+        $("#row_ul_" + index).append(map.rowulitemhtml);
+
     });
 
 
@@ -124,7 +171,5 @@ function left_move(){
 function right_move(){
     var px = $(".run-tab-title").css("left");
     var num = px.replace("px","");
-    if(num < 35){
-        $(".run-tab-title").css("left",(parseInt(num) + 50) + "px");
-    }
+    $(".run-tab-title").css("left",(parseInt(num) + 50) + "px");
 }

@@ -71,6 +71,7 @@ function AssembleColumn(){
 		$(".table-title-scroll-container").append('<div class="table-title" style="width:'+width+'px;">'+field_name+'</div>')
 	});
 	$(".table-title-scroll-container").css("width", (allWidth)+ "px");
+    $("#table-scroll-container").css("width", (allWidth)+ "px");
 	var widthLeft = $("#fixed_container_left").width();
 	var widthRight = $("#fixed_container_right").width();
 	var widthS = $(window.document.body).width();

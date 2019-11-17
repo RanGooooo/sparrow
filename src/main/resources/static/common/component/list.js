@@ -68,15 +68,14 @@ function AssembleColumn(){
 			allWidth += 100;
 			width= 100;
 		}
-		$("#table-title-scroll-container").append('<div class="table-title" style="width:'+width+'px;">'+field_name+'</div>')
+		$(".table-title-scroll-container").append('<div class="table-title" style="width:'+width+'px;">'+field_name+'</div>')
 	});
-	$("#table-title-scroll-container").css("width", (allWidth)+ "px");
+	$(".table-title-scroll-container").css("width", (allWidth)+ "px");
 	var widthLeft = $("#fixed_container_left").width();
 	var widthRight = $("#fixed_container_right").width();
 	var widthS = $(window.document.body).width();
 	var s = widthS-widthLeft-widthRight;
-	alert(s);
-	$("#table-title-scroll").css("width", (s)  + "px");
+	//$(".table-title-scroll").css("width", (s)  + "px");
 }
 
 $(function(){

@@ -22,6 +22,30 @@ var datas = {
         {
             "field_name":"age",
             "title":"年龄"
+        },
+        {
+            "field_name":"friend",
+            "title":"friend1"
+        },
+        {
+            "field_name":"friend",
+            "title":"friend1"
+        },
+        {
+            "field_name":"friend",
+            "title":"friend1"
+        },
+        {
+            "field_name":"friend",
+            "title":"friend1"
+        },
+        {
+            "field_name":"friend",
+            "title":"friend1"
+        },
+        {
+            "field_name":"friend",
+            "title":"friend1"
         }
 
     ],

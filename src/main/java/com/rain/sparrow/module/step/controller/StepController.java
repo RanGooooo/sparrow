@@ -21,7 +21,7 @@ public class StepController {
 
     @RequestMapping("list")
     public String list(){
-        return "module/step/data_list";
+        return "common/demo_list";
     }
 
 

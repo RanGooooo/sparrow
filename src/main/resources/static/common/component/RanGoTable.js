@@ -97,7 +97,7 @@ rango_list.assembleColumn = function(){
         }
     });
     $(".table-title-scroll-container").css("width", (centerWidth)+ "px");
-    $("#table-scroll-container").css("width", (centerWidth)+ "px");
+    $(".table-bottom-scroll-container").css("width", (centerWidth)+ "px");
     var leftWidth= $(".table-title-fixed-left").width();
     var rightWidth= $(".table-title-fixed-right").width();
 

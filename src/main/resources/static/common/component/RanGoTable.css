@@ -1,0 +1,134 @@
+* {
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+}
+
+.m{
+    font-family: open sans,Arial,sans-serif;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+/*表容器*/
+.table-container{
+    position: relative;
+    width: 100%;
+    color: black;
+    background: white;
+}
+/*=====================表头=====================*/
+.table-title-container .table-title{
+    width: 180px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    float: left;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    padding: 2px 8px;
+    height: 25px;
+}
+.table-title-fixed-left{
+    position: absolute;
+    background: #0066CC40;
+    left: 0;
+}
+.table-title-fixed-right{
+    position: absolute;
+    background: #0066CC40;
+    right: 0;
+}
+.table-title-scroll{
+    overflow-x: auto;
+    margin: 0 360px;
+    overflow: hidden;
+}
+
+.table-title-scroll-container div{
+    float: left;
+    padding: 2px 8px;
+    background: lightsteelblue;
+}
+/*=====================表头=====================*/
+
+/*=======================body=======================*/
+.table-content-container-mark{
+    height:200px;
+    background: white;
+}
+
+.table-content-container{
+    height: 100%;
+    overflow-y: hidden;
+    position: relative;
+}
+
+.table-content-container .table-title{
+    width: 180px;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    float: left;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    padding: 2px 8px;
+    height: 25px;
+}
+
+.table-content-container-left{
+    float: left;
+}
+
+.table-content-container-right{
+    float: right;
+}
+
+.table-content-container-center{
+    margin: 0 343px 0 360px;
+    overflow-x: hidden;
+    min-height: 200px;
+}
+
+.table-content-container-center-container div{
+    float: left;
+    padding: 2px 8px;
+    color: white;
+    background: teal;
+}
+/*=======================body=======================*/
+
+/*====================右边滚动条====================*/
+.table-right-scroll-mark{
+    width: 100%;
+    margin-top: 25px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto
+}
+.table-right-scroll{
+    height: 500px;
+    width: 1px;
+}
+
+/*====================右边滚动条====================*/
+
+
+/*====================底部滚动条====================*/
+.table-bottom-scroll-mark{
+    left: 0;
+    right: 0;
+    background: #0066CC40;
+}
+.table-bottom-scroll{
+    overflow-x: auto;
+    margin: 0 360px;
+}
+.table-bottom-scroll-container{
+    height: 0.01px;
+}
+/*====================底部滚动条====================*/

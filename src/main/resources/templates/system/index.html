@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>INDEX</title>
+    <link rel="stylesheet" href="/common/open-source/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/common/open-source/font-awesome/css/font-awesome.min.css">
+    <script src="/common/jquery/jquery.min.js"></script>
+    <style>
+        *{
+            transition: .3s;
+        }
+
+        .mask{
+            display:block;
+            position: fixed;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background: white;
+        }
+
+
+        .menu-container{
+            position: fixed;
+            overflow: hidden;
+            top: 30px;
+            bottom: 30px;
+            background:#556270;
+            color: white;
+            width: 280px;
+            box-shadow: 0 2px 12px 0 #ddd;
+        }
+
+        .menu-container:hover{
+            box-shadow: 0 2px 12px 0 #ddd;
+        }
+        .menu-container-body{
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .menu-container-body ul{
+            margin: 0;
+            list-style: none;
+            padding-left: 15px;
+        }
+
+        .menu-container-body li{
+            margin: 0;
+            list-style: none;
+            padding-top: 10px;
+        }
+        .menu-container-body li a{
+            cursor: pointer;
+            display: block;
+        }
+
+        .menu-right-btn{
+
+        }
+
+        /********************/
+        .body-container{
+            margin-left: 300px;
+        }
+        .tab-node-scroll{
+            overflow-x: auto;
+            margin-left: 0;
+            margin-right: 0;
+            box-shadow: 0 2px 12px 0 #ddd;
+        }
+
+
+        .tab-node-scroll:hover{
+            box-shadow: 0 2px 12px 0 #ddd;
+        }
+
+        .tab-node-scroll-container div{
+            float: left;
+            padding: 2px 1.5px;
+        }
+
+        #nodeiFrame{
+            box-shadow: 0 2px 12px 0 #ddd;
+        }
+
+        .tag{
+            position: relative;
+            background:#556270;
+            display: block;
+            max-width: 100%;
+            word-wrap: break-word;
+            color:#fff;
+            padding: 2px 30px 5px 5px;
+            border-radius: 2px;
+        }
+
+        .tag-text{
+            font-size: 18px;
+        }
+        .tag-remove{
+            position: absolute;
+            background: 0 0;
+            display: block;
+            width: 30px;
+            height: 30px;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            color:#ff6b6b;
+            line-height: 30px;
+            padding: 0;
+            border: 0;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container-fluid mask">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="menu-container">
+                <div class="menu-container-body">
+                    <ul style="padding: 20px;">
+
+                        <li menu-name="系统管理">
+                            <table cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <th width="5%">
+                                        <i class="fa fa-cog"></i>
+                                    </th>
+                                    <th width="200px;">
+                                        <span>系统管理</span>
+                                    </th>
+                                    <th width="5%" class="menu-right-btn">
+                                        <i class="fa fa-chevron-down"></i>
+                                    </th>
+                                </tr>
+                            </table>
+                            <ul>
+                                <li menu-name="菜单管理" menu-url="/stepController/list">
+                                    <table cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <th width="5%">
+                                                <i class="fa fa-cog"></i>
+                                            </th>
+                                            <th width="90%">
+                                                <span>菜单管理</span>
+                                            </th>
+                                            <th width="5%" class="menu-right-btn">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </li>
+                                <li menu-name="系统管理">
+                                    <table cellpadding="0" cellspacing="0">
+                                        <tr>
+                                            <th width="5%">
+                                                <i class="fa fa-cog"></i>
+                                            </th>
+                                            <th width="90%">
+                                                <span>系统管理</span>
+                                            </th>
+                                            <th width="5%" class="menu-right-btn">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </th>
+                                        </tr>
+                                    </table>
+                                    <ul>
+                                        <li menu-name="系统管理">
+                                            <table cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <th width="5%">
+                                                        <i class="fa fa-cog"></i>
+                                                    </th>
+                                                    <th width="90%">
+                                                        <span>系统管理</span>
+                                                    </th>
+                                                    <th width="5%" class="menu-right-btn">
+                                                        <i class="fa fa-chevron-down"></i>
+                                                    </th>
+                                                </tr>
+                                            </table>
+                                        </li>
+                                        <li menu-name="系统管理">
+                                            <table cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <th width="5%">
+                                                        <i class="fa fa-cog"></i>
+                                                    </th>
+                                                    <th width="90%">
+                                                        <span>系统管理</span>
+                                                    </th>
+                                                    <th width="5%" class="menu-right-btn">
+                                                        <i class="fa fa-chevron-down"></i>
+                                                    </th>
+                                                </tr>
+                                            </table>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="body-container">
+                <div class="tab-node-scroll">
+                    <div class="tab-node-scroll-container" style="width: 4000px;">
+
+                        <div class="table-title">
+                                <span class="tag">
+                                    <span class="tag-text">carrot</span>
+                                    <button class="tag-remove">
+                                        <i class="fa fa-window-close"></i>
+                                    </button>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+                <div id="nodeiFrame" style="position: fixed;right: 15px;left: 315px;top: 60px;bottom: 10px;">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    function addNode(name,url) {
+        var html = '';
+        html += '<div class="table-title">';
+        html += '<span class="tag">';
+        html += '<span class="tag-text">'+name+'</span>';
+        html += '<button class="tag-remove" onclick="removeNode(this)">';
+        html += '<i class="fa fa-window-close"></i>';
+        html += '</button>';
+        html += '</span>';
+        html += '</div>';
+        $(".tab-node-scroll-container").append(html);
+        addNodeiFrame(0,url);
+    }
+    
+    function removeNode(obj) {
+        $(obj).parent().parent().remove();
+    }
+
+    function addNodeiFrame(index,url){
+        $("#nodeiFrame").append('<iframe id="node_iframe_'+index+'" class="common_iFrame" src="'+url+'" style="border: none;width: 100%;height: 100%;" onload="success()"></iframe>');
+    }
+
+
+    $(function() {
+        $("li").click(function() {
+            var menuName = $(this).attr("menu-name");
+            var menuUrl = $(this).attr("menu-url");
+            addNode(menuName,menuUrl);
+            $(this).children("ul").toggle();
+            return false;
+        });
+/*
+        $("#nodeiFrame").append('<iframe id="node_iframe" class="common_iFrame" src="/stepController/list" style="border: none;width: 100%;height: 100%;"></iframe>');
+*/
+
+    })
+
+</script>
+</body>
+</html>

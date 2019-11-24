@@ -64,7 +64,7 @@ var datas = {
 
 list.assembleColumnName = function(column){
     var html = '';
-    html +='<div class="list-row">';
+    html +='<div class="index-row">';
     html +='<div class="run-tab">';
     html +='<ul class="run-tab-title">';
     $(column).each(function (index,obj) {
@@ -106,7 +106,7 @@ list.assembleColumnName = function(column){
 
 list.setRow = function(index,obj){
     var html = '';
-    html +='<div class="list-row" row_id="'+index+'">';
+    html +='<div class="index-row" row_id="'+index+'">';
     html +='<div class="run-tab">';
     html +='<ul class="run-tab-title" id="row_ul_'+index+'">';
     html +='</ul>';
@@ -161,13 +161,13 @@ function showbody() {
 
     var column = datas.column;
     var columnNameRowHtml = list.assembleColumnName(column);
-    $('.list-head').append(columnNameRowHtml);
+    $('.index-head').append(columnNameRowHtml);
     var result = datas.result;
     var rowListHtml = '';
     $(result).each(function (index,obj) {
         rowListHtml += list.setRow(index,obj);
     });
-    $('.list-body').append(rowListHtml);
+    $('.index-body').append(rowListHtml);
 
     $(result).each(function (index,obj) {
         var map = assembleRowItem(column,obj);

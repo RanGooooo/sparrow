@@ -8,21 +8,76 @@ RanGoTable.fixed = {
 
 
 RanGoTable.init = function (datas) {
-    RanGoTable.initHeadContainerHTML();
-    RanGoTable.initSearchContainerHTML();
-    RanGoTable.initTableContainerHTML();
-    RanGoTable.initBottomContainerHTML();
+	/*表格==》表头容器==》中间内容*/
+    var TableTitleCenterId = "#tableTitleCenter";
+	var TableTitleCenterContainerId = "#tableTitleCenterContainer";
+	/*表格==》表头容器==》左边内容*/
+    var TableTitleLeftId = "#tableTitleLeft";
+    /*表格==》表头容器==》右边内容*/
+    var TableTitleRightId = "#tableTitleRight";
+    
+
+    /*表格==》内容容器*/
+    var TableContentContainerId = "#tableContentContainer";
+	/*表格==》内容容器==》右边滚动条*/
+	var TableContentContainerRightScrollMarkId = "#tableContentContainerRightScrollMark";
+	var TableContentContainerRightScrollId = "#tableContentContainerRightScroll";
+    /*表格==》内容容器==》中间内容*/
+    var TableContentCenterId = "#tableContentCenter";
+
+
+	/*表 BOTTOM*/
+    var TableBottomScrollId = "#tableBottomScroll";
+    var TableBottomScrollContainerId = "#tableBottomScrollContainer";
+
+    RanGoTable.initHeadHTML();
+    RanGoTable.initSearchHTML();
+    RanGoTable.initTableHTML();
+    RanGoTable.initBottomHTML();
     var column = datas.column;
     var result = datas.result;
     RanGoTable.assembleSearch(column);
-    var centerWidth = RanGoTable.assembleColumn(column);
+    var centerWidth = RanGoTable.assembleColumn({
+		column: column,
+        TableTitleLeft : $(TableTitleLeftId),
+        TableTitleRight : $(TableTitleRightId),
+        TableTitleCenterContainer : $(TableTitleCenterContainerId),
+        TableTitleCenter : $(TableTitleCenterId),
+        TableBottomScroll : $(TableBottomScrollId)
+    });
+
+    var leftWidth = $(TableTitleLeftId).width();
+    var rightWidth = $(TableTitleRightId).width();
+
+    $(TableTitleCenterId).css("margin-left", (leftWidth)+ "px");
+    $(TableTitleCenterId).css("margin-right", (rightWidth)+ "px");
+    $(TableBottomScrollId).css("margin-left", (leftWidth)+ "px");
+    $(TableBottomScrollId).css("margin-right", (rightWidth)+ "px");
+    $(TableContentCenterId).css("margin-left", (leftWidth)+ "px");
+    $(TableContentCenterId).css("margin-right", (rightWidth)+ "px");
+
     RanGoTable.assembleResult(column,result);
-    $("#tableTitleScrollContainer").css("width", (centerWidth)+ "px");
-    $("#tableBottomScrollContainer").css("width", (centerWidth)+ "px");
-    $(".table-content-container-center-container").css("width", (centerWidth)+ "px");
+    $(TableTitleCenterContainerId).css("width", (centerWidth)+ "px");
+    $(TableBottomScrollContainerId).css("width", (centerWidth)+ "px");
+    $(TableContentCenterId + " .table-content-container-center-container").css("width", (centerWidth)+ "px");
+
+    
+
+    $(TableBottomScrollId).scroll(function () {
+        $(TableTitleCenterId).scrollTop(this.scrollTop);
+        $(TableTitleCenterId).scrollLeft(this.scrollLeft);
+        $(TableContentCenterId).scrollTop(this.scrollTop);
+        $(TableContentCenterId).scrollLeft(this.scrollLeft);
+    });
+    
+    var height= $(TableContentCenterId).height();
+    $(TableContentContainerRightScrollId).height(height);
+    $(TableContentContainerRightScrollMarkId).scroll(function () {
+        $(TableContentContainerId).scrollTop(this.scrollTop);
+    });
 };
 
-RanGoTable.initHeadContainerHTML = function () {
+RanGoTable.initHeadHTML = function () {
     var html = '';
     html += '<div id="headContainer" class="head-container">';
     html += '<table cellpadding="0" cellspacing="0" class="head-container-tool-table">';
@@ -43,7 +98,7 @@ RanGoTable.initHeadContainerHTML = function () {
     $(".m").append(html);
 };
 
-RanGoTable.initSearchContainerHTML = function () {
+RanGoTable.initSearchHTML = function () {
     var html = '';
     html += '<div id="searchContainer" class="head-container">';
     html += '<table cellpadding="0" cellspacing="0" id="searchTableInput" class="head-container-search-table-input"></table>';
@@ -61,24 +116,24 @@ RanGoTable.initSearchContainerHTML = function () {
     $(".m").append(html);
 };
 
-RanGoTable.initTableContainerHTML = function () {
+RanGoTable.initTableHTML = function () {
     var html = '';
     html += '<div class="table-container">';
     html += '<div class="table-title-container">';
-    html += '<div id="tableTitleFixedLeft" class="table-title-fixed-left"></div>';
-    html += '<div id="tableTitleFixedRight" class="table-title-fixed-right"></div>';
-    html += '<div id="tableTitleScroll" class="table-title-scroll">';
-    html += '<div id="tableTitleScrollContainer" class="table-title-scroll-container"></div>';
+    html += '<div id="tableTitleLeft" class="table-title-fixed-left"></div>';
+    html += '<div id="tableTitleRight" class="table-title-fixed-right"></div>';
+    html += '<div id="tableTitleCenter" class="table-title-scroll">';
+    html += '<div id="tableTitleCenterContainer" class="table-title-scroll-container"></div>';
     html += '</div>';
     html += '</div>';
     html += '<div class="table-content-container-mark">';
     html += '<div id="tableContentContainer" class="table-content-container">';
-    html += '<div id="tableContentContainerLeft" class="table-content-container-left"></div>';
-    html += '<div id="tableContentContainerRight" class="table-content-container-right"></div>';
-    html += '<div id="tableContentContainerCenter" class="table-content-container-center"></div>';
+    html += '<div id="tableContentLeft" class="table-content-container-left"></div>';
+    html += '<div id="tableContentRight" class="table-content-container-right"></div>';
+    html += '<div id="tableContentCenter" class="table-content-container-center"></div>';
     html += '</div>';
-    html += '<div id="tableContentRightScrollMark" class="table-content-right-scroll-mark">';
-    html += '<div id="tableContentRightScroll" class="table-content-right-scroll"></div>';
+    html += '<div id="tableContentContainerRightScrollMark" class="table-content-container-right-scroll-mark">';
+    html += '<div id="tableContentContainerRightScroll" class="table-content-container-right-scroll"></div>';
     html += '</div>';
     html += '</div>';
     html += '</div>';
@@ -90,7 +145,7 @@ RanGoTable.initTableContainerHTML = function () {
     $(".m").append(html);
 };
 
-RanGoTable.initBottomContainerHTML = function () {
+RanGoTable.initBottomHTML = function () {
     var html = '';
     html += '<div class="bottom-container">';
     html += '<table cellpadding="0" cellspacing="0" class="bottom-container-table">';
@@ -138,7 +193,14 @@ RanGoTable.initBottomContainerHTML = function () {
     $(".m").append(html);
 };
 
-RanGoTable.assembleColumn = function(column){
+
+RanGoTable.assembleColumn = function(param){
+    var column = param.column;
+    var TableTitleLeft = param.TableTitleLeft;
+    var TableTitleRight = param.TableTitleRight;
+    var TableTitleCenterContainer = param.TableTitleCenterContainer;
+    var TableTitleCenter = param.TableTitleCenter;
+    var TableBottomScroll = param.TableBottomScroll;
     var centerWidth = 0;
     $(column).each(function(index,obj){
         var fieldName = obj.fieldName;
@@ -146,10 +208,10 @@ RanGoTable.assembleColumn = function(column){
         var fixed = obj.fixed;
         if(fixed){
             if(RanGoTable.fixed.LEFT===fixed){
-                $("#tableTitleFixedLeft").append('<div class="table-title" style="'+style+'">'+fieldName+'</div>');
+                TableTitleLeft.append(RanGoTable.getCell(style,fieldName));
             }
             if(RanGoTable.fixed.RIGHT===fixed){
-                $("#tableTitleFixedRight").append('<div class="table-title" style="'+style+'">'+fieldName+'</div>');
+                TableTitleRight.append(RanGoTable.getCell(style,fieldName));
             }
         }else{
             var width = parseInt(obj.width);
@@ -157,18 +219,9 @@ RanGoTable.assembleColumn = function(column){
                 width= 100;
             }
             centerWidth += width;
-            $("#tableTitleScrollContainer").append('<div class="table-title" style="'+style+'">'+fieldName+'</div>');
+            TableTitleCenterContainer.append(RanGoTable.getCell(style,fieldName));
         }
     });
-
-    var leftWidth= $("#tableTitleFixedLeft").width();
-    var rightWidth= $("#tableTitleFixedRight").width();
-    $("#tableTitleScroll").css("margin-left", (leftWidth)+ "px");
-    $("#tableTitleScroll").css("margin-right", (rightWidth)+ "px");
-    $("#tableBottomScroll").css("margin-left", (leftWidth)+ "px");
-    $("#tableBottomScroll").css("margin-right", (rightWidth)+ "px");
-    $(".table-content-container-center").css("margin-left", (leftWidth)+ "px");
-    $(".table-content-container-center").css("margin-right", (rightWidth)+ "px");
     return centerWidth;
 };
 
@@ -212,14 +265,17 @@ RanGoTable.assembleSearch = function(column){
 RanGoTable.assembleResult = function(column,result){
     $(result).each(function (index,obj) {
         var map = assembleRow(column,obj);
-        $("#tableContentContainerLeft").append('<div>'+map.rowLeftHtml+'</div>');
-        $("#tableContentContainerRight").append('<div>'+map.rowRightHtml+'</div>');
-        $("#tableContentContainerCenter").append('<div class="table-content-container-center-container">'+map.rowCenterHtml+'</div>');
+        $("#tableContentLeft").append('<div>'+map.rowLeftHtml+'</div>');
+        $("#tableContentRight").append('<div>'+map.rowRightHtml+'</div>');
+        $("#tableContentCenter").append('<div class="table-content-container-center-container">'+map.rowCenterHtml+'</div>');
     });
 
 };
 
-
+RanGoTable.getCell = function(style,cellValue){
+    var html = '<div class="table-cell" style="'+style+'">'+cellValue+'</div>';
+    return html;
+}
 
 
 
@@ -234,13 +290,13 @@ function assembleRow(columnList,row_obj){
         var value = getValue(row_obj,fieldName);
         if(fixed){
             if(RanGoTable.fixed.LEFT===fixed){
-                rowLeftHtml +='<div class="table-title" style="'+style+'">'+value+'</div>';
+                rowLeftHtml +=RanGoTable.getCell(style,value);
             }
             if(RanGoTable.fixed.RIGHT===fixed){
-                rowRightHtml +='<div class="table-title" style="'+style+'">'+value+'</div>';
+                rowRightHtml +=RanGoTable.getCell(style,value);
             }
         }else {
-            rowCenterHtml +='<div class="table-title" style="'+style+'">'+value+'</div>';
+            rowCenterHtml +=RanGoTable.getCell(style,value);
         }
     });
     var map = {};
@@ -268,17 +324,3 @@ function getValue(obj,fieldName){
         }
     }
 }
-
-$(function(){
-    var height= $("#tableContentContainerRight").height();
-    $("#tableContentRightScroll").height(height);
-    $("#tableBottomScroll").scroll(function () {
-        $("#tableTitleScroll").scrollTop(this.scrollTop);
-        $("#tableTitleScroll").scrollLeft(this.scrollLeft);
-        $(".table-content-container-center").scrollTop(this.scrollTop);
-        $(".table-content-container-center").scrollLeft(this.scrollLeft);
-    });
-    $("#tableContentRightScrollMark").scroll(function () {
-        $(".table-content-container").scrollTop(this.scrollTop);
-    });
-});

@@ -18,7 +18,7 @@
     background: white;
 }
 /*=====================表头=====================*/
-.table-title-container .table-title{
+.table-title-container .table-cell{
     width: 180px;
     text-align: left;
     overflow: hidden;
@@ -68,7 +68,7 @@
     position: relative;
 }
 
-.table-content-container .table-title{
+.table-content-container .table-cell{
     width: 180px;
     text-align: left;
     overflow: hidden;
@@ -105,7 +105,7 @@
 /*=======================body=======================*/
 
 /*====================右边滚动条====================*/
-.table-content-right-scroll-mark{
+.table-content-container-right-scroll-mark{
     width: 100%;
     margin-top: 25px;
     position: absolute;
@@ -114,7 +114,7 @@
     bottom: 0;
     overflow-y: auto
 }
-.table-content-right-scroll{
+.table-content-container-right-scroll{
     height: 500px;
     width: 1px;
 }

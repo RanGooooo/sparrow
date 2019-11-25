@@ -1,6 +1,6 @@
-var rango_list = window.rango_list || {};
+var RanGoTable = window.RanGoTable || {};
 
-rango_list.fixed = {
+RanGoTable.fixed = {
     "LEFT" : 'left',
     "RIGHT" : 'right'
 };
@@ -17,34 +17,41 @@ var datas = {
             "fieldName":"firstName",
             "title":"姓",
             "width": "500",
-            "fixed":"right"
+            "fixed":"right",
+            "query":true
         },
         {
             "fieldName":"lastName",
             "title":"名",
-            "width": "500"
+            "width": "500",
+            "query":true
         },
         {
             "fieldName":"age",
             "width": "500",
-            "title":"年龄"
+            "title":"年龄",
+            "query":true
         },
         {
             "fieldName":"friend",
-            "title":"friend1"
+            "title":"friend1",
+            "query":true
         },
         {
             "fieldName":"FRIEND_FIXED",
             "title":"friend1",
-            "fixed":"left"
+            "fixed":"left",
+            "query":true
         },
         {
             "fieldName":"friend",
-            "title":"friend1"
+            "title":"friend1",
+            "query":true
         },
         {
             "fieldName":"friend",
-            "title":"friend1"
+            "title":"friend1",
+            "query":true
         },
         {
             "fieldName":"friend",
@@ -71,53 +78,221 @@ var datas = {
         { "firstName":"Thomas666" , "lastName":"Carter","id":"12315" ,"age":"12" }
     ]
 };
-var column = datas.column;
-var result = datas.result;
-var centerWidth = 0;
-rango_list.assembleColumn = function(){
+
+
+RanGoTable.init = function (datas) {
+    RanGoTable.initHeadContainerHTML();
+    RanGoTable.initSearchContainerHTML();
+    RanGoTable.initTableContainerHTML();
+    RanGoTable.initBottomContainerHTML();
+    var column = datas.column;
+    var result = datas.result;
+    RanGoTable.assembleSearch(column);
+    var centerWidth = RanGoTable.assembleColumn(column);
+    RanGoTable.assembleResult(column,result);
+    $("#tableTitleScrollContainer").css("width", (centerWidth)+ "px");
+    $("#tableBottomScrollContainer").css("width", (centerWidth)+ "px");
+    $(".table-content-container-center-container").css("width", (centerWidth)+ "px");
+};
+
+RanGoTable.initHeadContainerHTML = function () {
+    var html = '';
+    html += '<div id="headContainer" class="head-container">';
+    html += '<table cellpadding="0" cellspacing="0" class="head-container-tool-table">';
+    html += '<tr>';
+    html += '<th>';
+    html += '<i class="fa fa-chevron-down"></i>';
+    html += '</th>';
+    html += '</tr>';
+    html += '</table>';
+    html += '<table cellpadding="0" cellspacing="0" class="head-container-title-table">';
+    html += '<tr>';
+    html += '<th>';
+    html += '<h3>RanGo Table Title</h3>';
+    html += '</th>';
+    html += '</tr>';
+    html += '</table>';
+    html += '</div>';
+    $(".m").append(html);
+};
+
+RanGoTable.initSearchContainerHTML = function () {
+    var html = '';
+    html += '<div id="searchContainer" class="head-container">';
+    html += '<table cellpadding="0" cellspacing="0" id="searchTableInput" class="head-container-search-table-input"></table>';
+    html += '<table cellpadding="0" cellspacing="0" class="head-container-search-table-button">';
+    html += '<tr>';
+    html += '<th>';
+    html += '<button>搜索</button>';
+    html += '</th>';
+    html += '<th>';
+    html += '<button>重置</button>';
+    html += '</th>';
+    html += '</tr>';
+    html += '</table>';
+    html += '</div>';
+    $(".m").append(html);
+};
+
+RanGoTable.initTableContainerHTML = function () {
+    var html = '';
+    html += '<div class="table-container">';
+    html += '<div class="table-title-container">';
+    html += '<div id="tableTitleFixedLeft" class="table-title-fixed-left"></div>';
+    html += '<div id="tableTitleFixedRight" class="table-title-fixed-right"></div>';
+    html += '<div id="tableTitleScroll" class="table-title-scroll">';
+    html += '<div id="tableTitleScrollContainer" class="table-title-scroll-container"></div>';
+    html += '</div>';
+    html += '</div>';
+    html += '<div class="table-content-container-mark">';
+    html += '<div id="tableContentContainer" class="table-content-container">';
+    html += '<div id="tableContentContainerLeft" class="table-content-container-left"></div>';
+    html += '<div id="tableContentContainerRight" class="table-content-container-right"></div>';
+    html += '<div id="tableContentContainerCenter" class="table-content-container-center"></div>';
+    html += '</div>';
+    html += '<div id="tableContentRightScrollMark" class="table-content-right-scroll-mark">';
+    html += '<div id="tableContentRightScroll" class="table-content-right-scroll"></div>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+    html += '<div class="table-bottom-scroll-mark">';
+    html += '<div id="tableBottomScroll" class="table-bottom-scroll">';
+    html += '<div id="tableBottomScrollContainer" class="table-bottom-scroll-container"></div>';
+    html += '</div>';
+    html += '</div>';
+    $(".m").append(html);
+};
+
+RanGoTable.initBottomContainerHTML = function () {
+    var html = '';
+    html += '<div class="bottom-container">';
+    html += '<table cellpadding="0" cellspacing="0" class="bottom-container-table">';
+    html += '<tr>';
+    html += '<th>';
+    html += '<select class="pagination-page-list">';
+    html += '<option>10</option>';
+    html += '<option>20</option>';
+    html += '<option>30</option>';
+    html += '<option>40</option>';
+    html += '<option>50</option>';
+    html += '</select>';
+    html += '</th>';
+    html += '<th>';
+    html += '<a class="bottom-btn">';
+    html += '<i class="fa fa-step-backward"></i>';
+    html += '</a>';
+    html += '</th>';
+    html += '<th>';
+    html += '<a class="bottom-btn">';
+    html += '<i class="fa fa-caret-left" style="font-size: 26px;"></i>';
+    html += '</a>';
+    html += '</th>';
+    html += '<th>';
+    html += '<input type="text" value="1" size="2" style="text-align: center;">';
+    html += '</th>';
+    html += '<th>';
+    html += '<a class="bottom-btn">';
+    html += '<i class="fa fa-caret-right" style="font-size: 26px;"></i>';
+    html += '</a>';
+    html += '</th>';
+    html += '<th>';
+    html += '<a class="bottom-btn">';
+    html += '<i class="fa fa-step-forward"></i>';
+    html += '</a>';
+    html += '</th>';
+    html += '<th>';
+    html += '<a class="bottom-btn">';
+    html += '<i class="fa fa-refresh"></i>';
+    html += '</a>';
+    html += '</th>';
+    html += '</tr>';
+    html += '</table>';
+    html += '</div>';
+    $(".m").append(html);
+};
+
+RanGoTable.assembleColumn = function(column){
+    var centerWidth = 0;
     $(column).each(function(index,obj){
         var fieldName = obj.fieldName;
-        var width = parseInt(obj.width);
+        var style = assembleStyle(obj);
         var fixed = obj.fixed;
-        var str = '';
-        if(!width){
-            width= 100;
-        }
-        str += 'style="width:'+width+'px;"';
         if(fixed){
-            if(rango_list.fixed.LEFT===fixed){
-                $(".table-title-fixed-left").append('<div class="table-title" '+str+'>'+fieldName+'</div>');
+            if(RanGoTable.fixed.LEFT===fixed){
+                $("#tableTitleFixedLeft").append('<div class="table-title" style="'+style+'">'+fieldName+'</div>');
             }
-            if(rango_list.fixed.RIGHT===fixed){
-                $(".table-title-fixed-right").append('<div class="table-title" '+str+'>'+fieldName+'</div>');
+            if(RanGoTable.fixed.RIGHT===fixed){
+                $("#tableTitleFixedRight").append('<div class="table-title" style="'+style+'">'+fieldName+'</div>');
             }
         }else{
+            var width = parseInt(obj.width);
+            if(!width){
+                width= 100;
+            }
             centerWidth += width;
-            $(".table-title-scroll-container").append('<div class="table-title" '+str+'>'+fieldName+'</div>');
+            $("#tableTitleScrollContainer").append('<div class="table-title" style="'+style+'">'+fieldName+'</div>');
         }
     });
-    $(".table-title-scroll-container").css("width", (centerWidth)+ "px");
-    $(".table-bottom-scroll-container").css("width", (centerWidth)+ "px");
-    var leftWidth= $(".table-title-fixed-left").width();
-    var rightWidth= $(".table-title-fixed-right").width();
 
-    $(".table-title-scroll").css("margin-left", (leftWidth)+ "px");
-    $(".table-title-scroll").css("margin-right", (rightWidth)+ "px");
-    $(".table-bottom-scroll").css("margin-left", (leftWidth)+ "px");
-    $(".table-bottom-scroll").css("margin-right", (rightWidth)+ "px");
+    var leftWidth= $("#tableTitleFixedLeft").width();
+    var rightWidth= $("#tableTitleFixedRight").width();
+    $("#tableTitleScroll").css("margin-left", (leftWidth)+ "px");
+    $("#tableTitleScroll").css("margin-right", (rightWidth)+ "px");
+    $("#tableBottomScroll").css("margin-left", (leftWidth)+ "px");
+    $("#tableBottomScroll").css("margin-right", (rightWidth)+ "px");
     $(".table-content-container-center").css("margin-left", (leftWidth)+ "px");
     $(".table-content-container-center").css("margin-right", (rightWidth)+ "px");
-}
+    return centerWidth;
+};
 
-rango_list.assembleResult = function(){
+RanGoTable.assembleSearch = function(column){
+    var searchItemArr = [];
+    var thHtml = '';
+    var i = 0;
+    $(column).each(function(index,obj){
+        var query = obj.query;
+        var fieldName = obj.fieldName;
+        if(query){
+            i++;
+            thHtml +='<th>';
+            thHtml += fieldName;
+            thHtml +='</th>';
+            thHtml +='<th>';
+            thHtml += '<input type="text" value="">';
+            thHtml +='</th>';
+            if(i === 3){
+                searchItemArr.push(thHtml);
+            }
+            if(i>3){
+                thHtml = '';
+                i = 0;
+            }
+        }
+    });
+    var tRHtml = '';
+    var searchContainerHeight = 5;
+    $(searchItemArr).each(function(index,obj){
+        searchContainerHeight = searchContainerHeight + 30;
+        tRHtml +='<tr>';
+        tRHtml +=obj;
+        tRHtml +='</tr>';
+    });
+    $("#searchContainer").css("height",searchContainerHeight + "px");
+    $("#searchTableInput").append(tRHtml);
+};
+
+
+RanGoTable.assembleResult = function(column,result){
     $(result).each(function (index,obj) {
         var map = assembleRow(column,obj);
-        $(".table-content-container-left").append('<div>'+map.rowLeftHtml+'</div>');
-        $(".table-content-container-right").append('<div>'+map.rowRightHtml+'</div>');
-        $(".table-content-container-center").append('<div class="table-content-container-center-container">'+map.rowCenterHtml+'</div>');
+        $("#tableContentContainerLeft").append('<div>'+map.rowLeftHtml+'</div>');
+        $("#tableContentContainerRight").append('<div>'+map.rowRightHtml+'</div>');
+        $("#tableContentContainerCenter").append('<div class="table-content-container-center-container">'+map.rowCenterHtml+'</div>');
     });
-    $(".table-content-container-center-container").css("width", (centerWidth)+ "px");
-}
+
+};
+
+
 
 
 
@@ -127,23 +302,18 @@ function assembleRow(columnList,row_obj){
     var rowCenterHtml = '';
     $(columnList).each(function (index,column) {
         var fieldName = column.fieldName;
-        var width = column.width;
         var fixed = column.fixed;
-        var str = '';
-        if(!width){
-            width= 100;
-        }
-        str += 'style="width:'+width+'px;"';
+        var style = assembleStyle(column);
         var value = getValue(row_obj,fieldName);
         if(fixed){
-            if(rango_list.fixed.LEFT===fixed){
-                rowLeftHtml +='<div class="table-title" '+str+'>'+value+'</div>';
+            if(RanGoTable.fixed.LEFT===fixed){
+                rowLeftHtml +='<div class="table-title" style="'+style+'">'+value+'</div>';
             }
-            if(rango_list.fixed.RIGHT===fixed){
-                rowRightHtml +='<div class="table-title" '+str+'>'+value+'</div>';
+            if(RanGoTable.fixed.RIGHT===fixed){
+                rowRightHtml +='<div class="table-title" style="'+style+'">'+value+'</div>';
             }
         }else {
-            rowCenterHtml +='<div class="table-title" '+str+'>'+value+'</div>';
+            rowCenterHtml +='<div class="table-title" style="'+style+'">'+value+'</div>';
         }
     });
     var map = {};
@@ -153,10 +323,19 @@ function assembleRow(columnList,row_obj){
     return map;
 }
 
+function assembleStyle(obj){
+    var style = "";
+    var width = obj.width;
+    if(!width){
+        width= 100;
+    }
+    style += 'width:'+width+'px;';
+    return style;
+};
 
 function getValue(obj,fieldName){
     for (var key in obj) {
-        console.log("================>>>")
+        console.log("================>>>");
         if(key === fieldName){
             return obj[fieldName];
         }
@@ -164,9 +343,17 @@ function getValue(obj,fieldName){
 }
 
 $(function(){
-    rango_list.assembleColumn();
-    rango_list.assembleResult();
+    RanGoTable.init(datas)
 
-    var height= $(".table-content-container-right").height();
-    $(".table-right-scroll").height(height);
+    var height= $("#tableContentContainerRight").height();
+    $("#tableContentRightScroll").height(height);
+    $("#tableBottomScroll").scroll(function () {
+        $("#tableTitleScroll").scrollTop(this.scrollTop);
+        $("#tableTitleScroll").scrollLeft(this.scrollLeft);
+        $(".table-content-container-center").scrollTop(this.scrollTop);
+        $(".table-content-container-center").scrollLeft(this.scrollLeft);
+    });
+    $("#tableContentRightScrollMark").scroll(function () {
+        $(".table-content-container").scrollTop(this.scrollTop);
+    });
 });

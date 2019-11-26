@@ -12,27 +12,27 @@ RanGoTable.init = function (datas) {
     /*查询==> 容器*/
     var SearchContainerId = "#searchContainer";
     /*查询==> input容器*/
-    var SearchTableInputId = "#searchTableInput";
-    
-	/*表格==》表头容器==》中间内容*/
+    var SearchTableInputContainerId = "#searchTableInputContainer";
+
+    /*表格==》表头容器==》中间内容*/
     var TableTitleCenterId = "#tableTitleCenter";
-	var TableTitleCenterContainerId = "#tableTitleCenterContainer";
-	/*表格==》表头容器==》左边内容*/
+    var TableTitleCenterContainerId = "#tableTitleCenterContainer";
+    /*表格==》表头容器==》左边内容*/
     var TableTitleLeftId = "#tableTitleLeft";
     /*表格==》表头容器==》右边内容*/
     var TableTitleRightId = "#tableTitleRight";
     /*表格==》内容容器*/
     var TableContentContainerId = "#tableContentContainer";
-	/*表格==》内容容器==》右边滚动条*/
-	var TableContentContainerRightScrollMarkId = "#tableContentContainerRightScrollMark";
-	var TableContentContainerRightScrollBarId = "#tableContentContainerRightScrollBar";
+    /*表格==》内容容器==》右边滚动条*/
+    var TableContentContainerRightScrollMarkId = "#tableContentContainerRightScrollMark";
+    var TableContentContainerRightScrollBarId = "#tableContentContainerRightScrollBar";
     /*表格==》内容容器==》中间内容*/
     var TableContentCenterId = "#tableContentCenter";
-	/*表格==》内容容器==》左边内容*/
+    /*表格==》内容容器==》左边内容*/
     var TableContentLeftId = "#tableContentLeft";
-	/*表格==》内容容器==》右边内容*/
+    /*表格==》内容容器==》右边内容*/
     var TableContentRightId = "#tableContentRight";
-	/*表格==》底部容器==》底部滚动条*/
+    /*表格==》底部容器==》底部滚动条*/
     var TableBottomScrollMarkId = "#tableBottomScrollMark";
     var TableBottomScrollBarId = "#tableBottomScrollBar";
     var settings = datas.settings;
@@ -46,45 +46,55 @@ RanGoTable.init = function (datas) {
     RanGoTableInner.assembleSearch({
         column: column,
         SearchContainer: $(SearchContainerId),
-        SearchTableInput: $(SearchTableInputId)
+        SearchTableInputContainer: $(SearchTableInputContainerId)
     });
     var centerWidth = RanGoTableInner.assembleColumn({
-		column: column,
+        column: column,
         TableTitleLeft : $(TableTitleLeftId),
         TableTitleRight : $(TableTitleRightId),
         TableTitleCenterContainer : $(TableTitleCenterContainerId)
     });
     RanGoTableInner.assembleResult({
-    	column: column,
-    	result: result,
-    	TableContentLeft: $(TableContentLeftId),
-    	TableContentRight: $(TableContentRightId),
-    	TableContentCenter: $(TableContentCenterId)
+        column: column,
+        result: result,
+        TableContentLeft: $(TableContentLeftId),
+        TableContentRight: $(TableContentRightId),
+        TableContentCenter: $(TableContentCenterId)
     });
 
     RanGoTableInner.setCenterWidth(centerWidth,[
-		$(TableTitleCenterContainerId),
-		$(TableBottomScrollBarId),
-		$(TableContentCenterId + " .table-content-center-container")
+        $(TableTitleCenterContainerId),
+        $(TableBottomScrollBarId),
+        $(TableContentCenterId + " .table-content-center-container")
     ]);
-  
 
     var leftWidth = $(TableTitleLeftId).width();
     var rightWidth = $(TableTitleRightId).width();
 
     RanGoTableInner.setMargin(leftWidth,rightWidth,[
-		$(TableTitleCenterId),
-		$(TableBottomScrollMarkId),
-		$(TableContentCenterId)
+        $(TableTitleCenterId),
+        $(TableBottomScrollMarkId),
+        $(TableContentCenterId)
     ]);
 
-    
+    $("#searchContainerViewBtn").click(function(){
+        RanGoTableInner.showHideSearchContainer({
+            obj: $(this),
+            SearchContainer: $(SearchContainerId)
+        });
+    });
+
+    $("#refreshBtn").click(function(){
+        RanGoTableInner.refresh({
+            obj: $(this)
+        });
+    });
 
     $(TableBottomScrollMarkId).scroll(function () {
         $(TableTitleCenterId).scrollLeft(this.scrollLeft);
         $(TableContentCenterId).scrollLeft(this.scrollLeft);
     });
-    
+
     var height= $(TableContentCenterId).height();
     $(TableContentContainerRightScrollBarId).height(height);
     $(TableContentContainerRightScrollMarkId).scroll(function () {
@@ -94,18 +104,15 @@ RanGoTable.init = function (datas) {
 
 RanGoTableInner.initHeadHTML = function (settings) {
     var html = '';
-    html += '<div id="headContainer" class="head-container">';
-    html += '    <table cellpadding="0" cellspacing="0" class="head-container-tool-table">';
+    html += '<div class="head-container">';
+    html += '    <table cellpadding="0" cellspacing="0">';
     html += '        <tr>';
     html += '            <th>';
-    html += '                <i class="fa fa-chevron-down"></i>';
+    html += '                <button id="searchContainerViewBtn" class="common-button-icon"><i class="fa fa-angle-down"></i></button>';
     html += '            </th>';
-    html += '        </tr>';
-    html += '    </table>';
-    html += '    <table cellpadding="0" cellspacing="0" class="head-container-title-table">';
-    html += '        <tr>';
-    html += '            <th>';
-    html += '                <h3>'+settings.title+'</h3>';
+    html += '            <th style="width: 100%;text-align: end;">';
+    html += '                <button class="common-button"><i class="fa fa-search"></i>搜索</button>';
+    html += '                <button class="common-button"><i class="fa fa-repeat"></i>重置</button>';
     html += '            </th>';
     html += '        </tr>';
     html += '    </table>';
@@ -116,17 +123,7 @@ RanGoTableInner.initHeadHTML = function (settings) {
 RanGoTableInner.initSearchHTML = function () {
     var html = '';
     html += '<div id="searchContainer" class="search-container">';
-    html += '    <table cellpadding="0" cellspacing="0" id="searchTableInput" class="search-table-input"></table>';
-    html += '    <table cellpadding="0" cellspacing="0" class="search-table-button">';
-    html += '        <tr>';
-    html += '            <th>';
-    html += '                <button>搜索</button>';
-    html += '            </th>';
-    html += '            <th>';
-    html += '                <button>重置</button>';
-    html += '            </th>';
-    html += '        </tr>';
-    html += '    </table>';
+    html += '    <table cellpadding="0" cellspacing="0" id="searchTableInputContainer" class="search-table-input-container"></table>';
     html += '</div>';
     $(".m").append(html);
 };
@@ -164,7 +161,7 @@ RanGoTableInner.initBottomHTML = function () {
     html += '    <table cellpadding="0" cellspacing="0" class="bottom-container-table">';
     html += '        <tr>';
     html += '            <th>';
-    html += '                <select class="pagination-page-list">';
+    html += '                <select class="pagination-page-list" style="height: 28px;width:40px;font-size: 15px;border: 1px solid #ddd;">';
     html += '                    <option>10</option>';
     html += '                    <option>20</option>';
     html += '                    <option>30</option>';
@@ -173,32 +170,22 @@ RanGoTableInner.initBottomHTML = function () {
     html += '                </select>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <a class="bottom-btn">';
-    html += '                    <i class="fa fa-step-backward"></i>';
-    html += '                </a>';
+    html += '                <button class="common-button-icon"><i class="fa fa-angle-double-left"></i></button>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <a class="bottom-btn">';
-    html += '                    <i class="fa fa-caret-left" style="font-size: 26px;"></i>';
-    html += '                </a>';
+    html += '                <button class="common-button-icon"><i class="fa fa-angle-left"></i></button>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <input type="text" value="1" size="2" style="text-align: center;">';
+    html += '                <input type="text" value="1" size="2" style="text-align: center;height: 28px;width:40px;font-size: 15px;padding: 0;border: 1px solid #ddd;">';
     html += '            </th>';
     html += '            <th>';
-    html += '                <a class="bottom-btn">';
-    html += '                    <i class="fa fa-caret-right" style="font-size: 26px;"></i>';
-    html += '                </a>';
+    html += '                 <button class="common-button-icon"><i class="fa fa-angle-right"></i></button>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <a class="bottom-btn">';
-    html += '                    <i class="fa fa-step-forward"></i>';
-    html += '                </a>';
+    html += '                <button class="common-button-icon"><i class="fa fa-angle-double-right"></i></button>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <a class="bottom-btn">';
-    html += '                    <i class="fa fa-refresh"></i>';
-    html += '                </a>';
+    html += '                <button id="refreshBtn" class="common-button-icon"><div class="loading"></div><!--<i class="fa fa-repeat" style="font-size: 13px;"></i>--></button>';
     html += '            </th>';
     html += '        </tr>';
     html += '    </table>';
@@ -237,11 +224,11 @@ RanGoTableInner.assembleColumn = function(param){
 };
 
 RanGoTableInner.assembleResult = function(param){
-	var column = param.column;
-	var result = param.result;
-	var TableContentLeft = param.TableContentLeft;
-	var TableContentRight = param.TableContentRight;
-	var TableContentCenter = param.TableContentCenter;
+    var column = param.column;
+    var result = param.result;
+    var TableContentLeft = param.TableContentLeft;
+    var TableContentRight = param.TableContentRight;
+    var TableContentCenter = param.TableContentCenter;
     $(result).each(function (index,obj) {
         var map = RanGoTableInner.assembleRow(column,obj);
         TableContentLeft.append('<div>'+map.rowLeftHtml+'</div>');
@@ -254,7 +241,7 @@ RanGoTableInner.assembleResult = function(param){
 RanGoTableInner.assembleSearch = function(param){
     var column = param.column;
     var SearchContainer = param.SearchContainer;
-    var SearchTableInput = param.SearchTableInput;
+    var SearchTableInputContainer = param.SearchTableInputContainer;
     var searchItemArr = [];
     var thHtml = '';
     var i = 0;
@@ -287,7 +274,7 @@ RanGoTableInner.assembleSearch = function(param){
         tRHtml +='</tr>';
     });
     $(SearchContainer).css("height",searchContainerHeight + "px");
-    $(SearchTableInput).append(tRHtml);
+    $(SearchTableInputContainer).append(tRHtml);
 };
 
 
@@ -339,20 +326,42 @@ RanGoTableInner.getValue = function(obj,fieldName){
 };
 
 RanGoTableInner.setCenterWidth = function(centerWidth,objArr){
-	$(objArr).each(function(index,obj){
-		$(obj).css("width", (centerWidth)+ "px");
-	})
+    $(objArr).each(function(index,obj){
+        $(obj).css("width", (centerWidth)+ "px");
+    })
 };
 
 
 RanGoTableInner.setMargin = function(leftWidth,rightWidth,objArr){
-	$(objArr).each(function(index,obj){
-		$(obj).css("margin-left", (leftWidth)+ "px");
-	    $(obj).css("margin-right", (rightWidth)+ "px");
-	})
+    $(objArr).each(function(index,obj){
+        $(obj).css("margin-left", (leftWidth)+ "px");
+        $(obj).css("margin-right", (rightWidth)+ "px");
+    })
 };
 
 
 RanGoTableInner.getCell = function(style,cellValue){
     return '<div class="table-cell" style="'+style+'">'+cellValue+'</div>';
+};
+
+//=======================tool===========================
+RanGoTableInner.showHideSearchContainer = function (param){
+    var obj = param.obj;
+    var SearchContainer = param.SearchContainer;
+    SearchContainer.slideToggle("slow");
+    if(obj.attr("class").indexOf("common-button-rotate")!=-1){
+        console.log(1);
+        obj.attr("class","common-button-icon")
+    }else{
+        console.log(2);
+        obj.attr("class","common-button-icon common-button-rotate")
+    }
+};
+
+//===========================分页============================
+
+RanGoTableInner.refresh = function (param){
+    var obj = param.obj;
+
+
 };

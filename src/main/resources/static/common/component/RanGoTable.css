@@ -205,11 +205,17 @@
     transition: 0.5s;
     outline: none;
     cursor: pointer;
-    background:#556270;
-    color:white;
+    background:#f6f6f6;
+    color:black;
     padding: 5px 6px;
     border: 1px solid #ddd;
     font-size: 13px;
+    height: 28px;
+}
+
+.common-button:hover{
+    background:#556270;
+    color:white;
 }
 
 .common-button-rotate {

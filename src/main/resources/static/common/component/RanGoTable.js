@@ -45,11 +45,13 @@ RanGoTable.init = function (datas) {
     var result = datas.result;
     RanGoTableInner.assembleSearch({
         column: column,
+        settings: settings,
         SearchContainer: $(SearchContainerId),
         SearchTableInputContainer: $(SearchTableInputContainerId)
     });
     var centerWidth = RanGoTableInner.assembleColumn({
         column: column,
+        settings: settings,
         TableTitleLeft : $(TableTitleLeftId),
         TableTitleRight : $(TableTitleRightId),
         TableTitleCenterContainer : $(TableTitleCenterContainerId)
@@ -57,6 +59,7 @@ RanGoTable.init = function (datas) {
     RanGoTableInner.assembleResult({
         column: column,
         result: result,
+        settings: settings,
         TableContentLeft: $(TableContentLeftId),
         TableContentRight: $(TableContentRightId),
         TableContentCenter: $(TableContentCenterId)
@@ -103,14 +106,21 @@ RanGoTable.init = function (datas) {
 };
 
 RanGoTableInner.initHeadHTML = function (settings) {
+    var tool = settings.tool;
+    var toolHtml = '';
+    $(tool).each(function(index,obj){
+     toolHtml += '<button class="common-button-icon"><i class="'+obj.icon+'"></i></button>';
+    });
+
     var html = '';
     html += '<div class="head-container">';
-    html += '    <table cellpadding="0" cellspacing="0">';
+    html += '    <table cellpadding="0" cellspacing="0" style="width: 100%;">';
     html += '        <tr>';
-    html += '            <th>';
+    html += '            <th style="text-align: left;">';
     html += '                <button id="searchContainerViewBtn" class="common-button-icon"><i class="fa fa-angle-down"></i></button>';
+    html +=                  toolHtml;
     html += '            </th>';
-    html += '            <th style="width: 100%;text-align: end;">';
+    html += '            <th style="text-align: end;">';
     html += '                <button class="common-button"><i class="fa fa-search"></i>搜索</button>';
     html += '                <button class="common-button"><i class="fa fa-repeat"></i>重置</button>';
     html += '            </th>';
@@ -128,6 +138,7 @@ RanGoTableInner.initSearchHTML = function () {
     $(".m").append(html);
 };
 
+
 RanGoTableInner.initTableHTML = function () {
     var html = '';
     html += '<div class="table-container">';
@@ -139,6 +150,9 @@ RanGoTableInner.initTableHTML = function () {
     html += '		</div>';
     html += '	</div>';
     html += '	<div id="tableContentContainer" class="table-content-container">';
+    html += '       <div style="width: 100%;height: 200px;position: fixed;background: #f0f8ff96;">';
+    html += '           <div class="loading" style="position: absolute;top: 45%;left: 49%;"></div>';
+    html += '       </div>';
     html += '		<div id="tableContentLeft" class="table-content-left"></div>';
     html += '		<div id="tableContentRight" class="table-content-right"></div>';
     html += '		<div id="tableContentCenter" class="table-content-center"></div>';
@@ -196,10 +210,18 @@ RanGoTableInner.initBottomHTML = function () {
 
 RanGoTableInner.assembleColumn = function(param){
     var column = param.column;
+    var settings = param.settings;
     var TableTitleLeft = param.TableTitleLeft;
     var TableTitleRight = param.TableTitleRight;
     var TableTitleCenterContainer = param.TableTitleCenterContainer;
     var centerWidth = 0;
+
+
+    TableTitleLeft.append(RanGoTableInner.getCellCheckbox({
+        settings:settings
+    }));
+
+
     $(column).each(function(index,obj){
         var fieldName = obj.fieldName;
         var style = RanGoTableInner.assembleStyle(obj);
@@ -226,11 +248,16 @@ RanGoTableInner.assembleColumn = function(param){
 RanGoTableInner.assembleResult = function(param){
     var column = param.column;
     var result = param.result;
+    var settings = param.settings;
     var TableContentLeft = param.TableContentLeft;
     var TableContentRight = param.TableContentRight;
     var TableContentCenter = param.TableContentCenter;
     $(result).each(function (index,obj) {
-        var map = RanGoTableInner.assembleRow(column,obj);
+        var map = RanGoTableInner.assembleRow({
+            column: column,
+            row_obj: obj,
+            settings: settings
+        });
         TableContentLeft.append('<div>'+map.rowLeftHtml+'</div>');
         TableContentRight.append('<div>'+map.rowRightHtml+'</div>');
         TableContentCenter.append('<div class="table-content-center-container">'+map.rowCenterHtml+'</div>');
@@ -278,11 +305,22 @@ RanGoTableInner.assembleSearch = function(param){
 };
 
 
-RanGoTableInner.assembleRow = function(columnList,row_obj){
+RanGoTableInner.assembleRow = function(param){
+    var column = param.column;
+    var row_obj = param.row_obj;
+    var settings = param.settings;
+
+
     var rowLeftHtml = '';
     var rowRightHtml = '';
     var rowCenterHtml = '';
-    $(columnList).each(function (index,column) {
+
+    rowLeftHtml +=RanGoTableInner.getCellCheckbox({
+        settings:settings
+    });
+
+
+    $(column).each(function (index,column) {
         var fieldName = column.fieldName;
         var fixed = column.fixed;
         var style = RanGoTableInner.assembleStyle(column);
@@ -337,6 +375,18 @@ RanGoTableInner.setMargin = function(leftWidth,rightWidth,objArr){
         $(obj).css("margin-left", (leftWidth)+ "px");
         $(obj).css("margin-right", (rightWidth)+ "px");
     })
+};
+
+RanGoTableInner.getCellCheckbox = function(param){
+    var settings = param.settings;
+    if(settings.checkbox){
+        return RanGoTableInner.getCell('width:25px;padding:0;','<input type="checkbox" style="margin: 5.5px;" name=""/>');
+    }
+    if(settings.radio){
+        return RanGoTableInner.getCell('width:25px;padding:0;','<input type="radio" style="margin: 5.5px;" name=""/>');
+    }
+
+    return '';
 };
 
 

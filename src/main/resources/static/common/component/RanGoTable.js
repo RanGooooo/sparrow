@@ -281,7 +281,7 @@ RanGoTableInner.assembleSearch = function(param){
             thHtml += fieldName;
             thHtml +='</th>';
             thHtml +='<th>';
-            thHtml += '<input type="text" value="">';
+            thHtml += '<input class="form-control form-control-sm" type="text">';
             thHtml +='</th>';
             if(i === 3){
                 searchItemArr.push(thHtml);

@@ -5,12 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("indexController")
+@RequestMapping("IndexController")
 public class IndexController {
 
     @RequestMapping("index")
     public String index(){
-        return "system/index";
+        return "system/index/index";
     }
 
 

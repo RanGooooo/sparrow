@@ -5,6 +5,8 @@ RanGoDialog.init = function (datas) {
     $("body").append(RanGoDialog.initHtml(datas));
 };
 
+
+
 RanGoDialog.initHtml = function(datas){
     var title = datas.title;
     var src = datas.src;
@@ -15,7 +17,9 @@ RanGoDialog.initHtml = function(datas){
     html += '            <tr>';
     html += '                <th class="dialog-top-table-left-th"><span>'+title+'</span></th>';
     html += '                <th class="dialog-top-table-right-th">';
-    html += '                    <button type="button" class="btn btn-outline-secondary btn-sm"><i class="fa fa-times"></i></button>';
+    html += '                   <a href="javascript:void(0);">';
+    html += '                       <i class="fa fa-times"></i>';
+    html += '                   </a>';
     html += '                </th>';
     html += '            </tr>';
     html += '        </table>';
@@ -24,8 +28,8 @@ RanGoDialog.initHtml = function(datas){
     html += '        </div>';
     html += '        <table class="dialog-bottom-table" cellpadding="0" cellspacing="0">';
     html += '            <tr>';
-    html += '                <th class="dialog-bottom-table-right-th">';
-    html += '                    <button type="button" class="btn btn-primary btn-sm">确定</button>';
+    html += '                <th class="dialog-bottom-table-right-th" style="padding-bottom: 2px;">';
+    html += '                    <a href="javascript:void(0);"><cite>确定</cite></a>';
     html += '                </th>';
     html += '            </tr>';
     html += '        </table>';

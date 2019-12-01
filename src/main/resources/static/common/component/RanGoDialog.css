@@ -26,7 +26,7 @@
 }
 
 .dialog-container table tr{
-    height: 35px;
+    height: 25px;
 }
 
 .dialog-top-table-left-th{
@@ -56,10 +56,10 @@
 
 .dialog-context{
     position: absolute;
-    top: 35px;
+    top: 25px;
     left: 0;
     right: 0;
-    bottom: 35px;
+    bottom: 26px;
     background: white;
     border-top: 1px #ddd solid;
     border-bottom: 1px #ddd solid;

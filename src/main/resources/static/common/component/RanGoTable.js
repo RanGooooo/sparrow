@@ -109,7 +109,8 @@ RanGoTableInner.initHeadHTML = function (settings) {
     var tool = settings.tool;
     var toolHtml = '';
     $(tool).each(function(index,obj){
-     toolHtml += '<button class="common-button-icon"><i class="'+obj.icon+'"></i></button>';
+
+     toolHtml += '  <a href="javascript:void(0);" class="common-button-icon" onclick="'+obj.click+'"><span><i class="'+obj.icon+'"></i></span></a>';
     });
 
     var html = '';
@@ -117,12 +118,14 @@ RanGoTableInner.initHeadHTML = function (settings) {
     html += '    <table cellpadding="0" cellspacing="0" style="width: 100%;">';
     html += '        <tr>';
     html += '            <th style="text-align: left;">';
-    html += '                <button id="searchContainerViewBtn" class="common-button-icon"><i class="fa fa-angle-down"></i></button>';
+    html += '               <a id="searchContainerViewBtn" class="common-button-icon" href="javascript:void(0);">';
+    html += '                   <span><i class="fa fa-angle-down"></i></span>';
+    html += '               </a>';
     html +=                  toolHtml;
     html += '            </th>';
     html += '            <th style="text-align: end;">';
-    html += '                <button class="common-button"><i class="fa fa-search"></i>搜索</button>';
-    html += '                <button class="common-button"><i class="fa fa-repeat"></i>重置</button>';
+    html += '                <a class="common-button-icon"><span><i class="fa fa-search"></i></span></a>';
+    html += '                <a class="common-button-icon"><span><i class="fa fa-repeat"></i></span></a>';
     html += '            </th>';
     html += '        </tr>';
     html += '    </table>';
@@ -184,22 +187,23 @@ RanGoTableInner.initBottomHTML = function () {
     html += '                </select>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <button class="common-button-icon"><i class="fa fa-angle-double-left"></i></button>';
+    html += '                <a class="common-button-icon"><span><i class="fa fa-angle-double-left"></i></span></a>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <button class="common-button-icon"><i class="fa fa-angle-left"></i></button>';
+    html += '                <a class="common-button-icon"><span><i class="fa fa-angle-left"></i></span></a>';
     html += '            </th>';
     html += '            <th>';
     html += '                <input type="text" value="1" size="2" style="text-align: center;height: 28px;width:40px;font-size: 15px;padding: 0;border: 1px solid #ddd;">';
     html += '            </th>';
     html += '            <th>';
-    html += '                 <button class="common-button-icon"><i class="fa fa-angle-right"></i></button>';
+    html += '                 <a class="common-button-icon"><span><i class="fa fa-angle-right"></i></span></button>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <button class="common-button-icon"><i class="fa fa-angle-double-right"></i></button>';
+    html += '                <a class="common-button-icon"><span><i class="fa fa-angle-double-right"></i></span></a>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <button id="refreshBtn" class="common-button-icon"><div class="loading"></div><!--<i class="fa fa-repeat" style="font-size: 13px;"></i>--></button>';
+    /*<i class="fa fa-repeat" style="font-size: 13px;"></i>*/
+    html += '                <a id="refreshBtn" class="common-button-icon" style="padding-left: 2px;"><span><div class="loading"></div></span></a>';
     html += '            </th>';
     html += '        </tr>';
     html += '    </table>';

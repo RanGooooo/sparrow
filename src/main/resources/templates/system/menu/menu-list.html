@@ -5,6 +5,7 @@
     <title>list Demo</title>
     <link rel="stylesheet" href="/common/open-source/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/common/open-source/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/common/common.css">
     <link rel="stylesheet" href="/common/component/RanGoTable.css">
     <link rel="stylesheet" href="/common/component/RanGoDialog.css">
     <link rel="stylesheet" href="/common/open-source/loading.css">
@@ -24,7 +25,10 @@
         "settings":{
             "radio":true,
             "tool":[
-                {"icon":"fa fa-plus-square-o"}
+                {
+                    "icon":"fa fa-plus",
+                    "click":"menuRanGoDialog();"
+                }
             ]
         },
         "column":[
@@ -102,10 +106,12 @@
 
     RanGoTable.init(datas);
 
-    /*RanGoDialog.init({
-        title:'AAAAAAAA',
-        str: ''
-    })*/
+    function menuRanGoDialog(){
+        RanGoDialog.init({
+            title:'AAAAAAAA',
+            str: ''
+        });
+    }
 
 </script>
 </body>

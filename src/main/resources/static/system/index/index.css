@@ -1,33 +1,20 @@
-*{
-   /* transition: .3s;*/
-}
-
 html, body {
     height: 100%;
     overflow: hidden;
 }
-a{
-    text-decoration:none;
-}
-
-a:hover{
-    text-decoration:none;
-}
-
-cite{
-    font-style: normal;
-}
 
 .index-container{
-    padding-left: 250px;
+    padding-left: 215px;
     height: 100%;
 }
+
 .index-left{
     float:left;
-    width:250px;
-    margin-left:-250px;
+    width:215px;
+    margin-left:-215px;
     height: 100%;
 }
+
 .index-right{
     float: right;
     width: 100%;
@@ -35,18 +22,13 @@ cite{
     position: relative;
 }
 /*MENU*/
-
-.menu-container{
+.menu-container-body{
     position: absolute;
-    overflow: hidden;
     top: 0;
     bottom: 0;
     background:#556270;
-    width: 250px;
-}
-
-.menu-container-body{
-    height: 100%;
+    width: 215px;
+    max-width: 215px;
     overflow-y: auto;
 }
 
@@ -58,12 +40,18 @@ cite{
 .menu-container-body ul li a{
     display: block;
     font-size: 14px;
-    padding: 10px 15px 10px 15px;
+    padding: 10px 15px 10px 8px;
     border-left: 4px solid transparent;
     color: #ddd;
 }
 
 .menu-container-body ul li a:hover {
+    background:#007bff !important;
+    color:#fff;
+    border-color:#00CC99 !important;
+}
+
+.active{
     background:#007bff !important;
     color:#fff;
     border-color:#00CC99 !important;
@@ -75,43 +63,37 @@ cite{
     display: inline-block;
 }
 
-.menu-container .second{
-    padding-left: 35px !important;
+.menu-container-body .second{
+    padding-left: 24px !important;
 }
 
-.menu-container .third{
-    padding-left: 70px !important;
+.menu-container-body .third{
+    padding-left: 40px !important;
 }
 
-.menu-container .fa-chevron-down{
+.menu-container-body .fa-chevron-down{
     float: right;
     margin-top: 3px;
 }
 
-/********************/
-.content-container{
-
+.fa-chevron-down-rotate {
+    transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
 }
+
+/********************/
+
 .tab-node-scroll{
     overflow-x: auto;
     margin-left: 0;
     margin-right: 0;
+    height: 36px;
 }
 
- .tab-node-scroll-container div{
-    float: left;
-    padding: 2px 1.5px;
-}
-
-#nodeiFrame{
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 33px;
-    bottom: 0;
-}
-
-.tag{
+.tab-node{
     cursor: pointer;
     display: inline-block;
     font-size: 14px;
@@ -122,12 +104,21 @@ cite{
     margin-right: 3px;
 }
 
-.tag:hover {
+.tab-node:hover {
     background:#007bff !important;
     color:#fff;
     border-color:#00CC99 !important;
 }
 
-.tag .fa-times{
+.tab-node .fa-times{
     margin-left: 3px;
+}
+
+
+#nodeiFrame{
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 33px;
+    bottom: 0;
 }

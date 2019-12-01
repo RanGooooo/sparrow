@@ -183,41 +183,90 @@
 
 /*=======================按钮=========================  */
 .common-button-icon{
-    transition: 0.5s;
-    outline: none;
     cursor: pointer;
+    display: inline-block;
+    padding: 5px;
     background:#f6f6f6;
     color:black;
     border: 1px solid #ddd;
     width: 28px;
     height: 28px;
-    padding: 0;
 }
+
+.common-button-icon span{
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    display: inline-block;
+}
+
 .common-button-icon:hover{
-    background:#556270;
-    color:white;
-}
-.common-button-icon i{
-    font-size: 16px;
+    background:#556270 !important;
+    color:white !important;
 }
 
 
-.common-button {
-    transition: 0.5s;
-    outline: none;
+
+.common-button-span{
     cursor: pointer;
+    display: inline-block;
+    background:#f6f6f6;
+    border: 1px solid #ddd;
+    height: 28px;
+    padding: 5px;
+    border-left: 4px solid transparent;
+    color: #ddd;
+}
+
+.common-button-span span{
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    display: inline-block;
+}
+
+.common-button-span:hover{
+    background:#556270 !important;
+    color:white !important;
+}
+
+/*
+
+.common-button{
+    !*cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    padding: 5px 8px 7px 2px;
+    border-left: 4px solid transparent;
     background:#f6f6f6;
     color:black;
-    padding: 5px 6px;
+    margin-right: 3px;*!
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px;
+    background:#f6f6f6;
+    color:black;
     border: 1px solid #ddd;
-    font-size: 13px;
+    width: 28px;
     height: 28px;
 }
 
-.common-button:hover{
+.common-button a:hover{
+    background:#007bff !important;
+    color:#fff;
+    border-color:#00CC99 !important;
+}
+
+.common-button span{
+    width: 20px;
+    text-align: center;
+    display: inline-block;
+}*/
+
+/*.common-button:hover{
     background:#556270;
     color:white;
-}
+}*/
 
 .common-button-rotate {
     transform: rotate(-90deg);

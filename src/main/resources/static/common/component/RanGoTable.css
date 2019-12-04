@@ -30,7 +30,18 @@
     border-collapse: collapse;
     padding: 2px 8px;
     height: 25px;
+    position: relative;
 }
+
+.table-cell-common-context{
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
 .table-title-left{
     position: absolute;
     background: #556270;
@@ -78,6 +89,7 @@
     border-collapse: collapse;
     padding: 2px 8px;
     height: 25px;
+    position: relative;
 }
 
 .table-content-left{
@@ -105,7 +117,7 @@
 
 /*====================右边滚动条====================*/
 .table-content-container-right-scroll-mark{
-    width: 100%;
+    width: 80%;
     margin-top: 25px;
     position: absolute;
     right: 0;
@@ -185,19 +197,23 @@
 .common-button-icon{
     cursor: pointer;
     display: inline-block;
-    padding: 5px;
     background:#f6f6f6;
     color:black;
     border: 1px solid #ddd;
     width: 28px;
     height: 28px;
+    text-align: center;
+    position: relative;
 }
 
-.common-button-icon span{
-    width: 16px;
-    height: 16px;
-    text-align: center;
-    display: inline-block;
+.common-button-icon i{
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 14px;
 }
 
 .common-button-icon:hover{

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/common/component/RanGoDialog.css">
     <link rel="stylesheet" href="/common/open-source/loading.css">
     <script src="/common/open-source/jquery/jquery.min.js"></script>
+    <script src="/common/common.js"></script>
     <script src="/common/component/RanGoTable.js"></script>
     <script src="/common/component/RanGoDialog.js"></script>
 </head>
@@ -23,6 +24,7 @@
 <script>
     var datas = {
         "settings":{
+            "tree":true,
             "radio":true,
             "tool":[
                 {
@@ -108,9 +110,19 @@
 
     function menuRanGoDialog(){
         RanGoDialog.init({
-            title:'AAAAAAAA',
-            str: ''
+            title:'新增菜单',
+            src: '/TSMenuController/forwordMenuAdd',
+            button: [
+                {
+                    name:'确定',
+                    method: 'add'
+                }
+            ]
         });
+    }
+
+    function add(){
+        document.getElementById('menuAdd').contentWindow.add();
     }
 
 </script>

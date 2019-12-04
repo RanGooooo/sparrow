@@ -1,6 +1,7 @@
 package com.rain.sparrow.system.menu.bean;
 
 import org.apache.ibatis.type.Alias;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -25,8 +26,9 @@ public class TSMenu {
     private String parentMenuId;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name ="id")
+    @GeneratedValue(generator = "paymentableGenerator")
+    @GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
+    @Column(name ="ID",nullable=false,length=36)
     public String getId() {
         return id;
     }

@@ -37,10 +37,13 @@ RanGoTable.init = function (datas) {
     var TableBottomScrollBarId = "#tableBottomScrollBar";
     var settings = datas.settings;
 
+    /*初始化HTML*/
     RanGoTableInner.initHeadHTML(settings);
     RanGoTableInner.initSearchHTML();
     RanGoTableInner.initTableHTML();
     RanGoTableInner.initBottomHTML();
+
+    /*组装HTML*/
     var column = datas.column;
     var result = datas.result;
     RanGoTableInner.assembleSearch({
@@ -65,6 +68,7 @@ RanGoTable.init = function (datas) {
         TableContentCenter: $(TableContentCenterId)
     });
 
+    /*初始化CSS*/
     RanGoTableInner.setCenterWidth(centerWidth,[
         $(TableTitleCenterContainerId),
         $(TableBottomScrollBarId),
@@ -80,6 +84,20 @@ RanGoTable.init = function (datas) {
         $(TableContentCenterId)
     ]);
 
+    /*初始化滚动条*/
+    $(TableBottomScrollMarkId).scroll(function () {
+        $(TableTitleCenterId).scrollLeft(this.scrollLeft);
+        $(TableContentCenterId).scrollLeft(this.scrollLeft);
+    });
+
+    var height= $(TableContentCenterId).height();
+    $(TableContentContainerRightScrollBarId).height(height);
+    $(TableContentContainerRightScrollMarkId).scroll(function () {
+        $(TableContentContainerId).scrollTop(this.scrollTop);
+    });
+
+
+    /*初始化点击方法*/
     $("#searchContainerViewBtn").click(function(){
         RanGoTableInner.showHideSearchContainer({
             obj: $(this),
@@ -93,39 +111,48 @@ RanGoTable.init = function (datas) {
         });
     });
 
-    $(TableBottomScrollMarkId).scroll(function () {
-        $(TableTitleCenterId).scrollLeft(this.scrollLeft);
-        $(TableContentCenterId).scrollLeft(this.scrollLeft);
+    $(".open-tree-btn").click(function(){
+        var obj = $(this);
+
+        RanGoTableInner.insertRow({
+            openTreeObj:obj,
+            column: column,
+            result: result,
+            settings: settings,
+            TableContentLeft: $(TableContentLeftId),
+            TableContentRight: $(TableContentRightId),
+            TableContentCenter: $(TableContentCenterId)
+        });
+
+        RanGoTableInner.setCenterWidth(centerWidth,[
+            $(TableContentCenterId + " .table-content-center-container")
+        ]);
+
+        var height= $(TableContentCenterId).height();
+        $(TableContentContainerRightScrollBarId).height(height);
     });
 
-    var height= $(TableContentCenterId).height();
-    $(TableContentContainerRightScrollBarId).height(height);
-    $(TableContentContainerRightScrollMarkId).scroll(function () {
-        $(TableContentContainerId).scrollTop(this.scrollTop);
-    });
 };
 
 RanGoTableInner.initHeadHTML = function (settings) {
     var tool = settings.tool;
     var toolHtml = '';
     $(tool).each(function(index,obj){
-
-     toolHtml += '  <a href="javascript:void(0);" class="common-button-icon" onclick="'+obj.click+'"><span><i class="'+obj.icon+'"></i></span></a>';
+        toolHtml += '  <a href="javascript:void(0);" class="common-button-icon" onclick="'+obj.click+'"><i class="'+obj.icon+'"></i></a>';
     });
-
     var html = '';
     html += '<div class="head-container">';
     html += '    <table cellpadding="0" cellspacing="0" style="width: 100%;">';
     html += '        <tr>';
     html += '            <th style="text-align: left;">';
     html += '               <a id="searchContainerViewBtn" class="common-button-icon" href="javascript:void(0);">';
-    html += '                   <span><i class="fa fa-angle-down"></i></span>';
+    html += '                   <i class="fa fa-angle-down"></i>';
     html += '               </a>';
-    html +=                  toolHtml;
+    html +=                 toolHtml;
     html += '            </th>';
     html += '            <th style="text-align: end;">';
-    html += '                <a class="common-button-icon"><span><i class="fa fa-search"></i></span></a>';
-    html += '                <a class="common-button-icon"><span><i class="fa fa-repeat"></i></span></a>';
+    html += '                <a class="common-button-icon"><i class="fa fa-search"></i></a>';
+    html += '                <a class="common-button-icon"><i class="fa fa-repeat"></i></a>';
     html += '            </th>';
     html += '        </tr>';
     html += '    </table>';
@@ -153,9 +180,9 @@ RanGoTableInner.initTableHTML = function () {
     html += '		</div>';
     html += '	</div>';
     html += '	<div id="tableContentContainer" class="table-content-container">';
-    html += '       <div style="width: 100%;height: 200px;position: fixed;background: #f0f8ff96;">';
-    html += '           <div class="loading" style="position: absolute;top: 45%;left: 49%;"></div>';
-    html += '       </div>';
+    /*    html += '       <div style="width: 100%;height: 200px;position: fixed;background: #f0f8ff96;">';
+        html += '           <div class="loading" style="position: absolute;top: 45%;left: 49%;"></div>';
+        html += '       </div>';*/
     html += '		<div id="tableContentLeft" class="table-content-left"></div>';
     html += '		<div id="tableContentRight" class="table-content-right"></div>';
     html += '		<div id="tableContentCenter" class="table-content-center"></div>';
@@ -176,7 +203,7 @@ RanGoTableInner.initBottomHTML = function () {
     var html = '';
     html += '<div class="bottom-container">';
     html += '    <table cellpadding="0" cellspacing="0" class="bottom-container-table">';
-    html += '        <tr>';
+    html += '        <tr style="line-height: 0;">';
     html += '            <th>';
     html += '                <select class="pagination-page-list" style="height: 28px;width:40px;font-size: 15px;border: 1px solid #ddd;">';
     html += '                    <option>10</option>';
@@ -187,23 +214,23 @@ RanGoTableInner.initBottomHTML = function () {
     html += '                </select>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <a class="common-button-icon"><span><i class="fa fa-angle-double-left"></i></span></a>';
+    html += '                <a class="common-button-icon"><i class="fa fa-angle-double-left"></i></a>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <a class="common-button-icon"><span><i class="fa fa-angle-left"></i></span></a>';
+    html += '                <a class="common-button-icon"><i class="fa fa-angle-left"></i></a>';
     html += '            </th>';
     html += '            <th>';
     html += '                <input type="text" value="1" size="2" style="text-align: center;height: 28px;width:40px;font-size: 15px;padding: 0;border: 1px solid #ddd;">';
     html += '            </th>';
     html += '            <th>';
-    html += '                 <a class="common-button-icon"><span><i class="fa fa-angle-right"></i></span></button>';
+    html += '                 <a class="common-button-icon"><i class="fa fa-angle-right"></i></button>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <a class="common-button-icon"><span><i class="fa fa-angle-double-right"></i></span></a>';
+    html += '                <a class="common-button-icon"><i class="fa fa-angle-double-right"></i></a>';
     html += '            </th>';
     html += '            <th>';
     /*<i class="fa fa-repeat" style="font-size: 13px;"></i>*/
-    html += '                <a id="refreshBtn" class="common-button-icon" style="padding-left: 2px;"><span><div class="loading"></div></span></a>';
+    html += '                <a id="refreshBtn" class="common-button-icon" style="padding-left: 2px;"><div class="loading"></div></a>';
     html += '            </th>';
     html += '        </tr>';
     html += '    </table>';
@@ -262,12 +289,21 @@ RanGoTableInner.assembleResult = function(param){
             row_obj: obj,
             settings: settings
         });
-        TableContentLeft.append('<div>'+map.rowLeftHtml+'</div>');
-        TableContentRight.append('<div>'+map.rowRightHtml+'</div>');
-        TableContentCenter.append('<div class="table-content-center-container">'+map.rowCenterHtml+'</div>');
+        var rowId = RanGoTableInner.guid();
+        TableContentLeft.append('<div rowId="'+rowId+'">'+map.rowLeftHtml+'</div>');
+        TableContentRight.append('<div rowId="'+rowId+'">'+map.rowRightHtml+'</div>');
+        TableContentCenter.append('<div rowId="'+rowId+'" class="table-content-center-container">'+map.rowCenterHtml+'</div>');
     });
-
 };
+
+
+RanGoTableInner.guid = function() {
+    function S4() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    }
+    return (S4()+S4()+S4()+S4()+S4()+S4()+S4()+S4());
+}
+
 
 RanGoTableInner.assembleSearch = function(param){
     var column = param.column;
@@ -308,12 +344,39 @@ RanGoTableInner.assembleSearch = function(param){
     $(SearchTableInputContainer).append(tRHtml);
 };
 
+RanGoTableInner.insertRow  = function(param){
+
+    var openTreeObj = param.openTreeObj;
+    var insertRowId = openTreeObj.parent().parent().attr("rowId");
+    var paddingLeft =  openTreeObj.parent().css("padding-left");
+
+
+    var column = param.column;
+    var result = param.result;
+    var settings = param.settings;
+    var TableContentLeft = param.TableContentLeft;
+    var TableContentRight = param.TableContentRight;
+    var TableContentCenter = param.TableContentCenter;
+    $(result).each(function (index,obj) {
+        var map = RanGoTableInner.assembleRow({
+            paddingLeft: paddingLeft,
+            column: column,
+            row_obj: obj,
+            settings: settings
+        });
+        $('<div>'+map.rowLeftHtml+'</div>').insertAfter(TableContentLeft.find("div[rowId='"+insertRowId+"']")); //将本身插入到目标tr的后面
+        $('<div>'+map.rowRightHtml+'</div>').insertAfter(TableContentRight.find("div[rowId='"+insertRowId+"']")); //将本身插入到目标tr的后面
+        $('<div class="table-content-center-container">'+map.rowCenterHtml+'</div>').insertAfter(TableContentCenter.find("div[rowId='"+insertRowId+"']")); //将本身插入到目标tr的后面
+    });
+};
 
 RanGoTableInner.assembleRow = function(param){
     var column = param.column;
     var row_obj = param.row_obj;
     var settings = param.settings;
 
+    var tree = settings.tree;
+    var paddingLeft = param.paddingLeft;
 
     var rowLeftHtml = '';
     var rowRightHtml = '';
@@ -323,7 +386,6 @@ RanGoTableInner.assembleRow = function(param){
         settings:settings
     });
 
-
     $(column).each(function (index,column) {
         var fieldName = column.fieldName;
         var fixed = column.fixed;
@@ -331,7 +393,18 @@ RanGoTableInner.assembleRow = function(param){
         var value = RanGoTableInner.getValue(row_obj,fieldName);
         if(fixed){
             if(RanGoTable.fixed.LEFT===fixed){
-                rowLeftHtml +=RanGoTableInner.getCell(style,value);
+                if(tree && index === 0){
+                    var openMenuBtn= RanGoTableInner.getCellBtn({
+                        settings:settings
+                    });
+                    if(paddingLeft){
+                        paddingLeft = parseInt(paddingLeft.replace("px","")) + 20 + "px";
+                        style += 'padding-left:' + paddingLeft;
+                    }
+                    rowLeftHtml +=RanGoTableInner.getCell(style,openMenuBtn + value);
+                }else{
+                    rowLeftHtml +=RanGoTableInner.getCell(style,value);
+                }
             }
             if(RanGoTable.fixed.RIGHT===fixed){
                 rowRightHtml +=RanGoTableInner.getCell(style,value);
@@ -384,15 +457,18 @@ RanGoTableInner.setMargin = function(leftWidth,rightWidth,objArr){
 RanGoTableInner.getCellCheckbox = function(param){
     var settings = param.settings;
     if(settings.checkbox){
-        return RanGoTableInner.getCell('width:25px;padding:0;','<input type="checkbox" style="margin: 5.5px;" name=""/>');
+        return RanGoTableInner.getCell('width:25px;padding:0;','<input type="checkbox" class="table-cell-common-context" name=""/>');
     }
     if(settings.radio){
-        return RanGoTableInner.getCell('width:25px;padding:0;','<input type="radio" style="margin: 5.5px;" name=""/>');
+        return RanGoTableInner.getCell('width:25px;padding:0;','<input type="radio" class="table-cell-common-context" name=""/>');
     }
-
     return '';
 };
 
+RanGoTableInner.getCellBtn = function(param){
+    var settings = param.settings;
+    return '<a href="javascript:void(0);"  class="open-tree-btn common-button-icon" style="width: 18px;height: 18px;float: left;"><i class="fa fa-angle-right"></i></a>';
+};
 
 RanGoTableInner.getCell = function(style,cellValue){
     return '<div class="table-cell" style="'+style+'">'+cellValue+'</div>';

@@ -12,3 +12,17 @@ a:hover{
     text-decoration:none;
 }
 
+
+.run-go-form-row{
+    margin-top: 15px;
+}
+
+.run-go-form-row input{
+    width: 220px;
+}
+
+.run-go-form-row .title{
+    text-align: right;
+    line-height: 25px;
+    padding-right: 0;
+}

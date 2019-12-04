@@ -23,7 +23,7 @@ $(function() {
             obj_a.addClass("active");
             var scrollWidth = 0;
             $("#tabNodeScrollContainer a").each(function(){
-                scrollWidth += $(this).width() + 25;
+                scrollWidth += $(this).width() + 30;
             });
             $("#tabNodeScrollContainer").css("width",scrollWidth + "px");
             $("#tabNodeScroll").getNiceScroll().resize();
@@ -57,16 +57,21 @@ $(function() {
 function addNode(name,url) {
     $(".tab-node-scroll-container").find("a").removeClass("active");
     var html = '';
-    html += '<a href="javascript:void(0);" class="tab-node active">';
-    html += '<cite>'+name+'</cite><i class="fa fa-times"></i>';
+    html += '<a href="javascript:void(0);" onclick="nodeClick(this)" class="tab-node active">';
+    html += '<cite>'+name+'</cite><i class="fa fa-times" onclick="removeNode(this)"></i>';
     html += '</a>';
     $(".tab-node-scroll-container").append(html);
 
     addNodeiFrame(0,url);
 }
 
+function nodeClick(obj){
+    $(obj).attr("class","tab-node active");
+    $(obj).siblings().attr("class","tab-node");
+}
+
 function removeNode(obj) {
-    $(obj).parent().parent().remove();
+    $(obj).parent().remove();
 }
 
 function addNodeiFrame(index,url){

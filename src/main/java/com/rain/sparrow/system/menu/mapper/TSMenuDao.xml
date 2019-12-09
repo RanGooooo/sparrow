@@ -3,8 +3,8 @@
 <mapper namespace="com.rain.sparrow.system.menu.dao.TSMenuDao">
 
 
-    <select id="searchListData" resultType="com.rain.sparrow.module.step.bean.StepBean">
-        SELECT * FROM t_b_step
+    <select id="menuList" resultType="com.rain.sparrow.system.menu.bean.TSMenu">
+        SELECT * FROM t_s_menu
     </select>
 
 </mapper>

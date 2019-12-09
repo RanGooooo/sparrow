@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单新增</title>
+    <link rel="stylesheet" href="/common/open-source/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/common/open-source/ztree/zTreeStyle/zTreeStyle.css">
+    <link rel="stylesheet" href="/common/common.css">
+    <script src="/common/open-source/jquery/jquery.min.js"></script>
+    <script src="/common/open-source/ztree/jquery.ztree.all.js"></script>
+    <script src="/common/common.js"></script>
+    <script src="/common/component/RanGoDialog.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row run-go-form-row">
+            <div class="col-12">
+                <ul id="menuTree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+<script>
+    $(function(){
+        menuTree();
+    });
+
+    function menuTree(){
+        $.ajax({
+            url:"/TSMenuController/searchMenuTree",
+            type:"post",
+            data : {},
+            success:function(data){
+                $.fn.zTree.init($("#menuTree"), setting, data.object);
+            },
+            error:function(e){
+
+            }
+        });
+    }
+
+    var setting = {
+        callback: {
+            onClick: onClick,
+            onCheck: onClick
+        },
+        check: {
+            enable: true
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        }
+    };
+
+    function checkOne(selelctId){
+        var tree = $.fn.zTree.getZTreeObj('menuTree');
+        tree.checkAllNodes(false);		//取消全部勾选
+        tree.checkNode(tree.getNodeByParam("id", selelctId), true);
+    }
+
+    function onClick(event, treeId, treeNode) {
+        var selelctId = treeNode.id;
+        checkOne(selelctId);
+    }
+
+    function getMenuCheckedNodes(){
+        var tree = $.fn.zTree.getZTreeObj('menuTree');
+        var nodes = tree.getCheckedNodes(true);
+        return nodes;
+    }
+
+
+
+</script>
+</body>
+</html>

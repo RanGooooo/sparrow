@@ -21,7 +21,12 @@
 <div class="m"></div>
 
 
+
 <script>
+    $(function(){
+        menuList();
+    });
+
     var datas = {
         "settings":{
             "tree":true,
@@ -31,65 +36,58 @@
                     "icon":"fa fa-plus",
                     "click":"menuRanGoDialog();"
                 }
+            ],
+            "opt":[
+                {
+                    "icon":"fa fa-plus",
+                    "name":"修改",
+                    "click":"menuRanGoDialog();"
+                }
             ]
         },
         "column":[
             {
                 "fieldName":"id",
-                "title":"ID",
-                "width": "150",
-                "fixed":"left"
-            },
-            {
-                "fieldName":"firstName",
-                "title":"姓",
-                "width": "500",
-                "fixed":"right",
-                "query":true
-            },
-            {
-                "fieldName":"lastName",
-                "title":"名",
-                "width": "500",
-                "query":true
-            },
-            {
-                "fieldName":"age",
-                "width": "500",
-                "title":"年龄",
-                "query":true
-            },
-            {
-                "fieldName":"friend",
-                "title":"friend1",
-                "query":true
-            },
-            {
-                "fieldName":"FRIEND_FIXED",
-                "title":"friend1",
+                "title":"主键",
                 "fixed":"left",
-                "query":true
+                "width": "300",
+                "display":"none"
             },
             {
-                "fieldName":"friend",
-                "title":"friend1",
-                "query":true
+                "fieldName":"menuName",
+                "title":"菜单名称",
+                "fixed":"left",
+                "width": "150",
+                "query":true,
+                "tree":true
             },
             {
-                "fieldName":"friend",
-                "title":"friend1",
-                "query":true
+                "fieldName":"menuUrl",
+                "title":"菜单地址",
+                "width": "300"
             },
             {
-                "fieldName":"friend",
-                "title":"friend1"
+                "fieldName":"menuLevel",
+                "title":"菜单等级",
+                "width": "300"
             },
             {
-                "fieldName":"friend_END",
-                "title":"friend1"
+                "fieldName":"menuIcon",
+                "title":"菜单图标",
+                "width": "300"
+            },
+            {
+                "fieldName":"parentMenuId",
+                "title":"父级菜单",
+                "width": "300"
+            },
+            {
+                "fieldName":"opt",
+                "title":"操作",
+                "width": "300",
+                "fixed":"right"
             }
-
-        ],
+        ]/*,
         "result": [
             { "firstName":"Bill" , "age":"12", "lastName":"Gates","id":"100861008610086" },
             { "firstName":"George" , "lastName":"Bush","id":"10010" ,"age":"12" },
@@ -103,10 +101,10 @@
             { "firstName":"Bill" , "age":"12", "lastName":"Gates","id":"100861008610086" },
             { "firstName":"George" , "lastName":"Bush","id":"10010" ,"age":"12" },
             { "firstName":"Thomas666" , "lastName":"Carter","id":"12315" ,"age":"12" }
-        ]
+        ]*/
     };
 
-    RanGoTable.init(datas);
+
 
     function menuRanGoDialog(){
         RanGoDialog.init({
@@ -123,6 +121,21 @@
 
     function add(){
         document.getElementById('menuAdd').contentWindow.add();
+    }
+
+    function menuList(){
+        $.ajax({
+            url:"/TSMenuController/searchMenuList",
+            type:"post",
+            data : {},
+            success:function(jsonData){
+                datas.result = jsonData.object
+                RanGoTable.init(datas);
+            },
+            error:function(e){
+                Popup("错误！！");
+            }
+        });
     }
 
 </script>

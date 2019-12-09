@@ -6,9 +6,10 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 
-@Alias(value = "TSMenu")
+
 @Entity
 @Table(name = "t_s_menu")
+@Alias(value = "TSMenu")
 public class TSMenu {
 
     private String id;

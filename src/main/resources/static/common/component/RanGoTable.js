@@ -6,8 +6,6 @@ RanGoTable.fixed = {
     "RIGHT" : 'right'
 };
 
-
-
 RanGoTable.init = function (datas) {
     /*查询==> 容器*/
     var SearchContainerId = "#searchContainer";
@@ -23,9 +21,6 @@ RanGoTable.init = function (datas) {
     var TableTitleRightId = "#tableTitleRight";
     /*表格==》内容容器*/
     var TableContentContainerId = "#tableContentContainer";
-    /*表格==》内容容器==》右边滚动条*/
-    var TableContentContainerRightScrollMarkId = "#tableContentContainerRightScrollMark";
-    var TableContentContainerRightScrollBarId = "#tableContentContainerRightScrollBar";
     /*表格==》内容容器==》中间内容*/
     var TableContentCenterId = "#tableContentCenter";
     /*表格==》内容容器==》左边内容*/
@@ -80,7 +75,9 @@ RanGoTable.init = function (datas) {
 
     RanGoTableInner.setMargin(leftWidth,rightWidth,[
         $(TableTitleCenterId),
-        $(TableBottomScrollMarkId),
+        $(TableBottomScrollMarkId)
+    ]);
+    RanGoTableInner.setMargin(leftWidth,rightWidth - 17,[
         $(TableContentCenterId)
     ]);
 
@@ -89,13 +86,6 @@ RanGoTable.init = function (datas) {
         $(TableTitleCenterId).scrollLeft(this.scrollLeft);
         $(TableContentCenterId).scrollLeft(this.scrollLeft);
     });
-
-    var height= $(TableContentCenterId).height();
-    $(TableContentContainerRightScrollBarId).height(height);
-    $(TableContentContainerRightScrollMarkId).scroll(function () {
-        $(TableContentContainerId).scrollTop(this.scrollTop);
-    });
-
 
     /*初始化点击方法*/
     $("#searchContainerViewBtn").click(function(){
@@ -113,7 +103,9 @@ RanGoTable.init = function (datas) {
 
     $(".open-tree-btn").click(function(){
         var obj = $(this);
-
+        RanGoTableInner.showHideMenuNode({
+            openTreeObj:obj
+        });
         RanGoTableInner.insertRow({
             openTreeObj:obj,
             column: column,
@@ -123,15 +115,12 @@ RanGoTable.init = function (datas) {
             TableContentRight: $(TableContentRightId),
             TableContentCenter: $(TableContentCenterId)
         });
-
         RanGoTableInner.setCenterWidth(centerWidth,[
             $(TableContentCenterId + " .table-content-center-container")
         ]);
 
-        var height= $(TableContentCenterId).height();
-        $(TableContentContainerRightScrollBarId).height(height);
-    });
 
+    });
 };
 
 RanGoTableInner.initHeadHTML = function (settings) {
@@ -168,7 +157,6 @@ RanGoTableInner.initSearchHTML = function () {
     $(".m").append(html);
 };
 
-
 RanGoTableInner.initTableHTML = function () {
     var html = '';
     html += '<div class="table-container">';
@@ -186,9 +174,6 @@ RanGoTableInner.initTableHTML = function () {
     html += '		<div id="tableContentLeft" class="table-content-left"></div>';
     html += '		<div id="tableContentRight" class="table-content-right"></div>';
     html += '		<div id="tableContentCenter" class="table-content-center"></div>';
-    html += '	</div>';
-    html += '	<div id="tableContentContainerRightScrollMark" class="table-content-container-right-scroll-mark">';
-    html += '		<div id="tableContentContainerRightScrollBar" class="table-content-container-right-scroll-bar"></div>';
     html += '	</div>';
     html += '</div>';
     html += '<div class="table-bottom-container">';
@@ -238,7 +223,6 @@ RanGoTableInner.initBottomHTML = function () {
     $(".m").append(html);
 };
 
-
 RanGoTableInner.assembleColumn = function(param){
     var column = param.column;
     var settings = param.settings;
@@ -247,22 +231,27 @@ RanGoTableInner.assembleColumn = function(param){
     var TableTitleCenterContainer = param.TableTitleCenterContainer;
     var centerWidth = 0;
 
-
     TableTitleLeft.append(RanGoTableInner.getCellCheckbox({
         settings:settings
     }));
 
-
     $(column).each(function(index,obj){
         var fieldName = obj.fieldName;
+        var title = obj.title;
         var style = RanGoTableInner.assembleStyle(obj);
         var fixed = obj.fixed;
         if(fixed){
             if(RanGoTable.fixed.LEFT===fixed){
-                TableTitleLeft.append(RanGoTableInner.getCell(style,fieldName));
+                TableTitleLeft.append(RanGoTableInner.getCommonCell({
+                    style:style,
+                    cellValue:title
+                }));
             }
             if(RanGoTable.fixed.RIGHT===fixed){
-                TableTitleRight.append(RanGoTableInner.getCell(style,fieldName));
+                TableTitleRight.append(RanGoTableInner.getCommonCell({
+                    style:style,
+                    cellValue:title
+                }));
             }
         }else{
             var width = parseInt(obj.width);
@@ -270,7 +259,10 @@ RanGoTableInner.assembleColumn = function(param){
                 width= 100;
             }
             centerWidth += width;
-            TableTitleCenterContainer.append(RanGoTableInner.getCell(style,fieldName));
+            TableTitleCenterContainer.append(RanGoTableInner.getCommonCell({
+                style:style,
+                cellValue:title
+            }));
         }
     });
     return centerWidth;
@@ -290,12 +282,11 @@ RanGoTableInner.assembleResult = function(param){
             settings: settings
         });
         var rowId = RanGoTableInner.guid();
-        TableContentLeft.append('<div rowId="'+rowId+'">'+map.rowLeftHtml+'</div>');
-        TableContentRight.append('<div rowId="'+rowId+'">'+map.rowRightHtml+'</div>');
-        TableContentCenter.append('<div rowId="'+rowId+'" class="table-content-center-container">'+map.rowCenterHtml+'</div>');
+        TableContentLeft.append('<div class="table-row" rowId="'+rowId+'">'+map.rowLeftHtml+'</div>');
+        TableContentRight.append('<div class="table-row" rowId="'+rowId+'">'+map.rowRightHtml+'</div>');
+        TableContentCenter.append('<div class="table-row table-content-center-container"  rowId="'+rowId+'">'+map.rowCenterHtml+'</div>');
     });
 };
-
 
 RanGoTableInner.guid = function() {
     function S4() {
@@ -303,7 +294,6 @@ RanGoTableInner.guid = function() {
     }
     return (S4()+S4()+S4()+S4()+S4()+S4()+S4()+S4());
 }
-
 
 RanGoTableInner.assembleSearch = function(param){
     var column = param.column;
@@ -345,11 +335,9 @@ RanGoTableInner.assembleSearch = function(param){
 };
 
 RanGoTableInner.insertRow  = function(param){
-
     var openTreeObj = param.openTreeObj;
-    var insertRowId = openTreeObj.parent().parent().attr("rowId");
+    var insertRowId = RanGoTableInner.openTreeObjGetRow(openTreeObj).attr("rowId");
     var paddingLeft =  openTreeObj.parent().css("padding-left");
-
 
     var column = param.column;
     var result = param.result;
@@ -357,6 +345,16 @@ RanGoTableInner.insertRow  = function(param){
     var TableContentLeft = param.TableContentLeft;
     var TableContentRight = param.TableContentRight;
     var TableContentCenter = param.TableContentCenter;
+
+    var childNodeHtml = TableContentLeft.find("div[rowId='"+insertRowId+"']").next("div[parentRowId='"+insertRowId+"']").html();
+    if(childNodeHtml != undefined){
+        return;
+    }
+
+    $('<div parentRowId="'+insertRowId+'"></div>').insertAfter(TableContentLeft.find("div[rowId='"+insertRowId+"']"));
+    $('<div parentRowId="'+insertRowId+'"></div>').insertAfter(TableContentRight.find("div[rowId='"+insertRowId+"']"));
+    $('<div parentRowId="'+insertRowId+'"></div>').insertAfter(TableContentCenter.find("div[rowId='"+insertRowId+"']"));
+
     $(result).each(function (index,obj) {
         var map = RanGoTableInner.assembleRow({
             paddingLeft: paddingLeft,
@@ -364,9 +362,9 @@ RanGoTableInner.insertRow  = function(param){
             row_obj: obj,
             settings: settings
         });
-        $('<div>'+map.rowLeftHtml+'</div>').insertAfter(TableContentLeft.find("div[rowId='"+insertRowId+"']")); //将本身插入到目标tr的后面
-        $('<div>'+map.rowRightHtml+'</div>').insertAfter(TableContentRight.find("div[rowId='"+insertRowId+"']")); //将本身插入到目标tr的后面
-        $('<div class="table-content-center-container">'+map.rowCenterHtml+'</div>').insertAfter(TableContentCenter.find("div[rowId='"+insertRowId+"']")); //将本身插入到目标tr的后面
+        TableContentLeft.find("div[parentRowId='"+insertRowId+"']").append('<div>'+map.rowLeftHtml+'</div>');
+        TableContentRight.find("div[parentRowId='"+insertRowId+"']").append('<div>'+map.rowRightHtml+'</div>');
+        TableContentCenter.find("div[parentRowId='"+insertRowId+"']").append('<div class="table-content-center-container">'+map.rowCenterHtml+'</div>');
     });
 };
 
@@ -375,7 +373,7 @@ RanGoTableInner.assembleRow = function(param){
     var row_obj = param.row_obj;
     var settings = param.settings;
 
-    var tree = settings.tree;
+    /*var tree = settings.tree;*/
     var paddingLeft = param.paddingLeft;
 
     var rowLeftHtml = '';
@@ -389,28 +387,45 @@ RanGoTableInner.assembleRow = function(param){
     $(column).each(function (index,column) {
         var fieldName = column.fieldName;
         var fixed = column.fixed;
+        var tree = column.tree;
         var style = RanGoTableInner.assembleStyle(column);
         var value = RanGoTableInner.getValue(row_obj,fieldName);
         if(fixed){
             if(RanGoTable.fixed.LEFT===fixed){
-                if(tree && index === 0){
-                    var openMenuBtn= RanGoTableInner.getCellBtn({
-                        settings:settings
+                if(tree){
+                    rowLeftHtml += RanGoTableInner.getTreeCell({
+                        value:value,
+                        paddingLeft:paddingLeft,
+                        style:style
                     });
-                    if(paddingLeft){
-                        paddingLeft = parseInt(paddingLeft.replace("px","")) + 20 + "px";
-                        style += 'padding-left:' + paddingLeft;
-                    }
-                    rowLeftHtml +=RanGoTableInner.getCell(style,openMenuBtn + value);
+
                 }else{
-                    rowLeftHtml +=RanGoTableInner.getCell(style,value);
+                    rowLeftHtml +=RanGoTableInner.getCommonCell({
+                        style:style,
+                        cellValue:value
+                    });
                 }
             }
             if(RanGoTable.fixed.RIGHT===fixed){
-                rowRightHtml +=RanGoTableInner.getCell(style,value);
+                var containerStyle = '';
+                if(fieldName === 'opt'){
+                    containerStyle = 'height: 22px;line-height: 22px;';
+                    value = RanGoTableInner.getCellBtn({
+                        key:'opt',
+                        settings: settings
+                    });
+                }
+                rowRightHtml += RanGoTableInner.getCommonCell({
+                    style:style,
+                    cellValue:value,
+                    containerStyle:containerStyle
+                });
             }
         }else {
-            rowCenterHtml +=RanGoTableInner.getCell(style,value);
+            rowCenterHtml += RanGoTableInner.getCommonCell({
+                style:style,
+                cellValue:value
+            });
         }
     });
     var map = {};
@@ -419,15 +434,18 @@ RanGoTableInner.assembleRow = function(param){
     map.rowCenterHtml = rowCenterHtml;
     return map;
 };
-
 //////////////////////////////////////////////////////////
-
 RanGoTableInner.assembleStyle = function(obj){
     var style = "";
     var width = obj.width;
+    var display = obj.display;
     if(!width){
         width= 100;
     }
+    if(display){
+        style += 'display:'+ display + ";";
+    }
+
     style += 'width:'+width+'px;';
     return style;
 };
@@ -446,7 +464,6 @@ RanGoTableInner.setCenterWidth = function(centerWidth,objArr){
     })
 };
 
-
 RanGoTableInner.setMargin = function(leftWidth,rightWidth,objArr){
     $(objArr).each(function(index,obj){
         $(obj).css("margin-left", (leftWidth)+ "px");
@@ -457,20 +474,62 @@ RanGoTableInner.setMargin = function(leftWidth,rightWidth,objArr){
 RanGoTableInner.getCellCheckbox = function(param){
     var settings = param.settings;
     if(settings.checkbox){
-        return RanGoTableInner.getCell('width:25px;padding:0;','<input type="checkbox" class="table-cell-common-context" name=""/>');
+        return RanGoTableInner.getSimpleCell('width:25px;padding:0;','<input type="checkbox" class="table-cell-common-context" name=""/>');
     }
     if(settings.radio){
-        return RanGoTableInner.getCell('width:25px;padding:0;','<input type="radio" class="table-cell-common-context" name=""/>');
+        return RanGoTableInner.getSimpleCell('width:25px;padding:0;','<input type="radio" class="table-cell-common-context" name=""/>');
     }
     return '';
 };
-
-RanGoTableInner.getCellBtn = function(param){
-    var settings = param.settings;
-    return '<a href="javascript:void(0);"  class="open-tree-btn common-button-icon" style="width: 18px;height: 18px;float: left;"><i class="fa fa-angle-right"></i></a>';
+//=========================TREE==============================
+RanGoTableInner.getTreeCell = function(param){
+    var value = param.value;
+    var paddingLeft = param.paddingLeft;
+    var style = param.style;
+    var openMenuBtn= RanGoTableInner.getCellBtn({
+        key:'tree'
+    });
+    if(paddingLeft){
+        paddingLeft = parseInt(paddingLeft.replace("px","")) + 20 + "px";
+        style += 'padding-left:' + paddingLeft;
+    }
+    return RanGoTableInner.getCommonCell({
+        style:style,
+        cellValue:openMenuBtn + value,
+        containerStyle:'left: auto;right: auto;'
+    });
 };
 
-RanGoTableInner.getCell = function(style,cellValue){
+//=======================================================
+RanGoTableInner.getCellBtn = function(param){
+    var key = param.key;
+    var settings = param.settings;
+    if(key === 'tree'){
+        return '<a href="javascript:void(0);" class="open-tree-btn common-button-icon common-button-rotate" style="width: 18px;height: 18px;float: left;"><i class="fa fa-angle-down"></i></a>';
+    }
+    if(key === 'opt'){
+        var optstr = '';
+        var opt = settings.opt;
+        $(opt).each(function (index,obj) {
+            optstr += '<a href="javascript:void(0);" class="common-button-icon" style="height: 22px;width: max-content;padding: 0 8px;">'+obj.name+'</a>';
+        });
+        return optstr;
+    }
+
+};
+
+RanGoTableInner.getCommonCell = function(param){
+    var style = param.style;
+    var cellValue = param.cellValue;
+    var containerStyle = param.containerStyle;
+    return '<div class="table-cell" style="'+style+'"><div class="table-cell-container" style="'+containerStyle+'">'+cellValue+'</div></div>';
+};
+
+/*RanGoTableInner.getCommonCell = function(style,cellValue){
+    return '<div class="table-cell" style="'+style+'"><div class="table-cell-container">'+cellValue+'</div></div>';
+};*/
+
+RanGoTableInner.getSimpleCell = function(style,cellValue){
     return '<div class="table-cell" style="'+style+'">'+cellValue+'</div>';
 };
 
@@ -479,12 +538,17 @@ RanGoTableInner.showHideSearchContainer = function (param){
     var obj = param.obj;
     var SearchContainer = param.SearchContainer;
     SearchContainer.slideToggle("slow");
-    if(obj.attr("class").indexOf("common-button-rotate")!=-1){
-        console.log(1);
-        obj.attr("class","common-button-icon")
+    RanGoTableInner.buttonRotate(param);
+};
+/**
+ * 按钮逆时针旋转90°
+ */
+RanGoTableInner.buttonRotate = function (param){
+    var obj = param.obj;
+    if(obj.attr("class").indexOf("common-button-rotate")!==-1){
+        obj.removeClass("common-button-rotate");
     }else{
-        console.log(2);
-        obj.attr("class","common-button-icon common-button-rotate")
+        obj.addClass("common-button-rotate");
     }
 };
 
@@ -492,6 +556,18 @@ RanGoTableInner.showHideSearchContainer = function (param){
 
 RanGoTableInner.refresh = function (param){
     var obj = param.obj;
+};
 
+//===========================菜单============================
+RanGoTableInner.showHideMenuNode = function (param){
+    var openTreeObj = param.openTreeObj;
+    var insertRowId = RanGoTableInner.openTreeObjGetRow(openTreeObj).attr("rowId");
+    $("div[parentRowId='"+insertRowId+"']").toggle();
+    RanGoTableInner.buttonRotate({
+        obj:openTreeObj
+    });
+};
 
+RanGoTableInner.openTreeObjGetRow = function(openTreeObj){
+    return openTreeObj.parent().parent().parent();
 };

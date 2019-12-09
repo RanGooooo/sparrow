@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="/common/open-source/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/common/common.css">
     <script src="/common/open-source/jquery/jquery.min.js"></script>
+    <script src="/common/common.js"></script>
+    <script src="/common/component/RanGoDialog.js"></script>
 </head>
 <body>
     <div class="container-fluid">
@@ -33,8 +35,42 @@
                 <input id="menuIcon" class="form-control form-control-sm" type="text">
             </div>
         </div>
+        <div class="row run-go-form-row">
+            <div class="col-3 title">
+                父菜单
+            </div>
+            <div class="col-9">
+                <input id="parentMenuId" class="form-control form-control-sm" type="text" onclick="menuRanGoDialog();">
+            </div>
+        </div>
     </div>
 <script>
+
+
+    function menuRanGoDialog(){
+        RanGoDialog.init({
+            title:'选择父级菜单',
+            src: '/TSMenuController/forwordMenuTree',
+            button: [
+                {
+                    name:'确定',
+                    method: 'getMenuCheckedNodes'
+                }
+            ]
+        });
+    }
+
+    function getMenuCheckedNodes(openFrameId){
+        var openWindow = top.document.getElementById(openFrameId).contentWindow;
+        var nodes = openWindow.getMenuCheckedNodes();
+        alert(nodes);
+        if(nodes.length > 0){
+            $("#parentMenuId").val(nodes[0].id);
+        }
+        //var nodes = $(top.document.body).find("#" + iframeId).contentWindow.getMenuCheckedNodes();
+        //alert(nodes);
+    }
+
     function add() {
         $.ajax({
             url:"/TSMenuController/menuAdd",

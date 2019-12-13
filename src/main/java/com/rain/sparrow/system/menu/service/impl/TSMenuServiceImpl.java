@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -29,14 +30,28 @@ public class TSMenuServiceImpl implements TSMenuService{
     private TSMenuRepository tsMenuRepository;
 
     @Override
-    public void menuAdd(HttpServletRequest request) throws Exception{
-        String menuname = request.getParameter("menuName");
-        if(!StringUtils.isEmpty(menuname)){
-            TSMenu tsMenu = new TSMenu();
-            tsMenu.setMenuName(request.getParameter("menuName"));
-            tsMenu.setMenuIcon(request.getParameter("menuIcon"));
-            tsMenuRepository.save(tsMenu);
+    public void deleteMenu(HttpServletRequest request) throws Exception {
+        String id = request.getParameter("id");
+        if(StringUtils.isEmpty(id)){
+            throw new Exception("删除菜单失败，主键为空");
         }
+        tsMenuRepository.deleteById(id);
+    }
+
+    @Override
+    public void editMenu(HttpServletRequest request) throws Exception{
+        String id = request.getParameter("id");
+        TSMenu tsMenu = new TSMenu();
+        if(!StringUtils.isEmpty(id)){
+            Optional<TSMenu> optional = tsMenuRepository.findById(id);
+            tsMenu = optional.get();
+        }
+
+        tsMenu.setMenuName(request.getParameter("menuName"));
+        tsMenu.setMenuIcon(request.getParameter("menuIcon"));
+        tsMenu.setMenuUrl(request.getParameter("menuUrl"));
+        tsMenu.setParentMenuId(request.getParameter("parentMenuId"));
+        tsMenuRepository.save(tsMenu);
     }
 
     @Override
@@ -61,5 +76,13 @@ public class TSMenuServiceImpl implements TSMenuService{
         List<TSMenu> list = tsMenuDao.menuList();
         result.setObject(list);
         return result;
+    }
+
+    @Override
+    public void forwordMenuAdd(HttpServletRequest request) throws Exception {
+        String id = request.getParameter("id");
+        Optional<TSMenu> optional = tsMenuRepository.findById(id);
+        TSMenu menu = optional.get();
+        request.setAttribute("menu",menu);
     }
 }

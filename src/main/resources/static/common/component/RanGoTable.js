@@ -167,13 +167,15 @@ RanGoTableInner.initTableHTML = function () {
     html += '			<div id="tableTitleCenterContainer" class="table-title-center-container"></div>';
     html += '		</div>';
     html += '	</div>';
-    html += '	<div id="tableContentContainer" class="table-content-container">';
+    html += '	<div>';
+    html += '	    <div id="tableContentContainer" class="table-content-container">';
     /*    html += '       <div style="width: 100%;height: 200px;position: fixed;background: #f0f8ff96;">';
         html += '           <div class="loading" style="position: absolute;top: 45%;left: 49%;"></div>';
         html += '       </div>';*/
-    html += '		<div id="tableContentLeft" class="table-content-left"></div>';
-    html += '		<div id="tableContentRight" class="table-content-right"></div>';
-    html += '		<div id="tableContentCenter" class="table-content-center"></div>';
+    html += '		    <div id="tableContentLeft" class="table-content-left"></div>';
+    html += '		    <div id="tableContentRight" class="table-content-right"></div>';
+    html += '		    <div id="tableContentCenter" class="table-content-center"></div>';
+    html += '	    </div>';
     html += '	</div>';
     html += '</div>';
     html += '<div class="table-bottom-container">';
@@ -412,7 +414,8 @@ RanGoTableInner.assembleRow = function(param){
                     containerStyle = 'height: 22px;line-height: 22px;';
                     value = RanGoTableInner.getCellBtn({
                         key:'opt',
-                        settings: settings
+                        settings: settings,
+                        row_obj:row_obj
                     });
                 }
                 rowRightHtml += RanGoTableInner.getCommonCell({
@@ -510,8 +513,21 @@ RanGoTableInner.getCellBtn = function(param){
     if(key === 'opt'){
         var optstr = '';
         var opt = settings.opt;
+        var row_obj = param.row_obj;
         $(opt).each(function (index,obj) {
-            optstr += '<a href="javascript:void(0);" class="common-button-icon" style="height: 22px;width: max-content;padding: 0 8px;">'+obj.name+'</a>';
+            var click = obj.click;
+            var fields = click.substring(click.indexOf('(')+1,click.indexOf(')'));
+            var fieldArr = fields.split(',');
+
+            var values = '';
+            $(fieldArr).each(function (index,field) {
+                values += '\'' + RanGoTableInner.getValue(row_obj,field) + '\'' + ',';
+            });
+            if(values.length > 0){
+                values = values.substring(0,values.length - 1);
+            }
+            var clickName = click.substring(0,click.indexOf('(')+1) + values + ');';
+            optstr += '<a href="javascript:void(0);" class="common-button-icon" onclick="'+clickName+'" style="height: 22px;width: max-content;padding: 0 8px;">'+obj.name+'</a>';
         });
         return optstr;
     }

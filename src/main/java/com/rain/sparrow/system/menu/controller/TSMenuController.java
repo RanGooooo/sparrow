@@ -37,17 +37,22 @@ public class TSMenuController {
     }
 
 
-    @RequestMapping("forwordMenuAdd")
-    public String forwordMenuAdd(){
-        return "system/menu/menu-add";
+    @RequestMapping("forwordMenuEdit")
+    public String forwordMenuAdd(HttpServletRequest request){
+        try {
+            tsMenuService.forwordMenuAdd(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "system/menu/menu-edit";
     }
 
-    @RequestMapping("menuAdd")
+    @RequestMapping("editMenu")
     @ResponseBody
-    public RestResult menuAdd(HttpServletRequest request) {
+    public RestResult editMenu(HttpServletRequest request) {
         RestResult result = new RestResult();
         try {
-            tsMenuService.menuAdd(request);
+            tsMenuService.editMenu(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setSuccess(false);
@@ -68,6 +73,20 @@ public class TSMenuController {
         RestResult result = new RestResult();
         try {
             result = tsMenuService.searchMenuTree(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+    @RequestMapping("deleteMenu")
+    @ResponseBody
+    public RestResult deleteMenu(HttpServletRequest request) {
+        RestResult result = new RestResult();
+        try {
+            tsMenuService.deleteMenu(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setSuccess(false);

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>list Demo</title>
+    <title>菜单列表</title>
     <link rel="stylesheet" href="/common/open-source/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/common/open-source/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/common/common.css">
@@ -34,14 +34,19 @@
             "tool":[
                 {
                     "icon":"fa fa-plus",
-                    "click":"menuRanGoDialog();"
+                    "click":"menuRanGoDialog(null);"
                 }
             ],
             "opt":[
                 {
                     "icon":"fa fa-plus",
                     "name":"修改",
-                    "click":"menuRanGoDialog();"
+                    "click":"menuRanGoDialog(id);"
+                },
+                {
+                    "icon":"fa fa-plus",
+                    "name":"删除",
+                    "click":"deleteMenu(id);"
                 }
             ]
         },
@@ -87,40 +92,42 @@
                 "width": "300",
                 "fixed":"right"
             }
-        ]/*,
-        "result": [
-            { "firstName":"Bill" , "age":"12", "lastName":"Gates","id":"100861008610086" },
-            { "firstName":"George" , "lastName":"Bush","id":"10010" ,"age":"12" },
-            { "firstName":"Thomas" , "lastName":"Carter","id":"12315" ,"age":"12" },
-            { "firstName":"Bill" , "age":"12", "lastName":"Gates","id":"100861008610086" },
-            { "firstName":"George" , "lastName":"Bush","id":"10010" ,"age":"12" },
-            { "firstName":"Thomas" , "lastName":"Carter","id":"12315" ,"age":"12" },
-            { "firstName":"Bill" , "age":"12", "lastName":"Gates","id":"100861008610086" },
-            { "firstName":"George" , "lastName":"Bush","id":"10010" ,"age":"12" },
-            { "firstName":"Thomas" , "lastName":"Carter","id":"12315" ,"age":"12" },
-            { "firstName":"Bill" , "age":"12", "lastName":"Gates","id":"100861008610086" },
-            { "firstName":"George" , "lastName":"Bush","id":"10010" ,"age":"12" },
-            { "firstName":"Thomas666" , "lastName":"Carter","id":"12315" ,"age":"12" }
-        ]*/
+        ]
     };
 
 
 
-    function menuRanGoDialog(){
+    function menuRanGoDialog(id){
         RanGoDialog.init({
             title:'新增菜单',
-            src: '/TSMenuController/forwordMenuAdd',
+            src: '/TSMenuController/forwordMenuEdit?id=' + id,
             button: [
                 {
                     name:'确定',
-                    method: 'add'
+                    click: 'editMenu'
                 }
             ]
         });
     }
 
-    function add(){
-        document.getElementById('menuAdd').contentWindow.add();
+    function deleteMenu(id){
+        $.ajax({
+            url:"/TSMenuController/deleteMenu",
+            type:"post",
+            data : {},
+            success:function(RestResult){
+                var message = RestResult.message;
+                common.showMessage(message);
+            },
+            error:function(e){
+                common.showMessage("错误！！");
+            }
+        });
+    }
+
+    function editMenu(openFrameId){
+        var window = RanGoDialog.window(openFrameId);
+        window.editMenu();
     }
 
     function menuList(){
@@ -133,7 +140,7 @@
                 RanGoTable.init(datas);
             },
             error:function(e){
-                Popup("错误！！");
+                common.showMessage("错误！！");
             }
         });
     }

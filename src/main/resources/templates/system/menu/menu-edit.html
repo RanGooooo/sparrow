@@ -10,13 +10,14 @@
     <script src="/common/component/RanGoDialog.js"></script>
 </head>
 <body>
+    <input id="id" class="form-control form-control-sm" type="hidden" th:value="${menu?.id}">
     <div class="container-fluid">
         <div class="row run-go-form-row">
             <div class="col-3 title">
                 菜单名称
             </div>
             <div class="col-9">
-                <input id="menuName" class="form-control form-control-sm" type="text">
+                <input id="menuName" class="form-control form-control-sm" type="text" th:value="${menu?.menuName}">
             </div>
         </div>
         <div class="row run-go-form-row">
@@ -40,7 +41,8 @@
                 父菜单
             </div>
             <div class="col-9">
-                <input id="parentMenuId" class="form-control form-control-sm" type="text" onclick="menuRanGoDialog();">
+                <input id="parentMenuName" class="form-control form-control-sm" type="text" onclick="menuRanGoDialog();">
+                <input id="parentMenuId" class="form-control form-control-sm" type="hidden">
             </div>
         </div>
     </div>
@@ -54,33 +56,36 @@
             button: [
                 {
                     name:'确定',
-                    method: 'getMenuCheckedNodes'
+                    click: 'getMenuCheckedNodes'
                 }
             ]
         });
     }
 
     function getMenuCheckedNodes(openFrameId){
-        var openWindow = top.document.getElementById(openFrameId).contentWindow;
-        var nodes = openWindow.getMenuCheckedNodes();
-        alert(nodes);
+        var window = RanGoDialog.window(openFrameId);
+        var nodes = window.getMenuCheckedNodes();
         if(nodes.length > 0){
+            $("#parentMenuName").val(nodes[0].name);
             $("#parentMenuId").val(nodes[0].id);
         }
         //var nodes = $(top.document.body).find("#" + iframeId).contentWindow.getMenuCheckedNodes();
         //alert(nodes);
     }
 
-    function add() {
+    function editMenu() {
         $.ajax({
-            url:"/TSMenuController/menuAdd",
+            url:"/TSMenuController/editMenu",
             type:"post",
+            async:false,
             data : {
+                "id":$("#id").val(),
                 "menuName":$("#menuName").val(),
-                "menuIcon":$("#menuIcon").val()
+                "menuIcon":$("#menuIcon").val(),
+                "parentMenuId":$("#parentMenuId").val()
             },
-            success:function(jsonData){
-                alert();
+            success:function(RestResult){
+                alert(RestResult.message);
             },
             error:function(e){
                 Popup("错误！！");

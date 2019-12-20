@@ -12,18 +12,18 @@
 	          if (err) {
 	          	  return console.error('could not save BPMN 2.0 diagram', err);
 	          }
-	          var modelName = $.trim($("#modelName").val());
-	          if(modelName==""){
+	          var bpmnName = $.trim($("#modelName").val());
+	          if(bpmnName==""){
 	        	  pop.info("请输入流程名称");
 	        	  return;
 	          }
 	          // 如果浏览器支持msSaveOrOpenBlob方法（也就是使用IE浏览器的时候）
 	          if (window.navigator.msSaveOrOpenBlob) {
 	        	      var blob = new Blob([xml],{type : 'text/plain'});
-		              window.navigator.msSaveOrOpenBlob(blob, modelName+'.bpmn');
+		              window.navigator.msSaveOrOpenBlob(blob, bpmnName+'.bpmn');
 	          } else {
 	        	    var eleLink = document.createElement('a');
-	        	    eleLink.download = modelName+".bpmn";
+	        	    eleLink.download = bpmnName+".bpmn";
 	        	    eleLink.style.display = 'none';
 	        	    var blob = new Blob([xml]);  // 字符内容转变成blob地址
 	        	    eleLink.href = URL.createObjectURL(blob);
@@ -42,18 +42,24 @@
 	          var canvas = document.createElement('canvas');  //准备空画布
 	     	  canvg(canvas, svgXml);
 	     	  bpmnImage = canvas.toDataURL('image/png');
-	          $.SaveForm({
-					url :  "/bpmn/save",
-					param : {"bpmnXml":xml,"modelName":modelName,"id":bpmnId,"bpmnImage":bpmnImage},
-					json:true,
+	     	  common.ajax({
+					url:"/TSBpmnController/bpmnSave",
+                  	type:"post",
+                  	data:{
+						"bpmnXml":xml,
+						"bpmnName":bpmnName,
+						"id":bpmnId,
+						"bpmnImgae":bpmnImage
+					},
 					success : function(result) {
-						var id = result.msg;
 						pop.success("保存成功");
 						$('.sidebar-menu', parent.document).find("li[data-src='bpmn/index.shtml']").trigger("click");
 					}
-				});
+			  });
 	        });
       }
+
+
       /**
        * Open diagram in our modeler instance.
        * @param {String} bpmnXML diagram to display

@@ -1,5 +1,5 @@
 $(function() {
-    $("#menuContainerBody a").click(function() {
+    $("#menuContainerBody em").click(function() {
         var obj_a = $(this);
         var obj_down = obj_a.find(".fa-chevron-down");
         if(obj_down.attr("class")){
@@ -16,13 +16,14 @@ $(function() {
             $("#menuContainerBody").getNiceScroll().resize();
         }
         if(clazz_a === "third"){
+            var uuid = common.guid();
             var menuName = obj_a.attr("menu-name");
             var menuUrl = obj_a.attr("menu-url");
-            addNode(menuName,menuUrl);
+            addNode(uuid,menuName,menuUrl);
             $(".third").removeClass("active");
             obj_a.addClass("active");
             var scrollWidth = 0;
-            $("#tabNodeScrollContainer a").each(function(){
+            $("#tabNodeScrollContainer em").each(function(){
                 scrollWidth += $(this).width() + 30;
             });
             $("#tabNodeScrollContainer").css("width",scrollWidth + "px");
@@ -54,27 +55,37 @@ $(function() {
 })
 
 
-function addNode(name,url) {
-    $(".tab-node-scroll-container").find("a").removeClass("active");
+function addNode(id,name,url) {
+    $(".tab-node-scroll-container").find("em").removeClass("active");
     var html = '';
-    html += '<a href="javascript:void(0);" onclick="nodeClick(this)" class="tab-node active">';
+    html += '<em menuid="'+id+'" href="javascript:void(0);" onclick="nodeClick(this)" class="tab-node active">';
     html += '<cite>'+name+'</cite><i class="fa fa-times" onclick="removeNode(this)"></i>';
-    html += '</a>';
+    html += '</em>';
     $(".tab-node-scroll-container").append(html);
 
-    addNodeiFrame(0,url);
+    addNodeiFrame(id,url);
 }
 
 function nodeClick(obj){
+    var menuid = $(obj).attr("menuid");
     $(obj).attr("class","tab-node active");
     $(obj).siblings().attr("class","tab-node");
+    $("#nodeiFrame iframe").each(function(index,iframe) {
+        var iframeMenuid = $(iframe).attr("menuid");
+        if(iframeMenuid === menuid){
+            $(iframe).show();
+        }else{
+            $(iframe).hide();
+        }
+    })
 }
 
 function removeNode(obj) {
     $(obj).parent().remove();
 }
 
-function addNodeiFrame(index,url){
-    $("#nodeiFrame").append('<iframe id="node_iframe_'+index+'" class="common_iFrame" src="'+url+'" style="border: none;width: 100%;height: 100%;"></iframe>');
+function addNodeiFrame(id,url){
+    $("#nodeiFrame iframe").hide();
+    $("#nodeiFrame").append('<iframe menuid="'+id+'" class="common_iFrame" src="'+url+'" style="border: none;width: 100%;height: 100%;"></iframe>');
 }
 

@@ -37,7 +37,7 @@ html, body {
     padding-left: 0;
 }
 
-.menu-container-body ul li a{
+.menu-container-body ul li em{
     display: block;
     font-size: 14px;
     padding: 10px 15px 10px 8px;
@@ -45,7 +45,7 @@ html, body {
     color: #ddd;
 }
 
-.menu-container-body ul li a:hover {
+.menu-container-body ul li em:hover {
     background:#007bff !important;
     color:#fff;
     border-color:#00CC99 !important;
@@ -57,7 +57,7 @@ html, body {
     border-color:#00CC99 !important;
 }
 
-.menu-container-body ul li a span{
+.menu-container-body ul li em span{
     width: 20px;
     text-align: center;
     display: inline-block;

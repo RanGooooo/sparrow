@@ -1,3 +1,13 @@
+em{
+    color:#007bff;
+    background-color:transparent;
+    cursor: pointer;
+}
+
+em:hover {
+    color:#0056b3;
+}
+
 .dialog-container-mark{
     width: 100%;
     height: 100%;

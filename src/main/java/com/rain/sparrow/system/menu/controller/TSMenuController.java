@@ -2,6 +2,7 @@ package com.rain.sparrow.system.menu.controller;
 
 
 import com.rain.sparrow.common.dto.RestResult;
+import com.rain.sparrow.system.menu.dto.TSMenuDto;
 import com.rain.sparrow.system.menu.service.TSMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,12 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("TSMenuController")
 public class TSMenuController {
 
+    private static final String menuPath = "system/menu/";
+
     @Autowired
     private TSMenuService tsMenuService;
 
+
     @RequestMapping("forwordMenuList")
     public String forwordMenuList(){
-        return "system/menu/menu-list";
+        return menuPath + "menu-list";
     }
 
     @RequestMapping("searchMenuList")
@@ -37,22 +41,23 @@ public class TSMenuController {
     }
 
 
-    @RequestMapping("forwordMenuEdit")
+    @RequestMapping("forwordMenuSave")
     public String forwordMenuAdd(HttpServletRequest request){
         try {
-            tsMenuService.forwordMenuAdd(request);
+            tsMenuService.forwordMenuSave(request);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "system/menu/menu-edit";
+        return "system/menu/menu-save";
     }
 
-    @RequestMapping("editMenu")
+
+    @RequestMapping("menuSave")
     @ResponseBody
-    public RestResult editMenu(HttpServletRequest request) {
+    public RestResult menuSave(TSMenuDto dto) {
         RestResult result = new RestResult();
         try {
-            tsMenuService.editMenu(request);
+            tsMenuService.menuSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
             result.setSuccess(false);
@@ -81,12 +86,12 @@ public class TSMenuController {
         return result;
     }
 
-    @RequestMapping("deleteMenu")
+    @RequestMapping("menuDelete")
     @ResponseBody
-    public RestResult deleteMenu(HttpServletRequest request) {
+    public RestResult menuDelete(HttpServletRequest request) {
         RestResult result = new RestResult();
         try {
-            tsMenuService.deleteMenu(request);
+            tsMenuService.menuDelete(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setSuccess(false);

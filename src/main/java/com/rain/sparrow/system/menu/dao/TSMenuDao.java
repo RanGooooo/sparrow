@@ -1,11 +1,8 @@
 package com.rain.sparrow.system.menu.dao;
 
 
-import com.rain.sparrow.module.step.bean.StepBean;
-import com.rain.sparrow.module.step.dto.StepDto;
-import com.rain.sparrow.system.menu.bean.TSMenu;
 import com.rain.sparrow.system.menu.dto.TSMenuDto;
-import org.springframework.data.repository.CrudRepository;
+import com.rain.sparrow.system.menu.entity.TSMenu;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,9 +11,7 @@ import java.util.List;
 public interface TSMenuDao{
 
 
-    List<TSMenu> menuList();
-
-
+    List<TSMenu> searchMenuList(TSMenuDto dto);
 
 
 }

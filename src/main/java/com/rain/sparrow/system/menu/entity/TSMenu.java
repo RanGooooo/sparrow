@@ -1,4 +1,4 @@
-package com.rain.sparrow.system.menu.bean;
+package com.rain.sparrow.system.menu.entity;
 
 import org.apache.ibatis.type.Alias;
 import org.hibernate.annotations.GenericGenerator;
@@ -12,18 +12,19 @@ import javax.persistence.*;
 @Alias(value = "TSMenu")
 public class TSMenu {
 
+    /**主键*/
     private String id;
-
+    /**菜单名称*/
     private String menuName;
-
+    /**菜单地址*/
     private String menuUrl;
-
+    /**菜单等级*/
     private Integer menuLevel;
-
+    /**菜单排序*/
     private Integer menuOrder;
-
+    /**菜单图标*/
     private String menuIcon;
-
+    /**父菜单id*/
     private String parentMenuId;
 
     @Id

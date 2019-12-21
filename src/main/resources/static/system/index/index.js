@@ -34,16 +34,16 @@ $(function() {
     });
 
 
-    $("#menuContainerBody").niceScroll({
+   /* $("#menuContainerBody").niceScroll({
         cursorborder:"",
         cursorcolor:"rgba(185, 185, 185, 0.5)",
         autohidemode:false,
         boxzoom:true,
         oneaxismousemode: false
     });
-    $("#tabNodeScroll").niceScroll({
+   */ $("#tabNodeScroll").niceScroll({
         cursorborder:"",
-        cursorcolor:"rgba(185, 185, 185, 0.5)",
+        cursorcolor:"rgba(185, 185, 18  5, 0.5)",
         autohidemode:false,
         boxzoom:true
     });

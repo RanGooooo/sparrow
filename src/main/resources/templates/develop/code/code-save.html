@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单新增</title>
+    <link rel="stylesheet" href="/common/open-source/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/common/common.css">
+    <link rel="stylesheet" href="/common/component/check/RanGoCheck.css">
+    <script src="/common/open-source/jquery/jquery.min.js"></script>
+    <script src="/common/common.js"></script>
+    <script src="/common/form_json.js"></script>
+    <script src="/common/component/RanGoDialog.js"></script>
+    <script src="/common/component/check/RanGoCheck.js"></script>
+    <style>
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .table-scroll{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            background: #f7f7f7;
+            overflow-y: auto;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        .code-common-div{
+            cursor: pointer;
+            padding: 5px 0px 7px 5px;
+            border-right: 4px solid transparent;
+            text-align: left;
+        }
+
+        .code-common-div:hover{
+            background:#007bff !important;
+            color:#fff;
+            border-color:#00CC99 !important;
+        }
+
+    </style>
+</head>
+<body>
+<div class="row run-go-form-row" style="height: 100%;margin-top: 0;">
+    <div class="col-3 title">
+        <div class="row" style="height: 10%;margin-right: -30px;">
+            <div class="col-12 title">
+                <h1>数据库</h1>
+            </div>
+        </div>
+        <div class="row" style="height: 5%;margin-right: -30px;">
+            <div class="col-6 title">
+                <div>
+                    <strong class="requiredmarker">*</strong>表
+                </div>
+            </div>
+            <div class="col-6 title">
+                <div>
+                    <strong class="requiredmarker">*</strong>字段
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="height: 85%;">
+            <div class="col-6 title">
+                <div id="tableList" class="table-scroll" style="padding-left: 0;">
+
+                </div>
+            </div>
+            <div class="col-6 title">
+                <div id="columnList" class="table-scroll" style="padding-left: 0;">
+
+                </div>
+            </div>
+        </div>
+
+        <!--
+        <div class="container-fluid" style="height:100%;">
+
+        </div>
+-->
+
+        <script>
+            $(function () {
+                tableList();
+            });
+            function tableList(){
+                $.ajax({
+                    url:"/DBTableController/searchTableList",
+                    type:"post",
+                    data : {
+                    },
+                    async:false,
+                    success:function(jsonData){
+                        var result = jsonData.object;
+                        var html = '';
+                        $(result).each(function (index,obj) {
+                            html += '<div class="code-common-div" onclick="columnList(\''+obj.tableName+'\')">'+obj.tableName+'</div>'
+                        });
+                        $("#tableList").html(html);
+                    },
+                    error:function(e){
+                        common.showMessage("错误！！");
+                    }
+                });
+            }
+
+            function columnList(tableName){
+                $.ajax({
+                    url:"/DBColumnController/searchColumnList",
+                    type:"post",
+                    data : {
+                        "tableName":tableName
+                    },
+                    async:false,
+                    success:function(jsonData){
+                        var result = jsonData.object;
+                        var html = '';
+                        $(result).each(function (index,obj) {
+                            html += '<div class="code-common-div">'+obj.columnName+'</div>'
+                        });
+                        $("#columnList").html(html);
+                    },
+                    error:function(e){
+                        common.showMessage("错误！！");
+                    }
+                });
+            }
+        </script>
+    </div>
+    <div class="col-9">
+        <form id="menuForm">
+            <div class="container-fluid">
+                <div class="row run-go-form-row" style="display:none;">
+                    <div class="col-3 title">
+                        主键
+                    </div>
+                    <div class="col-9">
+
+                    </div>
+                </div>
+                <div class="row run-go-form-row" style="display:none;">
+                    <div class="col-3 title">
+                        主键
+                    </div>
+                    <div class="col-9">
+                        <input id="id" name="id" class="form-control form-control-sm" type="text" th:value="${menu?.id}">
+                    </div>
+                </div>
+                <div class="row run-go-form-row">
+                    <div class="col-3 title">
+                        <strong class="requiredmarker">*</strong>菜单名称
+                    </div>
+                    <div class="col-9">
+                        <input id="menuName" name="menuName" class="form-control form-control-sm" type="text" th:value="${menu?.menuName}" mydatatype="*" messageS="">
+                    </div>
+                </div>
+                <div class="row run-go-form-row">
+                    <div class="col-3 title">
+                        <strong class="requiredmarker">*</strong>菜单地址
+                    </div>
+                    <div class="col-9">
+                        <input id="menuUrl" name="menuUrl" class="form-control form-control-sm" type="text" th:value="${menu?.menuUrl}" mydatatype="*" messageS="">
+                    </div>
+                </div>
+                <div class="row run-go-form-row">
+                    <div class="col-3 title">
+                        <strong class="requiredmarker">*</strong>菜单等级
+                    </div>
+                    <div class="col-9">
+                        <input id="menuLevel" name="menuLevel" class="form-control form-control-sm" type="text" th:value="${menu?.menuLevel}" mydatatype="*" messageS="" onkeyup="clearNoNumInt(this);">
+                    </div>
+                </div>
+                <div class="row run-go-form-row">
+                    <div class="col-3 title">
+                        <strong class="requiredmarker">*</strong>菜单排序
+                    </div>
+                    <div class="col-9">
+                        <input id="menuOrder" name="menuOrder" class="form-control form-control-sm" type="text" th:value="${menu?.menuOrder}" mydatatype="*" messageS="" onkeyup="clearNoNumInt(this);">
+                    </div>
+                </div>
+                <div class="row run-go-form-row">
+                    <div class="col-3 title">
+                        <strong class="requiredmarker">*</strong>菜单图标
+                    </div>
+                    <div class="col-9">
+                        <input id="menuIcon" name="menuIcon" class="form-control form-control-sm" type="text" th:value="${menu?.menuIcon}" mydatatype="*" messageS="">
+                    </div>
+                </div>
+                <div class="row run-go-form-row">
+                    <div class="col-3 title">
+                        父菜单
+                    </div>
+                    <div class="col-9">
+                        <input id="parentMenuName" name="parentMenuName" class="form-control form-control-sm" type="text" th:value="${parentMenu?.menuName}" onclick="menuRanGoDialog();">
+                        <input id="parentMenuId" name="parentMenuId" class="form-control form-control-sm" type="hidden" th:value="${menu?.parentMenuId}">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+
+
+    function menuRanGoDialog(){
+        RanGoDialog.init({
+            title:'选择父级菜单',
+            src: '/TSMenuController/forwordMenuTree',
+            button: [
+                {
+                    name:'确定',
+                    click: getMenuCheckedNodes
+                }
+            ]
+        });
+    }
+
+    function getMenuCheckedNodes(window){
+        //var window = RanGoDialog.window(openFrameId);
+        var nodes = window.getMenuCheckedNodes();
+        if(nodes.length > 0){
+            $("#parentMenuName").val(nodes[0].name);
+            $("#parentMenuId").val(nodes[0].id);
+        }else{
+            $("#parentMenuName").val('');
+            $("#parentMenuId").val('');
+        }
+        //var nodes = $(top.document.body).find("#" + iframeId).contentWindow.getMenuCheckedNodes();
+        //alert(nodes);
+    }
+
+    function menuSave() {
+        if(!checkData()){
+            throw 'error';
+        }
+        $.ajax({
+            url:"/TSMenuController/menuSave",
+            type:"post",
+            async:false,
+            data:formToJsonObject("menuForm"),
+            success:function(result){
+                common.showMessage(result.message);
+                if(!result.success){
+                    throw 'error';
+                }
+            },
+            error:function(e){
+                Popup("错误！！");
+            }
+        });
+    }
+</script>
+</body>
+</html>

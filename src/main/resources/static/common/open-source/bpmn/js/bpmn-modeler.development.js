@@ -20695,7 +20695,7 @@
 	 * and triggering diagram actions.
 	 *
 	 * For keys pressed down, keyboard fires `keyboard.keydown` event.
-	 * The event context contains one field which is `KeyboardEvent` event.
+	 * The event context contains one column which is `KeyboardEvent` event.
 	 *
 	 * The implementation fires the following key events that allow
 	 * other components to hook into key handling:
@@ -20705,7 +20705,7 @@
 	 *  - keyboard.init
 	 *  - keyboard.destroy
 	 *
-	 * All events contain one field which is node.
+	 * All events contain one column which is node.
 	 *
 	 * A default binding for the keyboard may be specified via the
 	 * `keyboard.bindTo` configuration option.

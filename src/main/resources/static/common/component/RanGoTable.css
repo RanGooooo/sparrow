@@ -78,7 +78,6 @@
 .table-content-right{
     float: right;
     margin-right: -17px;
-    background: #00CC99;
 }
 
 .table-content-center{
@@ -237,4 +236,13 @@
     -moz-transform: rotate(-90deg);
     -webkit-transform: rotate(-90deg);
     -o-transform: rotate(-90deg);
+}
+
+.common-span{
+    cursor: pointer;
+}
+
+.common-span:hover{
+    background: #0066cc !important;
+    color:white !important;
 }

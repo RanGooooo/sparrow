@@ -579,7 +579,8 @@ RanGoTableInner.getCellBtn = function(param){
                 values = values.substring(0,values.length - 1);
             }
             var clickName = click.substring(0,click.indexOf('(')+1) + values + ');';
-            optstr += '<em class="common-button-icon" onclick="'+clickName+'" style="height: 22px;width: max-content;padding: 0 8px;">'+obj.name+'</em>';
+            /*optstr += '<button class="" onclick="'+clickName+'" style="height: 22px;width: max-content;padding: 0 8px;">'+obj.name+'</button>';*/
+            optstr += '<span class="common-span" onclick="'+clickName+'">['+obj.name+']</span>';
         });
         return optstr;
     }

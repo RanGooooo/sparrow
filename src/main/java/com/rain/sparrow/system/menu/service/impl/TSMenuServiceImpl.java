@@ -107,6 +107,6 @@ public class TSMenuServiceImpl implements TSMenuService{
             TSMenu parentMenu = tsMenuRepository.findTSMenuById(parentMenuId);
             request.setAttribute("parentMenu",parentMenu);
         }
-        request.setAttribute("menu",menu);
+        request.setAttribute("xxxxxxxxx",menu);
     }
 }

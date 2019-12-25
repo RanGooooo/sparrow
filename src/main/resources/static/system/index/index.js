@@ -17,8 +17,8 @@ $(function() {
         }
         if(clazz_a === "third"){
             var uuid = common.guid();
-            var menuName = obj_a.attr("menu-name");
-            var menuUrl = obj_a.attr("menu-url");
+            var menuName = obj_a.attr("xxxxxxxxx-name");
+            var menuUrl = obj_a.attr("xxxxxxxxx-url");
             addNode(uuid,menuName,menuUrl);
             $(".third").removeClass("active");
             obj_a.addClass("active");

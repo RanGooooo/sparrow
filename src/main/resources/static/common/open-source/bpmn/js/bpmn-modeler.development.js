@@ -19007,7 +19007,7 @@
 	 */
 
 	/**
-	 * An event indicating that the context menu action is triggered
+	 * An event indicating that the context xxxxxxxxx action is triggered
 	 * via mouse or touch controls.
 	 *
 	 * @event element.contextmenu
@@ -29585,7 +29585,7 @@
 
 
 	/**
-	 * A popup menu that can be used to display a list of actions anywhere in the canvas.
+	 * A popup xxxxxxxxx that can be used to display a list of actions anywhere in the canvas.
 	 *
 	 * @param {Object} config
 	 * @param {Boolean|Object} [config.scale={ min: 1.0, max: 1.5 }]
@@ -29621,7 +29621,7 @@
 	];
 
 	/**
-	 * Registers a popup menu provider
+	 * Registers a popup xxxxxxxxx provider
 	 *
 	 * @param  {String} id
 	 * @param  {Object} provider
@@ -29646,7 +29646,7 @@
 
 
 	/**
-	 * Determine if the popup menu has entries.
+	 * Determine if the popup xxxxxxxxx has entries.
 	 *
 	 * @return {Boolean} true if empty
 	 */
@@ -29672,13 +29672,13 @@
 
 
 	/**
-	 * Create entries and open popup menu at given position
+	 * Create entries and open popup xxxxxxxxx at given position
 	 *
 	 * @param  {Object} element
 	 * @param  {String} id provider id
 	 * @param  {Object} position
 	 *
-	 * @return {Object} popup menu instance
+	 * @return {Object} popup xxxxxxxxx instance
 	 */
 	PopupMenu.prototype.open = function(element, id, position) {
 
@@ -29740,7 +29740,7 @@
 
 
 	/**
-	 * Removes the popup menu and unbinds the event handlers.
+	 * Removes the popup xxxxxxxxx and unbinds the event handlers.
 	 */
 	PopupMenu.prototype.close = function() {
 
@@ -29757,7 +29757,7 @@
 
 
 	/**
-	 * Determine if an open popup menu exist.
+	 * Determine if an open popup xxxxxxxxx exist.
 	 *
 	 * @return {Boolean} true if open
 	 */
@@ -29813,7 +29813,7 @@
 	};
 
 	/**
-	 * Creates the popup menu container.
+	 * Creates the popup xxxxxxxxx container.
 	 *
 	 * @return {Object} a DOM container
 	 */
@@ -29903,7 +29903,7 @@
 
 
 	/**
-	 * Make sure that the menu is always fully shown
+	 * Make sure that the xxxxxxxxx is always fully shown
 	 *
 	 * @method function
 	 *
@@ -31425,7 +31425,7 @@
 	];
 
 	/**
-	 * This module is an element agnostic replace menu provider for the popup menu.
+	 * This module is an element agnostic replace xxxxxxxxx provider for the popup xxxxxxxxx.
 	 */
 	function ReplaceMenuProvider(
 	    popupMenu, modeling, moddle,
@@ -31452,7 +31452,7 @@
 
 
 	/**
-	 * Register replace menu provider in the popup menu
+	 * Register replace xxxxxxxxx provider in the popup xxxxxxxxx
 	 */
 	ReplaceMenuProvider.prototype.register = function() {
 	  this._popupMenu.registerProvider('bpmn-replace', this);
@@ -31465,7 +31465,7 @@
 	 *
 	 * @param {djs.model.Base} element
 	 *
-	 * @return {Array<Object>} a list of menu entry items
+	 * @return {Array<Object>} a list of xxxxxxxxx entry items
 	 */
 	ReplaceMenuProvider.prototype.getEntries = function(element) {
 
@@ -31643,7 +31643,7 @@
 	 *
 	 * @param {djs.model.Base} element
 	 *
-	 * @return {Array<Object>} a list of menu entry items
+	 * @return {Array<Object>} a list of xxxxxxxxx entry items
 	 */
 	ReplaceMenuProvider.prototype.getHeaderEntries = function(element) {
 
@@ -31664,13 +31664,13 @@
 
 
 	/**
-	 * Creates an array of menu entry objects for a given element and filters the replaceOptions
+	 * Creates an array of xxxxxxxxx entry objects for a given element and filters the replaceOptions
 	 * according to a filter function.
 	 *
 	 * @param  {djs.model.Base} element
 	 * @param  {Object} replaceOptions
 	 *
-	 * @return {Array<Object>} a list of menu items
+	 * @return {Array<Object>} a list of xxxxxxxxx items
 	 */
 	ReplaceMenuProvider.prototype._createEntries = function(element, replaceOptions) {
 	  var menuEntries = [];
@@ -31687,12 +31687,12 @@
 	};
 
 	/**
-	 * Creates an array of menu entry objects for a given sequence flow.
+	 * Creates an array of xxxxxxxxx entry objects for a given sequence flow.
 	 *
 	 * @param  {djs.model.Base} element
 	 * @param  {Object} replaceOptions
 
-	 * @return {Array<Object>} a list of menu items
+	 * @return {Array<Object>} a list of xxxxxxxxx items
 	 */
 	ReplaceMenuProvider.prototype._createSequenceFlowEntries = function(element, replaceOptions) {
 
@@ -31756,14 +31756,14 @@
 
 
 	/**
-	 * Creates and returns a single menu entry item.
+	 * Creates and returns a single xxxxxxxxx entry item.
 	 *
 	 * @param  {Object} definition a single replace options definition object
 	 * @param  {djs.model.Base} element
 	 * @param  {Function} [action] an action callback function which gets called when
-	 *                             the menu entry is being triggered.
+	 *                             the xxxxxxxxx entry is being triggered.
 	 *
-	 * @return {Object} menu entry item
+	 * @return {Object} xxxxxxxxx entry item
 	 */
 	ReplaceMenuProvider.prototype._createMenuEntry = function(definition, element, action) {
 	  var translate = this._translate;
@@ -31786,11 +31786,11 @@
 	};
 
 	/**
-	 * Get a list of menu items containing buttons for multi instance markers
+	 * Get a list of xxxxxxxxx items containing buttons for multi instance markers
 	 *
 	 * @param  {djs.model.Base} element
 	 *
-	 * @return {Array<Object>} a list of menu items
+	 * @return {Array<Object>} a list of xxxxxxxxx items
 	 */
 	ReplaceMenuProvider.prototype._getLoopEntries = function(element) {
 
@@ -31865,11 +31865,11 @@
 
 
 	/**
-	 * Get the menu items containing a button for the ad hoc marker
+	 * Get the xxxxxxxxx items containing a button for the ad hoc marker
 	 *
 	 * @param  {djs.model.Base} element
 	 *
-	 * @return {Object} a menu item
+	 * @return {Object} a xxxxxxxxx item
 	 */
 	ReplaceMenuProvider.prototype._getAdHocEntry = function(element) {
 	  var translate = this._translate;
@@ -32587,7 +32587,7 @@
 	  }
 
 	  if (!popupMenu.isEmpty(element, 'bpmn-replace')) {
-	    // Replace menu entry
+	    // Replace xxxxxxxxx entry
 	    assign(actions, {
 	      'replace': {
 	        group: 'edit',

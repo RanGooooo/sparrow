@@ -4,14 +4,29 @@
 
     <select id="searchColumnList" resultType="com.rain.sparrow.database.column.dto.DBColumnDto">
         SELECT
-          column_name AS columnName,
-          column_comment AS columnComment
+          COLUMN_NAME AS columnName,
+          COLUMN_COMMENT AS columnComment,
+          DATA_TYPE AS dataType
         FROM
-          information_schema.columns
+          information_schema.COLUMNS
         WHERE
-          table_schema = #{tableSchema}
+          TABLE_SCHEMA = #{tableSchema}
         AND
-          table_name = #{tableName}
+          TABLE_NAME = #{tableName};
     </select>
+
+    <select id="searchGroupConcatColumn" resultType="java.util.Map">
+       SELECT
+        GROUP_CONCAT(COLUMN_NAME SEPARATOR ",") columns,
+        GROUP_CONCAT(COLUMN_COMMENT SEPARATOR ",") comments,
+        GROUP_CONCAT(DATA_TYPE SEPARATOR ",") datatypes
+        FROM
+        information_schema.COLUMNS
+        WHERE
+        TABLE_SCHEMA = #{tableSchema}
+        AND
+        TABLE_NAME = #{tableName};
+    </select>
+
 
 </mapper>

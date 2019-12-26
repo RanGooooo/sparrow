@@ -1,0 +1,51 @@
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+#code h1,h2,h3,h4,h5,h6{
+    margin: 0;
+}
+
+#code .row-first{
+    height: 8%;
+}
+
+#code .row-second{
+    height: 5%;
+}
+
+#code .row-third{
+    height: 87%;
+    margin-left: 0;
+}
+
+.table-scroll{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: #f7f7f7;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.code-common-div{
+    cursor: pointer;
+    padding: 5px 0px 7px 5px;
+    border-right: 4px solid transparent;
+    text-align: left;
+}
+
+.code-common-div:hover{
+    background:#007bff !important;
+    color:#fff;
+    border-color:#00CC99 !important;
+}
+
+
+.active{
+    background:#007bff !important;
+    color:#fff;
+    border-color:#00CC99 !important;
+}

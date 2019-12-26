@@ -1,25 +1,50 @@
 package com.rain.sparrow.develop.code.dto;
 
+import com.rain.sparrow.common.annotation.check.NotNull;
+
 public class THCodeDto {
 
-    private String modelName;
+    @NotNull(message = "表不能为空")
+    private String table;
 
-    private String packPath;
+    @NotNull
+    private String model;
 
+    @NotNull
+    private String entity;
 
-    public String getModelName() {
-        return modelName;
+    @NotNull
+    private String packagePath;
+
+    public String getTable() {
+        return table;
     }
 
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
+    public void setTable(String table) {
+        this.table = table;
     }
 
-    public String getPackPath() {
-        return packPath;
+    public String getModel() {
+        return model;
     }
 
-    public void setPackPath(String packPath) {
-        this.packPath = packPath;
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getEntity() {
+        return entity;
+    }
+
+    public void setEntity(String entity) {
+        this.entity = entity;
+    }
+
+    public String getPackagePath() {
+        return packagePath;
+    }
+
+    public void setPackagePath(String packagePath) {
+        this.packagePath = packagePath;
     }
 }

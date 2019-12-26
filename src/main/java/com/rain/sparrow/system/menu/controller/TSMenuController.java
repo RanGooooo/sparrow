@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("TSMenuController")
 public class TSMenuController {
 
-    private static final String menuPath = "system/xxxxxxxxx/";
+    private static final String menuPath = "system/menu/";
 
     @Autowired
     private TSMenuService tsMenuService;
@@ -23,7 +23,7 @@ public class TSMenuController {
 
     @RequestMapping("forwordMenuList")
     public String forwordMenuList(){
-        return menuPath + "xxxxxxxxx-list";
+        return menuPath + "menu-list";
     }
 
     @RequestMapping("searchMenuList")
@@ -48,7 +48,7 @@ public class TSMenuController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "system/xxxxxxxxx/xxxxxxxxx-save";
+        return menuPath + "menu-save";
     }
 
 
@@ -69,7 +69,7 @@ public class TSMenuController {
 
     @RequestMapping("forwordMenuTree")
     public String forwordMenuTree(){
-        return "system/xxxxxxxxx/xxxxxxxxx-tree";
+        return "system/menu/menu-tree";
     }
 
     @RequestMapping("searchMenuTree")
@@ -99,9 +99,6 @@ public class TSMenuController {
         }
         return result;
     }
-
-
-
 
 
 }

@@ -6,67 +6,13 @@
     <link rel="stylesheet" href="/common/open-source/bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="/common/common.css">
     <link rel="stylesheet" href="/common/component/check/RanGoCheck.css">
+    <link rel="stylesheet" href="/develop/code/code-save.css">
     <script src="/common/open-source/jquery/jquery.min.js"></script>
     <script src="/common/common.js"></script>
     <script src="/common/form_json.js"></script>
     <script src="/common/component/RanGoDialog.js"></script>
     <script src="/common/component/check/RanGoCheck.js"></script>
-    <style>
-
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
-
-        #code{
-
-        }
-
-        #code h1,h2,h3,h4,h5,h6{
-            margin: 0;
-        }
-
-        #code .row-first{
-            height: 8%;
-        }
-
-        #code .row-second{
-            height: 5%;
-        }
-
-        #code .row-third{
-            height: 87%;
-            margin-left: 0;
-        }
-
-
-
-
-
-        .table-scroll{
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            background: #f7f7f7;
-            overflow-y: scroll;
-            overflow-x: hidden;
-            width: 100%;
-        }
-
-        .code-common-div{
-            cursor: pointer;
-            padding: 5px 0px 7px 5px;
-            border-right: 4px solid transparent;
-            text-align: left;
-        }
-
-        .code-common-div:hover{
-            background:#007bff !important;
-            color:#fff;
-            border-color:#00CC99 !important;
-        }
-
-    </style>
+    <script src="/develop/code/code-save.js"></script>
 </head>
 <body>
 <div id="code" class="run-go-form-row" style="height: 100%;margin-top: 0;display: flex;overflow-x: scroll;">
@@ -93,7 +39,7 @@
     <div class="title" style="min-width: 250px;">
         <div class="row row-first">
             <div class="col-12 title">
-                <h1>数据库</h1>
+                <h1><!--数据库--></h1>
             </div>
         </div>
         <div class="row row-second">
@@ -110,12 +56,10 @@
             </div>
         </div>
     </div>
-
-
     <div class="title" style="min-width: 350px;">
         <div class="row row-first">
             <div class="col-12 title">
-
+                <h1><!--解放双手--></h1>
             </div>
         </div>
         <div class="row row-second">
@@ -123,26 +67,86 @@
                 <h5>模块</h5>
             </div>
         </div>
-
         <div class="row row-third">
             <div class="col-12 title">
                 <div class="table-scroll" style="padding-left: 0;">
                     <div class="row run-go-form-row">
                         <div class="col-3 title">
-                            <strong class="requiredmarker">*</strong>模块名称
+                            <strong class="requiredmarker">*</strong>层
                         </div>
                         <div class="col-9" style="text-align: left;">
-                            <input id="modelName" name="modelName" class="form-control form-control-sm" type="text" placeholder="user" mydatatype="*" messageS="">
+                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                <input type="checkbox" class="custom-control-input" id="all">
+                                <label class="custom-control-label" for="all" style="line-height: 20px;">全选</label>
+                            </div>
+                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                <input type="checkbox" class="custom-control-input" id="packageEntity">
+                                <label class="custom-control-label" for="packageEntity" style="line-height: 20px;">Entity</label>
+                            </div>
+                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                <input type="checkbox" class="custom-control-input" id="packageDao">
+                                <label class="custom-control-label" for="packageDao" style="line-height: 20px;">Dao</label>
+                            </div>
+                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                <input type="checkbox" class="custom-control-input" id="packageMapper">
+                                <label class="custom-control-label" for="packageMapper" style="line-height: 20px;">Mapper</label>
+                            </div>
+                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                <input type="checkbox" class="custom-control-input" id="packageService">
+                                <label class="custom-control-label" for="packageService" style="line-height: 20px;">Service/Impl</label>
+                            </div>
+                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                <input type="checkbox" class="custom-control-input" id="packageController">
+                                <label class="custom-control-label" for="packageController" style="line-height: 20px;">Controller</label>
+                            </div>
+                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                                <input type="checkbox" class="custom-control-input" id="constantController">
+                                <label class="custom-control-label" for="constantController" style="line-height: 20px;">Constant</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="row run-go-form-row">
-                        <div class="col-3 title">
-                            <strong class="requiredmarker">*</strong>包路径
+                    <form id="baseForm">
+                        <div class="row run-go-form-row">
+                            <div class="col-3 title">
+                                <strong class="requiredmarker">*</strong>表名称
+                            </div>
+                            <div class="col-9" style="text-align: left;">
+                                <input id="table" name="table" class="form-control form-control-sm" type="text" placeholder="t_s_user" mydatatype="*" messageS="" readonly="readonly">
+                            </div>
                         </div>
-                        <div class="col-9" style="text-align: left;">
-                            <input id="packPath" name="packPath" class="form-control form-control-sm" type="text" placeholder="com.mysql.jdbc" mydatatype="*" messageS="">
+                        <div class="row run-go-form-row">
+                            <div class="col-3 title">
+                                <strong class="requiredmarker">*</strong>模块名称
+                            </div>
+                            <div class="col-9" style="text-align: left;">
+                                <input id="model" name="model" class="form-control form-control-sm" type="text" placeholder="user" mydatatype="*" messageS="">
+                            </div>
                         </div>
-                    </div>
+                        <div class="row run-go-form-row">
+                            <div class="col-3 title">
+                                <strong class="requiredmarker">*</strong>实体类名称
+                            </div>
+                            <div class="col-9" style="text-align: left;">
+                                <input id="entity" name="entity" class="form-control form-control-sm" type="text" placeholder="TSUser" mydatatype="*" messageS="">
+                            </div>
+                        </div>
+                        <div class="row run-go-form-row">
+                            <div class="col-3 title">
+                                <strong class="requiredmarker">*</strong>包路径
+                            </div>
+                            <div class="col-9" style="text-align: left;">
+                                <input id="packagePath" name="packagePath" class="form-control form-control-sm" type="text" placeholder="com.gxcx." mydatatype="*" messageS="">
+                            </div>
+                        </div>
+                        <div class="row run-go-form-row">
+                            <div class="col-3 title">
+
+                            </div>
+                            <div class="col-9" style="text-align: left;">
+                                <button type="button" class="btn btn-outline-dark" style="margin-right: 25px;" onclick="codeSave();">解放</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -150,116 +154,22 @@
     <div class="title" style="min-width: 350px;">
         <div class="row row-first">
             <div class="col-12 title">
-                <h1 style="margin-right: 25px;">解放双手</h1>
+
             </div>
         </div>
         <div class="row row-second">
             <div class="col-12 title">
-                <button type="button" class="btn btn-outline-dark" style="margin-right: 25px;" onclick="codeSave();">解放</button>
+
             </div>
         </div>
-
         <div class="row row-third">
             <div class="col-12 title">
                 <div class="table-scroll" style="padding-left: 0;text-align: left;">
-                    <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                        <input type="checkbox" class="custom-control-input" id="entity">
-                        <label class="custom-control-label" for="entity" style="line-height: 20px;">Entity</label>
-                    </div>
-                    <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                        <input type="checkbox" class="custom-control-input" id="dao">
-                        <label class="custom-control-label" for="dao" style="line-height: 20px;">Dao</label>
-                    </div>
-                    <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                        <input type="checkbox" class="custom-control-input" id="mapper">
-                        <label class="custom-control-label" for="mapper" style="line-height: 20px;">Mapper</label>
-                    </div>
-                    <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                        <input type="checkbox" class="custom-control-input" id="service">
-                        <label class="custom-control-label" for="service" style="line-height: 20px;">Service/Impl</label>
-                    </div>
-                    <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                        <input type="checkbox" class="custom-control-input" id="controller">
-                        <label class="custom-control-label" for="controller" style="line-height: 20px;">Controller</label>
-                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<script>
-
-    $(function () {
-        tableList();
-    });
-    function tableList(){
-        $.ajax({
-            url:"/DBTableController/searchTableList",
-            type:"post",
-            data : {
-            },
-            async:false,
-            success:function(jsonData){
-                var result = jsonData.object;
-                var html = '';
-                $(result).each(function (index,obj) {
-                    html += '<div class="code-common-div" onclick="columnList(\''+obj.tableName+'\')">'+obj.tableName+'</div>'
-                });
-                $("#tableList").html(html);
-            },
-            error:function(e){
-                common.showMessage("错误！！");
-            }
-        });
-    }
-
-    function columnList(tableName){
-        $.ajax({
-            url:"/DBColumnController/searchColumnList",
-            type:"post",
-            data : {
-                "tableName":tableName
-            },
-            async:false,
-            success:function(jsonData){
-                var result = jsonData.object;
-                var html = '';
-                $(result).each(function (index,obj) {
-                    html += '<div class="code-common-div">'+obj.columnName+'</div>'
-                });
-                $("#columnList").html(html);
-            },
-            error:function(e){
-                common.showMessage("错误！！");
-            }
-        });
-    }
-
-    function codeSave() {
-        if(!checkData()){
-            throw 'error';
-        }
-        $.ajax({
-            url:"/THCodeController/codeSave",
-            type:"post",
-            async:false,
-            data:{
-                "modelName":$("#modelName").val(),
-                "packPath":$("#packPath").val()
-            },
-            success:function(result){
-                common.showMessage(result.message);
-                if(!result.success){
-                    throw 'error';
-                }
-            },
-            error:function(e){
-                Popup("错误！！");
-            }
-        });
-    }
-
-</script>
 </body>
 </html>

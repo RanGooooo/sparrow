@@ -6,6 +6,8 @@ public class DBColumnDto {
 
     private String columnComment;
 
+    private String dataType;
+
 
     public String getColumnName() {
         return columnName;
@@ -21,5 +23,13 @@ public class DBColumnDto {
 
     public void setColumnComment(String columnComment) {
         this.columnComment = columnComment;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
     }
 }

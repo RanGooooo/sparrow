@@ -53,7 +53,7 @@
 					},
 					success : function(result) {
 						pop.success("保存成功");
-						$('.sidebar-xxxxxxxxx', parent.document).find("li[data-src='bpmn/index.shtml']").trigger("click");
+						$('.sidebar-xxxxxxxxx', parent.document).find("li[data-src='bpmn/main.shtml']").trigger("click");
 					}
 			  });
 	        });

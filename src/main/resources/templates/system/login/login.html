@@ -2,365 +2,90 @@
 <html>
 <head>
     <title>登录</title>
+    <!--https://www.zhangxinxu.com/sp/svg/-->
+    <link rel="stylesheet" href="/common/open-source/bootstrap/css/bootstrap.css">
     <style>
-        body{
-            margin: 0px;
-            padding: 0px;
-        }
-        dd{
-            margin: 0px;
-        }
-        /**************遮罩**************/
-        .mask{
-            display:block;
-            position: fixed;
-            top: 0%;
-            left: 0%;
-            width: 100%;
-            height: 100%;
-            background: url(/system/login/login.svg),#FFCC00;
-        }
-        .mask-parent{
-            width:100%;
-            height:100%;
-            position:relative;
-        }
-        .mask-child {
-            width:180px;
-            height:180px;
-            margin: auto;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            color: white;
-            font-size: 10pt;
-            font-style: normal;
-            background-color: #333333;
+        .simple-page {
             text-align: center;
-            margin-right: 25%;
-            padding: 0 10px;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -moz-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            min-height: 90vh;
         }
-        form dl dt{
-            text-align: start;
-            font-size:12px;
+        .simple-page .logo {
+            background-image: url('../images/jenkins.svg');
+            background-repeat: no-repeat;
+            background-position: 50% 0;
+            height: 130px;
         }
-        form dl dd input{
-            padding: 5px 8px;
+        .simple-page h1 {
+            font-size: 24px;
         }
-
-        #svgContainer {
-            /*background:url(/system/login/astronaut.svg);*/
-            width: 640px;
-            height: 512px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            margin: auto;
+        .simple-page form {
+            min-width: 300px;
+            max-width: 300px;
+            width: 300px;
         }
-        .hidden_div{
-            position: fixed;
-            bottom: 0;
-            background: #CCCCCC;
+        .simple-page .formRow {
+            margin-top: 27px;
+        }
+        .simple-page input[type="text"], .simple-page input[type="password"], .simple-page input[type="submit"] {
             width: 100%;
-            height: 50px;
+            box-sizing: border-box;
         }
-        /*火焰特效*/
-        #rocket_flame {
-            /*animation: rubberBand 5s;*/
-            /*-webkit-animation:rubberBand 1s infinite linear ;*/
-            animation: rubberBand 1s 0.1s cubic-bezier(0.5, 0.07, 0.64, 1) infinite;
+        .simple-page input[type="submit"] {
+            text-align: center;
         }
-
-        @keyframes rubberBand {
-        /*https://www.17sucai.com/pins/demo-show?id=25563*/
-
-            100% {
-                -webkit-transform: skew(-5deg);
-
-            }
-
-            74% {
-                -webkit-transform: skew(5deg);
-
-            }
-            58% {
-                -webkit-transform: skew(15deg);
-
-            }
-            30% {
-                -webkit-transform: skew(25deg);
-
-            }
-            0% {
-                -webkit-transform: skew(35deg);
-
-            }
-
-
-        /*0% {
-            transform: translateX(-90) scaleX(0.3);
-            background: #ff9800;
-        }
-        100% {
-            transform: translateX(-175px) scaleX(0.5);
-            background:#ffc107;
-        }*/
-
-           /* 0% {
-                transform: scale(1, 1);
-            }
-            30% {
-                transform: scale(1.85, 1);
-            }
-            40% {
-                transform: scale(0.75, 1);
-            }
-            50% {
-                transform: scale(1.15, 0.85);
-            }
-            65% {
-                transform: scale(0.95, 1);
-            }
-            75% {
-                transform: scale(1.05, 1);
-            }
-            100% {
-                transform: scale(1, 1);
-            }*/
-
-
+        .simple-page input {
+            padding: 6px 8px;
+            display: inline-block;
+            text-align: left;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 3px;
+            border: 1px solid
+            rgba(74,74,74,0.25);
         }
     </style>
 </head>
 <body>
-    <div class="mask">
-        <div class="mask-parent">
+    <div class="simple-page" role="main">
+        <div>
+            <div id="loginIntroDefault">
+                <div class="logo">
 
-
-            <svg  viewBox="-400 -300 800 600" width="100%" height="100%" style="border: 0px red solid;">
-                <!--    -->
-                <g id="my_rocket1" x="-25" y="-25">
-                  <!-- <animateMotion  xlink:href="#my_rocket1"
-                                   path="M -600 300 Q-200 -200 -100 -600 Q -500 -400 -300 -200 Q 100 200 600 300 Q 800 100 300 -200 Q 110 -310 -200 30 Q -400 230 -800 60 Z"
-                                   dur="15s"
-                                   rotate="auto"
-                                   repeatCount="indefinite"
-                    ></animateMotion>-->
-                </g>
-                <!--<path id="testPath"d="M -200 0 A 150 150 0 1 0  -200 -1 Z" fill="none" stroke="blue"></path>-->
-                <path id="testPath"d="M -600 300 Q-200 -200 -100 -600 Q -500 -400 -300 -200 Q 100 200 600 300 Q 800 100 300 -200 Q 110 -310 -200 30 Q -400 230 -800 60 Z" fill="none" stroke="blue"></path>
-            </svg>
-
-
-            <div class="mask-child">
-                <form>
-                    <dl>
-                        <dt>Username</dt>
-                        <dd>
-                            <input id="asd" onkeyup="a()" name="username" type="text"/>
-                            <!--<input id="username" name="username" type="text"/>-->
-                        </dd>
-                    </dl>
-                  <dl>
-                        <dt>Password</dt>
-                        <dd>
-                            <input id="password" name="password" type="password"/>
-                        </dd>
-                    </dl>
-                </form>
             </div>
+                <h1>欢迎来到 Jenkins！</h1>
+            </div>
+            <form method="post" name="login" action="j_acegi_security_check">
+                <div class="formRow">
+                    <input autocorrect="off" name="j_username" id="j_username" placeholder="用户名" type="text" class="normal" autocapitalize="off">
+                </div>
+                <div class="formRow">
+                    <input name="j_password" placeholder="密码" type="password" class="normal">
+                </div>
+                <div class="submit formRow">
+                    <input name="Submit" type="submit" value="登录" class="submit-button primary">
+                </div>
+                <div class="custom-control custom-checkbox my-1 mr-sm-2" style="margin-top: 20px !important;">
+                    <input type="checkbox" class="custom-control-input" id="packageEntity">
+                    <label class="custom-control-label" for="packageEntity" style="line-height: 20px;">保持登录状态</label>
+                </div>
+            </form>
+            <div class="footer"></div>
         </div>
     </div>
-    <div class="hidden_div">
-        PATH<input id="path" onkeyup="update_path()" value="" style="width: 500px;"/>
-        X<input id="X" onkeyup="update()" value="0"/>
-        Y<input id="Y" onkeyup="update()" value="0"/>
-    </div>
-    <script>
-
-        function update(){
-            document.getElementById("my_rocket").innerHTML = '';
-            var value_X = document.getElementById("X").value;
-            var value_Y = document.getElementById("Y").value;
-            var rocket_obj = document.getElementById("my_rocket");
-            createRocket(value_X,value_Y,rocket_obj);
-            //document.getElementById("rocket_body").setAttribute("x",value_X);
-            //document.getElementById("rocket_body").setAttribute("y",value_Y);
-        }
-
-        function update_path() {
-            var value = document.getElementById("path").value;
-            document.getElementById("testPath").setAttribute("d",value);
-        }
-
-        window.onload=function (){
-            //getSymmetryPoint();
-            var main_X = -50;
-            var main_Y = 50;
-
-            setTimeout(createRocket(main_X,main_Y,document.getElementById("my_rocket1")),1000);
-            setTimeout(createRocket(main_X,main_Y,document.getElementById("my_rocket2")),2000);
-            setTimeout(createRocket(main_X,main_Y,document.getElementById("my_rocket3")),3000);
-
-        };
-        var SVG_NS = 'http://www.w3.org/2000/svg';
-        function createRocket(main_X,main_Y,obj){
-            var main_X=parseInt(main_X);
-            var main_Y=parseInt(main_Y);
-
-            var wing_shape_s = document.createElementNS(SVG_NS, 'path');
-            var wing_shape_x = document.createElementNS(SVG_NS, 'path');
-            var body_shape = document.createElementNS(SVG_NS, 'path');
-            var window_shape = document.createElementNS(SVG_NS, 'circle');
-            var head_shape = document.createElementNS(SVG_NS, 'path');
-            var flame_shape_1 = document.createElementNS(SVG_NS, 'path');
-            var flame_shape_2 = document.createElementNS(SVG_NS, 'path');
-            var flame_shape_3 = document.createElementNS(SVG_NS, 'path');
-
-
-
-            obj.appendChild(flame_shape_1);
-            obj.appendChild(flame_shape_2);
-            obj.appendChild(flame_shape_3);
-            obj.appendChild(wing_shape_s);
-            obj.appendChild(wing_shape_x);
-            obj.appendChild(body_shape);
-            obj.appendChild(window_shape);
-            obj.appendChild(head_shape);
-            /*火箭的身体 点坐标逆时针旋转得到*/
-            var body_width = 120;
-            var body_height = 60;
-            var body_spot_1_x = main_X;
-            var body_spot_1_y = main_Y;
-            var body_spot_2_x = main_X;
-            var body_spot_2_y = main_Y + body_height;
-            var body_spot_3_x = main_X + body_width;
-            var body_spot_3_y = main_Y + body_height;
-            var body_spot_4_x = main_X + body_width;
-            var body_spot_4_y = main_Y;
-            /*火箭的中心*/
-            var body_center_point_x = (body_spot_1_x + body_spot_4_x)/2;
-            var body_center_point_y = (body_spot_1_y + body_spot_2_y)/2;
-
-            var body_x_1 = "-120,Q0,50";
-            var body_x_2 = "-120,Q0,L50";
-            var body_y_1 = "50,30,50";
-            var body_y_2 = "110,130,110";
-            var body_d = getSymmetryPoint(body_x_1,body_x_2,body_y_1,body_y_2);
-            var body_attrs_str = 'id:rocket_body,d:'+body_d+',fill:#DDDDDD,stroke:#333333';
-            /*火箭的头*/
-            var head_x_1 = "50,Q130";
-            var head_y_1 = "50,80";
-            var head_y_2 = "110,80";
-            var head_d = getSymmetryPointS(head_x_1,head_y_1,head_y_2);
-            var head_attrs = 'id:rocket_head,d:'+head_d+',fill:#FF6666,stroke:#333333';
-
-
-            /**机翼*/
-            var wing_attrs_s = 'id:wing_1,d:M -60 50 L -110 0 L-230 30 L-120 30 L -110 50,fill:#f15d4a,stroke:#333333';
-            var wing_attrs_x = 'id:wing_2,d:M -60 110 L -110 160 L-230 120 L-120 130 L -110 110,fill:#f15d4a,stroke:#333333';
-            /*火箭的火焰*/
-            var flame_attrs_1 = getFlameAttrs(5,0,0,'#0000FF');
-            var flame_attrs_2 = getFlameAttrs(30,-10,10,'#3366FF');
-            var flame_attrs_3 = getFlameAttrs(50,-25,25,'#6699FF');
-            /*火箭的窗子*/
-            var window_attrs = 'cx:'+(body_center_point_x)+',cy:'+(body_center_point_y)+',r:20,fill:#33CCFF,stroke:#969696,stroke-width:5';
-            setAttr(wing_attrs_s,wing_shape_s);
-            setAttr(wing_attrs_x,wing_shape_x);
-            setAttr(body_attrs_str,body_shape);
-            setAttr(window_attrs,window_shape);
-            setAttr(head_attrs,head_shape);
-            setAttr(flame_attrs_1,flame_shape_1);
-            setAttr(flame_attrs_2,flame_shape_2);
-            setAttr(flame_attrs_3,flame_shape_3);
-        }
-
-
-
-        function getFlameAttrs(a,b,c,color){
-
-            var flame_spot_1_x = -250 + parseInt(a);
-
-            var flame_spot_3_y_n = 100 + parseInt(b);
-            var flame_spot_3_y_s = 60 + parseInt(c);
-
-
-
-            var flame_x_1 = "-120,Q-130," + flame_spot_1_x;
-            var flame_y_1 = flame_spot_3_y_n+ ",110,80";
-            var flame_y_2 = flame_spot_3_y_s  + ",50,80";
-            var flame_d = getSymmetryPointS(flame_x_1,flame_y_1,flame_y_2);
-
-            var flame_attrs= 'id:rocket_flame,d:'+flame_d+',fill:' + color;
-            return flame_attrs;
-        }
-
-        function setAttr(attrstr,shape){
-            attrs = attrstr.split(',');
-            while(attrs.length) {
-                attr = attrs.shift().split(':');
-                name = attr[0];
-                value = shape.getAttribute(name) || attr[1];
-                shape.setAttribute(name, value);
-            }
-        }
-
-        /**
-         * 获取对称点
-         * M -120 50 Q0 30 50 50 L50 110 Q0 130 -120 110 Z
-         * M -120 50 Q0 30 50 50 L50 110 Q0 130 -120 110Z
-         */
-        function getSymmetryPoint(body_x_1,body_x_2,body_y_1,body_y_2){
-            var body_x_1_arr = body_x_1.split(',');
-            var body_x_2_arr = body_x_2.split(',');
-            var body_y_1_arr = body_y_1.split(',');
-            var body_y_2_arr = body_y_2.split(',');
-            var i = 0;
-            var str = "M{}Z";
-            for (var i = 0; i <body_x_1_arr.length; i++){
-                var x1 = body_x_1_arr[i];
-                var x2 = body_x_2_arr[i];
-                var y1 = body_y_1_arr[i];
-                var y2 = body_y_2_arr[i];
-
-                var S = " " +x1 + " " + y1;
-                var X = " " +x2 + " " + y2;
-                var SX = S + "{}" + X;
-                str = str.replace("{}",SX);
-            }
-            return str.replace("{}","");
-        }
-        /*
-        * M 70 50 Q130 80 70 110Z
-        * */
-        function getSymmetryPointS(body_x_1,body_y_1,body_y_2){
-            var body_x_1_arr = body_x_1.split(',');
-            var body_y_1_arr = body_y_1.split(',');
-            var body_y_2_arr = body_y_2.split(',');
-            var i = 0;
-            var str = "M{}Z";
-            for (var i = 0; i <body_x_1_arr.length; i++){
-                var x1 = body_x_1_arr[i];
-                var y1 = body_y_1_arr[i];
-                var y2 = body_y_2_arr[i];
-
-
-                var S = " " +x1 + " " + y1;
-                var X = " " +x1 + " " + y2;
-                if(S == X){
-                    var SX = S + "{}";
-                    str = str.replace("{}",SX);
-                }else{
-                    var SX = S + "{}" + X;
-                    str = str.replace("{}",SX);
-                }
-
-
-            }
-            return str.replace("{}","");
-        }
-
-    </script>
 </body>
 </html>

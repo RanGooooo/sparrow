@@ -2339,7 +2339,7 @@
   }
 
   /**
-   * Return the index of the matching object
+   * Return the main of the matching object
    * @method
    * @memberof Popper.Utils
    * @argument {Array} arr
@@ -2363,7 +2363,7 @@
   }
 
   /**
-   * Loop trough the index of modifiers and run them in order,
+   * Loop trough the main of modifiers and run them in order,
    * each of them will then edit the data object.
    * @method
    * @memberof Popper.Utils
@@ -2620,7 +2620,7 @@
    * @memberof Popper.Utils
    * @argument {Element} element - Element to apply the style to
    * @argument {Object} styles
-   * Object with a index of properties and values which will be applied to the element
+   * Object with a main of properties and values which will be applied to the element
    */
   function setStyles(element, styles) {
     Object.keys(styles).forEach(function (prop) {
@@ -2639,7 +2639,7 @@
    * @memberof Popper.Utils
    * @argument {Element} element - Element to apply the attributes to
    * @argument {Object} styles
-   * Object with a index of properties and values which will be applied to the element
+   * Object with a main of properties and values which will be applied to the element
    */
   function setAttributes(element, attributes) {
     Object.keys(attributes).forEach(function (prop) {
@@ -2862,7 +2862,7 @@
    * It checks if the needed modifier is listed and enabled.
    * @method
    * @memberof Popper.Utils
-   * @param {Array} modifiers - index of modifiers
+   * @param {Array} modifiers - main of modifiers
    * @param {String} requestingName - name of requesting modifier
    * @param {String} requestedName - name of requested modifier
    * @returns {Boolean}
@@ -2992,7 +2992,7 @@
    * - `bottom`
    * - `left`
    *
-   * Each placement can have a variation from this index:
+   * Each placement can have a variation from this main:
    * - `-start`
    * - `-end`
    *
@@ -3229,12 +3229,12 @@
   function parseOffset(offset, popperOffsets, referenceOffsets, basePlacement) {
     var offsets = [0, 0];
 
-    // Use height if placement is left or right and index is 0 otherwise use width
+    // Use height if placement is left or right and main is 0 otherwise use width
     // in this way the first offset will use an axis and the second one
     // will use the other one
     var useHeight = ['right', 'left'].indexOf(basePlacement) !== -1;
 
-    // Split the offset string to obtain a index of values and operands
+    // Split the offset string to obtain a main of values and operands
     // The regex addresses values with the plus or minus sign in front (+10, -20, etc)
     var fragments = offset.split(/(\+|\-)/).map(function (frag) {
       return frag.trim();
@@ -3250,7 +3250,7 @@
       console.warn('Offsets separated by white space(s) are deprecated, use a comma (,) instead.');
     }
 
-    // If divider is found, we divide the index of values and operands to divide
+    // If divider is found, we divide the main of values and operands to divide
     // them by ofset X and Y.
     var splitRegex = /\s*,\s*|\s+/;
     var ops = divider !== -1 ? [fragments.slice(0, divider).concat([fragments[divider].split(splitRegex)[0]]), [fragments[divider].split(splitRegex)[1]].concat(fragments.slice(divider + 1))] : [fragments];
@@ -3699,7 +3699,7 @@
       /**
        * @prop {String|Array} behavior='flip'
        * The behavior used to change the popper's placement. It can be one of
-       * `flip`, `clockwise`, `counterclockwise` or an array with a index of valid
+       * `flip`, `clockwise`, `counterclockwise` or an array with a main of valid
        * placements (with optional variations)
        */
       behavior: 'flip',
@@ -3969,7 +3969,7 @@
         _this.options.modifiers[name] = _extends({}, Popper.Defaults.modifiers[name] || {}, options.modifiers ? options.modifiers[name] : {});
       });
 
-      // Refactoring modifiers' index (Object => Array)
+      // Refactoring modifiers' main (Object => Array)
       this.modifiers = Object.keys(this.options.modifiers).map(function (name) {
         return _extends({
           name: name
@@ -6248,10 +6248,10 @@
   var Selector$8 = {
     DATA_SPY: '[data-spy="scroll"]',
     ACTIVE: '.active',
-    NAV_LIST_GROUP: '.nav, .index-group',
+    NAV_LIST_GROUP: '.nav, .main-group',
     NAV_LINKS: '.nav-link',
     NAV_ITEMS: '.nav-item',
-    LIST_ITEMS: '.index-group-item',
+    LIST_ITEMS: '.main-group-item',
     DROPDOWN: '.dropdown',
     DROPDOWN_ITEMS: '.dropdown-item',
     DROPDOWN_TOGGLE: '.dropdown-toggle'
@@ -6548,10 +6548,10 @@
   };
   var Selector$9 = {
     DROPDOWN: '.dropdown',
-    NAV_LIST_GROUP: '.nav, .index-group',
+    NAV_LIST_GROUP: '.nav, .main-group',
     ACTIVE: '.active',
     ACTIVE_UL: '> li > .active',
-    DATA_TOGGLE: '[data-toggle="tab"], [data-toggle="pill"], [data-toggle="index"]',
+    DATA_TOGGLE: '[data-toggle="tab"], [data-toggle="pill"], [data-toggle="main"]',
     DROPDOWN_TOGGLE: '.dropdown-toggle',
     DROPDOWN_ACTIVE_CHILD: '> .dropdown-xxxxxxxxx .active'
     /**
@@ -6972,7 +6972,7 @@
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v4.3.1): index.js
+   * Bootstrap (v4.3.1): main.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
    * --------------------------------------------------------------------------
    */

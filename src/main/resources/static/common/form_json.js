@@ -320,7 +320,7 @@ function iterJsonObject(jsonObject, parentName, childName, eValue){
 		if(!pArray){
 			jsonObject[parentName.substring(0, pArrayIndex)] = new Array();
 		}
-		//get the Array index, and judget whether js object exist
+		//get the Array main, and judget whether js object exist
 		arrayIndex = parentName.substring(pArrayIndex+1, parentName.length-1);
 		var c = jsonObject[parentName.substring(0, pArrayIndex)][arrayIndex];
 		if(!c){
@@ -359,7 +359,7 @@ function iterValueFromJsonObject(jsonObject, parentName, childName){
 			}
 		}else{
 			pArray = jsonObject[parentName.substring(0, pArrayIndex)];
-			//get the Array index, and judget whether js object exist
+			//get the Array main, and judget whether js object exist
 			arrayIndex = parentName.substring(pArrayIndex+1, parentName.length-1);
 			var c = jsonObject[parentName.substring(0, pArrayIndex)][arrayIndex];
 			dotIndex = childName.indexOf('.');

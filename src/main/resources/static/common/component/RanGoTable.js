@@ -343,11 +343,11 @@ RanGoTableInner.assembleSearch = function(param){
     var i = 0;
     $(column).each(function(index,obj){
         var query = obj.query;
-        var fieldName = obj.fieldName;
+        var title = obj.title;
         if(query){
             i++;
             thHtml +='<th>';
-            thHtml += fieldName;
+            thHtml += title;
             thHtml +='</th>';
             thHtml +='<th>';
             thHtml += '<input class="form-control form-control-sm" type="text">';

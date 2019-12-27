@@ -3,19 +3,19 @@ html, body {
     overflow: hidden;
 }
 
-.index-container{
+.main-container{
     padding-left: 215px;
     height: 100%;
 }
 
-.index-left{
+.main-left{
     float:left;
     width:215px;
     margin-left:-215px;
     height: 100%;
 }
 
-.index-right{
+.main-right{
     float: right;
     width: 100%;
     height: 100%;

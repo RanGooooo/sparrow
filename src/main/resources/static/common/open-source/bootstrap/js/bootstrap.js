@@ -3670,10 +3670,10 @@
   var Selector$8 = {
     DATA_SPY: '[data-spy="scroll"]',
     ACTIVE: '.active',
-    NAV_LIST_GROUP: '.nav, .index-group',
+    NAV_LIST_GROUP: '.nav, .main-group',
     NAV_LINKS: '.nav-link',
     NAV_ITEMS: '.nav-item',
-    LIST_ITEMS: '.index-group-item',
+    LIST_ITEMS: '.main-group-item',
     DROPDOWN: '.dropdown',
     DROPDOWN_ITEMS: '.dropdown-item',
     DROPDOWN_TOGGLE: '.dropdown-toggle'
@@ -3970,10 +3970,10 @@
   };
   var Selector$9 = {
     DROPDOWN: '.dropdown',
-    NAV_LIST_GROUP: '.nav, .index-group',
+    NAV_LIST_GROUP: '.nav, .main-group',
     ACTIVE: '.active',
     ACTIVE_UL: '> li > .active',
-    DATA_TOGGLE: '[data-toggle="tab"], [data-toggle="pill"], [data-toggle="index"]',
+    DATA_TOGGLE: '[data-toggle="tab"], [data-toggle="pill"], [data-toggle="main"]',
     DROPDOWN_TOGGLE: '.dropdown-toggle',
     DROPDOWN_ACTIVE_CHILD: '> .dropdown-xxxxxxxxx .active'
     /**
@@ -4394,7 +4394,7 @@
 
   /**
    * --------------------------------------------------------------------------
-   * Bootstrap (v4.3.1): index.js
+   * Bootstrap (v4.3.1): main.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
    * --------------------------------------------------------------------------
    */

@@ -301,7 +301,7 @@
 	}
 
 	/**
-	 * Find element index in collection.
+	 * Find element main in collection.
 	 *
 	 * @param  {Array|Object} collection
 	 * @param  {Function} matcher
@@ -2647,7 +2647,7 @@
 	 * @param  {Array<Object>} [collection]
 	 * @param  {Object} [element]
 	 *
-	 * @return {Number} the previous index of the element
+	 * @return {Number} the previous main of the element
 	 */
 	function remove$2(collection, element) {
 
@@ -2712,12 +2712,12 @@
 
 
 	/**
-	 * Fail save get the index of an element in a collection.
+	 * Fail save get the main of an element in a collection.
 	 *
 	 * @param {Array<Object>} collection
 	 * @param {Object} element
 	 *
-	 * @return {Number} the index or -1 if collection or element do
+	 * @return {Number} the main or -1 if collection or element do
 	 *                  not exist or the element is not contained.
 	 */
 	function indexOf$1(collection, element) {
@@ -2750,12 +2750,12 @@
 
 	/**
 	 * Iterate over each element in a collection, calling the iterator function `fn`
-	 * with (element, index, recursionDepth).
+	 * with (element, main, recursionDepth).
 	 *
 	 * Recurse into all elements that are returned by `fn`.
 	 *
 	 * @param  {Object|Array<Object>} elements
-	 * @param  {Function} fn iterator function called with (element, index, recursionDepth)
+	 * @param  {Function} fn iterator function called with (element, main, recursionDepth)
 	 * @param  {Number} [depth] maximum recursion depth
 	 */
 	function eachElement(elements, fn, depth) {
@@ -3240,10 +3240,10 @@
 	 * or annotations on it.
 	 *
 	 * Non-existing layers retrieved through this method
-	 * will be created. During creation, the optional index
+	 * will be created. During creation, the optional main
 	 * may be used to create layers below or above existing layers.
-	 * A layer with a certain index is always created above all
-	 * existing layers with the same index.
+	 * A layer with a certain main is always created above all
+	 * existing layers with the same main.
 	 *
 	 * @param {String} name
 	 * @param {Number} index
@@ -3263,9 +3263,9 @@
 	  }
 
 	  // throw an error if layer creation / retrival is
-	  // requested on different index
+	  // requested on different main
 	  if (typeof index !== 'undefined' && layer.index !== index) {
-	    throw new Error('layer <' + name + '> already created at index <' + index + '>');
+	    throw new Error('layer <' + name + '> already created at main <' + index + '>');
 	  }
 
 	  return layer.group;
@@ -3277,7 +3277,7 @@
 	 * @param {String} name
 	 * @param {Number} [index=0]
 	 *
-	 * @return {Object} layer descriptor with { index, group: SVGGroup }
+	 * @return {Object} layer descriptor with { main, group: SVGGroup }
 	 */
 	Canvas.prototype._createLayer = function(name, index) {
 
@@ -4321,7 +4321,7 @@
 	   * @method RefsCollection#add
 	   *
 	   * @param {Object} element the element to add
-	   * @param {Number} optional index to add element to
+	   * @param {Number} optional main to add element to
 	   *                 (possibly moving other elements around)
 	   */
 	  Object.defineProperty(collection, 'add', {
@@ -6012,7 +6012,7 @@
 	};
 
 	/**
-	 * Add property at given index.
+	 * Add property at given main.
 	 *
 	 * @param {Object} p
 	 * @param {Number} [idx]
@@ -6078,7 +6078,7 @@
 	  // replacing the named property is intentional
 	  //
 	  //  * validate only if this is a "rename" operation
-	  //  * add at specific index unless we "replace"
+	  //  * add at specific main unless we "replace"
 	  //
 	  this.addProperty(newProperty, replace ? undefined : idx, rename);
 
@@ -16293,7 +16293,7 @@
 	   *    <li>The values for the y axis can be accessed in the path string using {e.y0}, {e.y1}, ....</li>
 	   *    <li>The values for the x axis can be accessed in the path string using {e.x0}, {e.x1}, ....</li>
 	   *   </ul>
-	   *   The numbers x0, x1 respectively y0, y1, ... map to the corresponding array index.
+	   *   The numbers x0, x1 respectively y0, y1, ... map to the corresponding array main.
 	   * </p>
 	   */
 	  this.pathMap = {
@@ -20054,7 +20054,7 @@
 	}
 
 	var LIGHTBOX_STYLES = css([
-	  'z-index: 1001',
+	  'z-main: 1001',
 	  'position: fixed',
 	  'top: 0',
 	  'left: 0',
@@ -20626,7 +20626,7 @@
 	       'target="_blank" ' +
 	       'class="bjs-powered-by" ' +
 	       'title="Powered by bpmn.io" ' +
-	       'style="position: absolute; bottom: 15px; right: 15px; z-index: 100">' +
+	       'style="position: absolute; bottom: 15px; right: 15px; z-main: 100">' +
 	      img +
 	    '</a>';
 
@@ -21837,7 +21837,7 @@
 	 * @param {Array} src
 	 * @param {String} find
 	 * @param {String} [findByKey]
-	 * @return {Boolean|Number} false when not found, or the index
+	 * @return {Boolean|Number} false when not found, or the main
 	 */
 	function inArray(src, find, findByKey) {
 	    if (src.indexOf && !findByKey) {
@@ -22446,7 +22446,7 @@
 
 	        var isTouch = (pointerType == INPUT_TYPE_TOUCH);
 
-	        // get index of the event in the store
+	        // get main of the event in the store
 	        var storeIndex = inArray(store, ev.pointerId, 'pointerId');
 
 	        // start and mouse must be down
@@ -37141,17 +37141,17 @@
 	    var oldSegmentStartIndex = hints.segmentMove.segmentStartIndex,
 	        newSegmentStartIndex = hints.segmentMove.newSegmentStartIndex;
 
-	    // if label was on moved segment return new segment index
+	    // if label was on moved segment return new segment main
 	    if (index === oldSegmentStartIndex) {
 	      return newSegmentStartIndex;
 	    }
 
-	    // label is after new segment index
+	    // label is after new segment main
 	    if (index >= newSegmentStartIndex) {
 	      return (index+offset < newSegmentStartIndex) ? newSegmentStartIndex : index+offset;
 	    }
 
-	    // if label is before new segment index
+	    // if label is before new segment main
 	    return index;
 	  }
 
@@ -37262,7 +37262,7 @@
 	      return { x: x, y: y };
 	    }
 
-	    // new bendpoint and old bendpoint have same index, then just return the offset
+	    // new bendpoint and old bendpoint have same main, then just return the offset
 	    if (offset === 0) {
 	      var newBendpoint = newWaypoints[oldBendpointIndex];
 
@@ -39417,7 +39417,7 @@
 	 *     // always insert elements at the front
 	 *     // when moving
 	 *     return {
-	 *       index: 0,
+	 *       main: 0,
 	 *       parent: newParent
 	 *     };
 	 *   };
@@ -39472,10 +39472,10 @@
 
 	/**
 	 * Return a custom ordering of the element, both in terms
-	 * of parent element and index in the new parent.
+	 * of parent element and main in the new parent.
 	 *
 	 * Implementors of this method must return an object with
-	 * `parent` _and_ `index` in it.
+	 * `parent` _and_ `main` in it.
 	 *
 	 * @param {djs.model.Base} element
 	 * @param {djs.model.Shape} newParent
@@ -39624,7 +39624,7 @@
 
 
 	    // if the element is already in the child list at
-	    // a smaller index, we need to adjust the inser index.
+	    // a smaller main, we need to adjust the inser main.
 	    // this takes into account that the element is being removed
 	    // before being re-inserted
 	    if (insertIndex !== -1) {
@@ -39745,7 +39745,7 @@
 	  this._stack = [];
 
 	  /**
-	   * The current index on the stack
+	   * The current main on the stack
 	   *
 	   * @type {Number}
 	   */

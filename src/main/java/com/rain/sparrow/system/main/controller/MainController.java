@@ -8,6 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("MainController")
 public class MainController {
 
+
+
+    @RequestMapping("index")
+    public String index(){
+        return "system/main/index";
+    }
+
     @RequestMapping("main")
     public String main(){
         return "system/main/main";

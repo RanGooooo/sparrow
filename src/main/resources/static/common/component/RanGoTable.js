@@ -172,13 +172,13 @@ RanGoTableInner.initHeadHTML = function (settings) {
     html += '        <tr>';
     html += '            <th style="text-align: left;">';
     html += '               <em id="searchContainerViewBtn" class="common-button-icon">';
-    html += '                   <i class="fa fa-angle-down"></i>';
+    html += '                   <i class="fa fa-angle-down fa-fw"></i>';
     html += '               </em>';
     html +=                 toolHtml;
+    html += '                <em class="common-button-icon"><i class="fa fa-search fa-fw"></i></em>';
+    html += '                <em class="common-button-icon"><i class="fa fa-repeat fa-fw"></i></em>';
     html += '            </th>';
     html += '            <th style="text-align: end;">';
-    html += '                <em class="common-button-icon"><i class="fa fa-search"></i></em>';
-    html += '                <em class="common-button-icon"><i class="fa fa-repeat"></i></em>';
     html += '            </th>';
     html += '        </tr>';
     html += '    </table>';
@@ -198,24 +198,21 @@ RanGoTableInner.initTableHTML = function (settings) {
     var html = '';
     html += '<div class="table-container">';
     html += '	<div class="table-title-container">';
-    html += '		<div id="tableTitleLeft" class="table-title-left"></div>';
-    html += '		<div id="tableTitleRight" class="table-title-right"></div>';
-    html += '		<div id="tableTitleCenter" class="table-title-center">';
+    html += '		<div id="tableTitleLeft" class="table-color-common table-title-left"></div>';
+    html += '		<div id="tableTitleRight" class="table-color-common table-title-right"></div>';
+    html += '		<div id="tableTitleCenter" class="table-color-common table-title-center">';
     html += '			<div id="tableTitleCenterContainer" class="table-title-center-container"></div>';
     html += '		</div>';
     html += '	</div>';
 
     html += '	    <div id="tableContentContainer" class="table-content-container">';
-    /*    html += '       <div style="width: 100%;height: 200px;position: fixed;background: #f0f8ff96;">';
-        html += '           <div class="loading" style="position: absolute;top: 45%;left: 49%;"></div>';
-        html += '       </div>';*/
     html += '		    <div id="tableContentLeft" class="table-content-left"></div>';
     html += '		    <div id="tableContentRight" class="table-content-right"></div>';
     html += '		    <div id="tableContentCenter" class="table-content-center"></div>';
     html += '	    </div>';
 
     html += '</div>';
-    html += '<div class="table-bottom-container">';
+    html += '<div class="table-color-common table-bottom-container">';
     html += '	<div id="tableBottomScrollMark" class="table-bottom-scroll-mark">';
     html += '		<div id="tableBottomScrollBar" class="table-bottom-scroll-bar"></div>';
     html += '	</div>';
@@ -238,23 +235,22 @@ RanGoTableInner.initBottomHTML = function (settings) {
     html += '                </select>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <em class="common-button-icon"><i class="fa fa-angle-double-left"></i></em>';
+    html += '                <em class="common-button-icon"><i class="fa fa-angle-double-left fa-fw"></i></em>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <em class="common-button-icon"><i class="fa fa-angle-left"></i></em>';
+    html += '                <em class="common-button-icon"><i class="fa fa-angle-left fa-fw"></i></em>';
     html += '            </th>';
     html += '            <th>';
     html += '                <input type="text" value="1" size="2" style="text-align: center;height: 28px;width:40px;font-size: 15px;padding: 0;border: 1px solid #ddd;">';
     html += '            </th>';
     html += '            <th>';
-    html += '                 <em class="common-button-icon"><i class="fa fa-angle-right"></i></em>';
+    html += '                 <em class="common-button-icon"><i class="fa fa-angle-right fa-fw"></i></em>';
     html += '            </th>';
     html += '            <th>';
-    html += '                <em class="common-button-icon"><i class="fa fa-angle-double-right"></i></em>';
+    html += '                <em class="common-button-icon"><i class="fa fa-angle-double-right fa-fw"></i></em>';
     html += '            </th>';
     html += '            <th>';
-    /*<i class="fa fa-repeat" style="font-size: 13px;"></i>*/
-    html += '                <em id="refreshBtn" class="common-button-icon" style="padding-left: 2px;"><div class="loading"></div></em>';
+    html += '                <em class="common-button-icon" id="refreshBtn"><i class="fa fa-spinner fa-pulse fa-fw"></i></em>';
     html += '            </th>';
     html += '        </tr>';
     html += '    </table>';
@@ -560,7 +556,7 @@ RanGoTableInner.getCellBtn = function(param){
     var key = param.key;
     var settings = param.settings;
     if(key === 'tree'){
-        return '<em class="open-tree-btn common-button-icon common-button-rotate" style="width: 18px;height: 18px;float: left;"><i class="fa fa-angle-down"></i></em>';
+        return '<em class="common-button-icon open-tree-btn"><i class="fa fa-angle-down common-button-rotate"></i></em>';
     }
     if(key === 'opt'){
         var optstr = '';
@@ -579,8 +575,9 @@ RanGoTableInner.getCellBtn = function(param){
                 values = values.substring(0,values.length - 1);
             }
             var clickName = click.substring(0,click.indexOf('(')+1) + values + ');';
-            /*optstr += '<button class="" onclick="'+clickName+'" style="height: 22px;width: max-content;padding: 0 8px;">'+obj.name+'</button>';*/
-            optstr += '<span class="common-span" onclick="'+clickName+'">['+obj.name+']</span>';
+            /*optstr += '<button class="" style="height: 22px;width: max-content;padding: 0 8px;">'+obj.name+'</button>';*/
+            //optstr += '<span class="common-span" onclick="'+clickName+'"></span>';
+            optstr += '<em class="common-button-icon opt-btn" onclick="'+clickName+'" ><i class="'+obj.icon+'"></i>'+obj.name +'</em>';
         });
         return optstr;
     }
@@ -610,7 +607,7 @@ RanGoTableInner.showHideSearchContainer = function (param){
  * 按钮逆时针旋转90°
  */
 RanGoTableInner.buttonRotate = function (param){
-    var obj = param.obj;
+    var obj = $(param.obj).find('i');
     if(obj.attr("class").indexOf("common-button-rotate")!==-1){
         obj.removeClass("common-button-rotate");
     }else{

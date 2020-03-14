@@ -8,13 +8,14 @@
     <link rel="stylesheet" href="/common/common.css">
     <link rel="stylesheet" href="/common/component/RanGoTable.css">
     <link rel="stylesheet" href="/common/component/RanGoDialog.css">
+    <link rel="stylesheet" href="/common/open-source/loading.css">
     <script src="/common/open-source/jquery/jquery.min.js"></script>
     <script src="/common/common.js"></script>
     <script src="/common/component/RanGoTable.js"></script>
     <script src="/common/component/RanGoDialog.js"></script>
 </head>
 <body >
-<div id="m"></div>
+    <div id="m"></div>
 <script>
     $(function(){
         initMenuList();
@@ -28,18 +29,18 @@
             "radio":true,
             "tool":[
                 {
-                    "icon":"fa fa-plus fa-fw",
+                    "icon":"fa fa-plus",
                     "click":"forwordMenuSave('');"
                 }
             ],
             "opt":[
                 {
-                    "icon":"fa fa-pencil",
+                    "icon":"fa fa-plus",
                     "name":"修改",
                     "click":"forwordMenuSave(id);"
                 },
                 {
-                    "icon":"fa fa-trash",
+                    "icon":"fa fa-plus",
                     "name":"删除",
                     "click":"deleteMenu(id);"
                 }

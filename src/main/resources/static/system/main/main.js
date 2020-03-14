@@ -13,7 +13,6 @@ $(function() {
         var clazz_a = obj_a.attr("class");
         if(clazz_a != "third"){
             $(this).siblings("ul").toggle();
-            $("#menuContainerBody").getNiceScroll().resize();
         }
         if(clazz_a === "third"){
             var uuid = common.guid();
@@ -27,32 +26,13 @@ $(function() {
                 scrollWidth += $(this).width() + 30;
             });
             $("#tabNodeScrollContainer").css("width",scrollWidth + "px");
-            $("#tabNodeScroll").getNiceScroll().resize();
         }
 
         return false;
     });
 
 
-   /* $("#menuContainerBody").niceScroll({
-        cursorborder:"",
-        cursorcolor:"rgba(185, 185, 185, 0.5)",
-        autohidemode:false,
-        boxzoom:true,
-        oneaxismousemode: false
-    });
-   */ $("#tabNodeScroll").niceScroll({
-        cursorborder:"",
-        cursorcolor:"rgba(185, 185, 18  5, 0.5)",
-        autohidemode:false,
-        boxzoom:true
-    });
-
-    /*
-            $("#nodeiFrame").append('<iframe id="node_iframe" class="common_iFrame" src="/stepController/list" style="border: none;width: 100%;height: 100%;"></iframe>');
-    */
-
-})
+});
 
 
 function addNode(id,name,url) {

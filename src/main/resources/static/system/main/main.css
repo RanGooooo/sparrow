@@ -26,7 +26,7 @@ html, body {
     position: absolute;
     top: 0;
     bottom: 0;
-    background:#556270;
+    background:#f7f7f7;
     width: 215px;
     max-width: 215px;
     overflow-y: auto;
@@ -42,19 +42,18 @@ html, body {
     font-size: 14px;
     padding: 10px 15px 10px 8px;
     border-left: 4px solid transparent;
-    color: #ddd;
+    color: #212529;
+    cursor: pointer;
 }
 
 .menu-container-body ul li em:hover {
-    background:#007bff !important;
-    color:#fff;
-    border-color:#00CC99 !important;
+    background: #e4e4e4 !important;
+    border-color:#007bff !important;
 }
 
 .active{
-    background:#007bff !important;
-    color:#fff;
-    border-color:#00CC99 !important;
+    background: #e4e4e4 !important;
+    border-color:#007bff !important;
 }
 
 .menu-container-body ul li em span{
@@ -99,15 +98,14 @@ html, body {
     font-size: 14px;
     padding: 5px 8px 7px 8px;
     border-left: 4px solid transparent;
-    color: #ddd;
-    background: #556270;
+    color: #212529;
+    background: #f7f7f7;
     margin-right: 3px;
 }
 
 .tab-node:hover {
-    background:#007bff !important;
-    color:#fff;
-    border-color:#00CC99 !important;
+    background: #e4e4e4 !important;
+    border-color:#007bff !important;
 }
 
 .tab-node .fa-times{
@@ -122,3 +120,4 @@ html, body {
     top: 33px;
     bottom: 0;
 }
+

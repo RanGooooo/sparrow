@@ -11,6 +11,12 @@
     width: 100%;
     line-height: normal;
 }
+/*common*/
+.table-color-common{
+    background: #e4e4e4;
+    color: #212529;
+}
+
 /*表容器*/
 .table-container{
     position: relative;
@@ -31,15 +37,11 @@
 
 .table-title-left{
     position: absolute;
-    background: #556270;
-    color: white;
     left: 0;
 }
 
 .table-title-right{
     position: absolute;
-    background: #556270;
-    color: white;
     right: 0;
 }
 
@@ -51,8 +53,6 @@
 
 .table-title-center-container div{
     float: left;
-    background: #556270;
-    color: white;
 }
 /*=====================表头=====================*/
 
@@ -65,10 +65,6 @@
     height:500px;
     background: white;
     overflow-x: hidden;
-}
-
-.table-content-container .table-row{
-
 }
 
 .table-content-left{
@@ -143,7 +139,6 @@
 .table-bottom-container{
     left: 0;
     right: 0;
-    background: #556270;
 }
 
 .table-bottom-scroll-mark{
@@ -204,30 +199,38 @@
 
 /*=======================按钮=========================  */
 .common-button-icon{
-    cursor: pointer;
-    display: inline-block;
-    background:#f6f6f6;
-    color:black;
+   /*
     border: 1px solid #ddd;
-    width: 28px;
-    height: 28px;
+    padding: 12px 12px;
     text-align: center;
     position: relative;
+    border-radius: 5px;*/
+
+    cursor: pointer;
+    background: #f6f6f6;
+    color: black;
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 18px;
+    border-radius: 0.25rem;
+    height: 30px;
 }
 
 .common-button-icon i{
-    margin: auto;
+  /*  margin: auto;
     position: absolute;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
-    height: 14px;
+    height: 15px;*/
 }
 
 .common-button-icon:hover{
-    background:#556270 !important;
+    background:#007bff !important;
     color:white !important;
+    border-color: #007bff;
 }
 
 .common-button-rotate {
@@ -245,4 +248,23 @@
 .common-span:hover{
     background: #0066cc !important;
     color:white !important;
+}
+
+.opt-btn{
+    float: left;
+    line-height: 19px;
+    height: 22px;
+    padding-top: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px #5a6268 solid;
+}
+
+.open-tree-btn{
+    float: left;
+    line-height: 16px;
+    height: 18px;
+    padding-top: 0;
+    padding-left: 5px;
+    padding-right: 5px;
 }

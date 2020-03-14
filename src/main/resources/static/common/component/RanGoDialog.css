@@ -1,10 +1,10 @@
-em{
+.dialog-container-mark em{
     color:#007bff;
     background-color:transparent;
     cursor: pointer;
 }
 
-em:hover {
+.dialog-container-mark em:hover {
     color:#0056b3;
 }
 

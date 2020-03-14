@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "xxxxxxxxx_db")
+@Table(name = "xxxxdbxxxx")
 @Alias(value = "Xxxxxxxxx")
 public class Xxxxxxxxx {
 }

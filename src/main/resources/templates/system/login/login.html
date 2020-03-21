@@ -3,8 +3,8 @@
 <head>
     <title>登录 [北京老酒管理系统]</title>
     <!--https://www.zhangxinxu.com/sp/svg/-->
-    <link rel="stylesheet" href="/common/open-source/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="/common/open-source/element-ui/element-ui.css">
+    <link rel="stylesheet" href="/static/common/open-source/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/common/open-source/element-ui/element-ui.css">
     <style>
         .simple-page {
             text-align: center;
@@ -26,7 +26,7 @@
             min-height: 90vh;
         }
         .simple-page .logo {
-            background-image: url('/system/login/sparrow.svg');
+            background-image: url('/static/system/login/sparrow.svg');
             background-repeat: no-repeat;
             background-position: 50% 0;
             height: 130px;
@@ -42,77 +42,86 @@
         .simple-page .formRow {
             margin-top: 27px;
         }
-        .simple-page input[type="text"], .simple-page input[type="password"], .simple-page input[type="submit"] {
+        .login-btn{
             width: 100%;
-            box-sizing: border-box;
-        }
-        .simple-page input[type="submit"] {
-            text-align: center;
-        }
-        .simple-page input {
-            padding: 6px 8px;
-            display: inline-block;
-            text-align: left;
-            text-decoration: none;
             font-size: 18px;
-            border-radius: 3px;
-            border: 1px solid
-            rgba(74,74,74,0.25);
         }
     </style>
 </head>
 <body style="background: url(/system/login/login.svg),#ffffff;">
-    <div class="simple-page" role="main">
+    <div id="app" class="simple-page">
         <div>
             <div id="loginIntroDefault">
                 <div class="logo">
-
             </div>
                 <h1>麻雀虽小，五脏俱全！</h1>
-
-                <div id="app">
-                    <el-button @click="visible = true">Button</el-button>
-                    <el-dialog :visible.sync="visible" title="Hello world">
-                        <p>Try Element</p>
-                    </el-dialog>
-                </div>
-
-
             </div>
-            <form method="post" name="login" action="j_acegi_security_check">
+            <form id="loginForm">
                 <div class="formRow">
-                    <el-input
-                            placeholder="请输入内容"
-                            v-model="input"
-                            clearable>
-                    </el-input>
-                    <input autocorrect="off" name="j_username" id="j_username" placeholder="用户名" type="text" class="normal" autocapitalize="off">
+                    <el-input id="username" name="username" placeholder="用户名" v-model="l_username" clearable></el-input>
                 </div>
                 <div class="formRow">
-                    <input name="j_password" placeholder="密码" type="password" class="normal">
+                    <el-input id="password" name="password" placeholder="请输入密码" v-model="l_password" show-password></el-input>
                 </div>
-                <div class="submit formRow">
-                    <input name="Submit" type="submit" value="登录" class="submit-button primary">
+                <div class="formRow">
+                    <el-button @click="validate" :loading="visible" class="login-btn">登　录</el-button>
                 </div>
-                <div class="custom-control custom-checkbox my-1 mr-sm-2" style="margin-top: 20px !important;">
-                    <input type="checkbox" class="custom-control-input" id="packageEntity">
-                    <label class="custom-control-label" for="packageEntity" style="line-height: 20px;">保持登录状态</label>
+                <div class="formRow">
+                    <el-checkbox v-model="checked">保持登录状态</el-checkbox>
                 </div>
             </form>
             <div class="footer"></div>
         </div>
     </div>
-    <!-- import Vue before Element -->
-    <script src="/common/open-source/element-ui/vue.js"></script>
-    <!-- import JavaScript -->
-    <script src="/common/open-source/element-ui/element-ui.js"></script>
+    <script src="/static/common/open-source/jquery/jquery.min.js"></script>
+    <script src="/static/common/open-source/jquery/jquery.md5.js"></script>
+    <script src="/static/common/open-source/element-ui/vue.js"></script>
+    <script src="/static/common/open-source/element-ui/element-ui.js"></script>
+    <script src="/static/common/common.js"></script>
     <script>
         new Vue({
-            el: '#app',
-            data: function() {
-                return { visible: false }
+            el: "#app",
+            data: {
+                visible: false,
+                l_username: "",
+                l_password: "",
+                checked: true
+            },
+            methods: {
+
+                validate: function () {
+                    var self = this;
+                    self.visible = true;
+                    common.ajax({
+                        url:"/TSLoginController/validate",
+                        type:"POST",
+                        async:false,
+                        data:{
+                            "username" : self.l_username,
+                            "password" : $.md5(self.l_password)
+                        },
+                        success:function(result){
+                            if(!result.success){
+                                self.$notify({title: "警告",message: result.message,type: "warning"});
+                                setTimeout(function(){
+                                    self.visible = false;
+                                },1000);
+                                throw 'error';
+                            }
+                            self.$notify({title: "成功",message: "登录成功",type: "success"});
+                            setTimeout(function(){
+                                window.location.href = "/TSMainController/main";
+                            },1000);
+                        },
+                        error:function(e){
+                            self.$notify.error({title: "错误",message: "系统错误"});
+                            self.visible = false;
+                        }
+                    });
+                }
             }
-        })
+        });
+
     </script>
 </body>
 </html>

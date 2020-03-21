@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("MainController")
-public class MainController {
+@RequestMapping("TSMainController")
+public class TSMainController {
 
 
 

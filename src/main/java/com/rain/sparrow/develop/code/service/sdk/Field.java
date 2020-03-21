@@ -41,10 +41,13 @@ public class Field {
 		return "String"; 
 	}
 
-	public void assemble() {
+	public void assemble() throws Exception {
 		String[] columnArr = columns.split(",");
 		String[] commentArr = comments.split(",");
 		String[] datatypeArr = datatypes.split(",");
+		if(columnArr.length != commentArr.length){
+		    throw new Exception("请检查表字段注释");
+        }
 		int k = 0;
 		for (String column : columnArr) {
 			String dataType = getDataType(datatypeArr[k]);
@@ -105,7 +108,7 @@ public class Field {
 		this.append("}");
 	}
 	
-	public String build(){
+	public String build() throws Exception {
 		this.assemble();
 		return LN + result.toString();
     }
@@ -131,7 +134,7 @@ public class Field {
 	
 	
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		String columns = "id,purchase_apply_no,purchase_apply_name,total_budget,tender_mode_desc,sub_package_desc,main_qualification,evaluation_mode_desc,confirm_rule,evaluate_committee,agency_desc,agency_desc_id,sign_and_payment,audit_status,use_status,create_time,create_user_id,create_role_code,create_depart_id,formal_use,purchase_method,create_depart_name";
 		String comments = "主键,采购方案编号,采购方案名称,采购总预算(元),采购方式描述,分包方案,包组主要资格条件描述,评审方式描述,中标及成交原则,评审委员会组成,采购代理,采购代理ID,签约及付款,审核状态（00暂存 03待审核）,使用状态（00暂存 01提交）,创建时间,创建人,角色,机构,是否正式使用 00 未正式使用，01正式使用（提交或保存为正式使用）,没有注释,创建方案的机构名称";
 		String datatypes = "varchar,varchar,text,decimal,longtext,varchar,varchar,varchar,varchar,varchar,varchar,varchar,varchar,varchar,varchar,datetime,varchar,varchar,varchar,varchar,text,varchar";

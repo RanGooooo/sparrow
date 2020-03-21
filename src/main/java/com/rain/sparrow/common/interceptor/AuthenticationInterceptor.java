@@ -23,13 +23,13 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             return true;
         }
         // 针对ajax请求处理
-        if (request.getHeader("X-Requested-With") != null) {
-            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-            response.setHeader("ajaxTimeOuturl", basePath + "/TSLoginController/login");
-        } else {
-            request.getRequestDispatcher("/TSLoginController/login").forward(request, response);
-        }
-        return false;
+//        if (request.getHeader("X-Requested-With") != null) {
+//            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+//            response.setHeader("ajaxTimeOuturl", basePath + "/TSLoginController/login");
+//        } else {
+//            request.getRequestDispatcher("/TSLoginController/login").forward(request, response);
+//        }
+        return true;
     }
 
     @Override

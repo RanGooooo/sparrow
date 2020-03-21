@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <title>MAIN</title>
     <link rel="stylesheet" href="/common/open-source/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/common/open-source/element-ui/element-ui.css">
     <link rel="stylesheet" href="/common/open-source/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/common/common.css">
     <link rel="stylesheet" href="/system/main/main.css">
     <link rel="stylesheet" href="/common/component/RanGoDialog.css">
     <script src="/common/open-source/jquery/jquery.min.js"></script>
+    <script src="/static/common/open-source/element-ui/vue.js"></script>
+    <script src="/static/common/open-source/element-ui/element-ui.js"></script>
     <script src="/common/common.js"></script>
     <script src="/system/main/main.js"></script>
     <script src="/common/component/RanGoDialog.js"></script>
@@ -161,5 +164,38 @@
         </div>
     </div>
 </div>
+<script>
+    try {
+        if(window.commonVue === undefined){
+            window.commonVue = new Vue({
+                el: '#commonVueApp',
+                data: function() {
+                    return {
+                    }
+                },
+                mounted() {
+                },
+                methods: {
+                    showSuccessMessage(message){
+                        this.$notify({title: "成功",message: message,type: "success"});
+                    },
+                    showWarningMessage(message){
+                        this.$notify({title: "警告",message: message,type: "warning"});
+                    },
+                    showErrorMessage(){
+                        this.$notify.error({title: "错误",message: "系统错误"});
+                    }
+                }
+            });
+        }
+    }
+    catch(err){
+    }
+
+
+    $(function () {
+        commonVue.showErrorMessage();
+    });
+</script>
 </body>
 </html>

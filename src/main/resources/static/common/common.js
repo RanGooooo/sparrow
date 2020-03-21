@@ -4,6 +4,9 @@
  */
 var common = window.common || {};
 
+// var commonVue = window.commonVue || {};
+
+
 /**
  *  展示指定消息内容
  */

@@ -25,6 +25,7 @@ public class TSUserController {
         return userPath + "user-list";
     }
 
+
     @RequestMapping("searchTSUserList")
     @ResponseBody
     public RestResult searchTSUserList(HttpServletRequest request) {

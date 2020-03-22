@@ -11,7 +11,7 @@ import java.util.List;
 public interface TSMenuDao{
 
 
-    List<TSMenu> searchMenuList(TSMenuDto dto);
+    List<TSMenu> searchTSMenuList(TSMenuDto dto);
 
 
 }

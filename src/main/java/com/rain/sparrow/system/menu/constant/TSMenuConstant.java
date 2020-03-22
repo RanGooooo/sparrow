@@ -1,6 +1,6 @@
 package com.rain.sparrow.system.menu.constant;
 
-public interface MenuConstant {
+public interface TSMenuConstant {
 
     String PARENT_MENU_TOP = "TOP";
 

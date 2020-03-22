@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>系统日志</title>
     <link rel="stylesheet" href="/static/common/open-source/element-ui/element-ui.css">
+    <script src="/static/common/open-source/jquery/jquery.min.js"></script>
+    <script src="/static/common/open-source/element-ui/vue.js"></script>
+    <script src="/static/common/open-source/element-ui/element-ui.js"></script>
+    <script src="/static/common/common.js"></script>
+    <script src="/static/common/component/RanGoDialog.js"></script>
     <style>
         .demo-table-expand {
             font-size: 0;
@@ -18,106 +23,105 @@
             width: 50%;
         }
     </style>
-
 </head>
 <body>
 
 <div id="app">
-    <el-button @click="resetDateFilter">清除日期过滤器</el-button>
-    <el-button @click="clearFilter">清除所有过滤器</el-button>
-    <el-table
-            :data="tableData"
-            style="width: 100%">
+    <el-row style="padding-bottom: 10px;">
+        <el-col :span="24">
+            <el-button size="small" type="primary" @click="forwordTSUserSave('')">新增用户</el-button>
+        </el-col>
+    </el-row>
+    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form-item label="审批人">
+            <el-input size="small" v-model="formInline.user" placeholder="审批人"></el-input>
+        </el-form-item>
+        <el-form-item label="活动区域">
+            <el-select size="small" v-model="formInline.region" placeholder="活动区域">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item>
+            <el-button size="small" type="primary" @click="forwordTSUserSave('')">查询</el-button>
+        </el-form-item>
+    </el-form>
+    <el-table :data="tableData" style="width: 100%">
         <el-table-column type="expand">
             <template slot-scope="props">
                 <el-form label-position="left" inline class="demo-table-expand">
-                    <el-form-item label="商品名称">
-                        <span>{{ props.row.name }}</span>
-                    </el-form-item>
-                    <el-form-item label="所属店铺">
-                        <span>{{ props.row.shop }}</span>
-                    </el-form-item>
-                    <el-form-item label="商品 ID">
-                        <span>{{ props.row.id }}</span>
-                    </el-form-item>
-                    <el-form-item label="店铺 ID">
-                        <span>{{ props.row.shopId }}</span>
-                    </el-form-item>
-                    <el-form-item label="商品分类">
-                        <span>{{ props.row.category }}</span>
-                    </el-form-item>
-                    <el-form-item label="店铺地址">
-                        <span>{{ props.row.address }}</span>
-                    </el-form-item>
-                    <el-form-item label="商品描述">
-                        <span>{{ props.row.desc }}</span>
-                    </el-form-item>
+                    <el-form-item label="商品名称"><span>{{ props.row.name }}</span></el-form-item>
+                    <el-form-item label="所属店铺"><span>{{ props.row.shop }}</span></el-form-item>
+                    <el-form-item label="商品 ID"><span>{{ props.row.id }}</span></el-form-item>
+                    <el-form-item label="店铺 ID"><span>{{ props.row.shopId }}</span></el-form-item>
+                    <el-form-item label="商品分类"><span>{{ props.row.category }}</span></el-form-item>
+                    <el-form-item label="店铺地址"><span>{{ props.row.address }}</span></el-form-item>
+                    <el-form-item label="商品描述"><span>{{ props.row.desc }}</span></el-form-item>
                 </el-form>
             </template>
         </el-table-column>
-        <el-table-column
-                label="商品 ID"
-                prop="id">
-        </el-table-column>
-        <el-table-column
-                label="商品名称"
-                prop="name">
-        </el-table-column>
-        <el-table-column
-                label="描述"
-                prop="desc">
-        </el-table-column>
+        <el-table-column label="商品 ID" prop="id"></el-table-column>
+        <el-table-column label="商品名称" prop="name"></el-table-column>
+        <el-table-column label="描述" prop="desc"></el-table-column>
     </el-table>
-
-
 </div>
 
 
-<script src="/common/open-source/element-ui/vue.js"></script>
-<script src="/common/open-source/element-ui/element-ui.js"></script>
 
 <script>
     new Vue({
         el: "#app",
         data: {
-            tableData: [{
-                id: '12987122',
-                name: '好滋好味鸡蛋仔',
-                category: '江浙小吃、小吃零食',
-                desc: '荷兰优质淡奶，奶香浓而不腻',
-                address: '上海市普陀区真北路',
-                shop: '王小虎夫妻店',
-                shopId: '10333'
-            }, {
-                id: '12987123',
-                name: '好滋好味鸡蛋仔',
-                category: '江浙小吃、小吃零食',
-                desc: '荷兰优质淡奶，奶香浓而不腻',
-                address: '上海市普陀区真北路',
-                shop: '王小虎夫妻店',
-                shopId: '10333'
-            }, {
-                id: '12987125',
-                name: '好滋好味鸡蛋仔',
-                category: '江浙小吃、小吃零食',
-                desc: '荷兰优质淡奶，奶香浓而不腻',
-                address: '上海市普陀区真北路',
-                shop: '王小虎夫妻店',
-                shopId: '10333'
-            }, {
-                id: '12987126',
-                name: '好滋好味鸡蛋仔',
-                category: '江浙小吃、小吃零食',
-                desc: '荷兰优质淡奶，奶香浓而不腻',
-                address: '上海市普陀区真北路',
-                shop: '王小虎夫妻店',
-                shopId: '10333'
-            }]
+            tableData: [],
+            formInline: {
+                user: '',
+                region: ''
+            }
+        },
+        mounted () {
+            this.searchTSUserList();
+        },
+        methods: {
+            searchTSUserList: function () {
+                var self = this;
+                common.ajax({
+                    url:"/TSUserController/searchTSUserList",
+                    data : {
+                    },
+                    async:false,
+                    success:function(result){
+                        console.log(result.object);
+                        if(!result.success){
+                            common.showMessage(common.messageType.WARNING,result.message);
+                        }else{
+                            self.tableData = result.object;
+                        }
+                    },
+                    error:function(e){
+                        common.showMessage(common.messageType.ERROR,null);
+                    }
+                });
+            },
+            forwordTSUserSave: function (id) {
+                RanGoDialog.init({
+                    title:'新增菜单',
+                    src: '/TSUserController/forwordTSUserSave?id=' + id,
+                    button: [
+                        {
+                            name:'确定',
+                            click: 'userSave'
+                        }
+                    ]
+                });
+            },
+            userSave: function (window) {
+                window.menuSave();
+                this.searchTSUserList();
+            }
+
         }
     });
 
-
 </script>
-
 </body>
 </html>

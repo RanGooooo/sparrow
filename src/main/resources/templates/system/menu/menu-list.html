@@ -28,14 +28,14 @@
             "tool":[
                 {
                     "icon":"fa fa-plus fa-fw",
-                    "click":"forwordMenuSave('');"
+                    "click":"forwordTSMenuSave('');"
                 }
             ],
             "opt":[
                 {
                     "icon":"fa fa-pencil",
                     "name":"修改",
-                    "click":"forwordMenuSave(id);"
+                    "click":"forwordTSMenuSave(id);"
                 },
                 {
                     "icon":"fa fa-trash",
@@ -94,10 +94,10 @@
 
 
 
-    function forwordMenuSave(id){
+    function forwordTSMenuSave(id){
         RanGoDialog.init({
             title:'新增菜单',
-            src: '/TSMenuController/forwordMenuSave?id=' + id,
+            src: '/TSMenuController/forwordTSMenuSave?id=' + id,
             button: [
                 {
                     name:'确定',
@@ -140,7 +140,7 @@
     function menuList(id){
         var result = null;
         $.ajax({
-            url:"/TSMenuController/searchMenuList",
+            url:"/TSMenuController/searchTSMenuList",
             type:"post",
             data : {
                 "parentMenuId":id

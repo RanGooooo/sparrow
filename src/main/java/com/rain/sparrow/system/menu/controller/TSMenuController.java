@@ -21,17 +21,17 @@ public class TSMenuController {
     private TSMenuService tsMenuService;
 
 
-    @RequestMapping("forwordMenuList")
-    public String forwordMenuList(){
+    @RequestMapping("forwordTSMenuList")
+    public String forwordTSMenuList(){
         return menuPath + "menu-list";
     }
 
-    @RequestMapping("searchMenuList")
+    @RequestMapping("searchTSMenuList")
     @ResponseBody
-    public RestResult searchMenuList(HttpServletRequest request) {
+    public RestResult searchTSMenuList(HttpServletRequest request) {
         RestResult result = new RestResult();
         try {
-            result = tsMenuService.searchMenuList(request);
+            result = tsMenuService.searchTSMenuList(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setSuccess(false);
@@ -41,10 +41,10 @@ public class TSMenuController {
     }
 
 
-    @RequestMapping("forwordMenuSave")
-    public String forwordMenuAdd(HttpServletRequest request){
+    @RequestMapping("forwordTSMenuSave")
+    public String forwordTSMenuSave(HttpServletRequest request){
         try {
-            tsMenuService.forwordMenuSave(request);
+            tsMenuService.forwordTSMenuSave(request);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -67,17 +67,17 @@ public class TSMenuController {
     }
 
 
-    @RequestMapping("forwordMenuTree")
+    @RequestMapping("forwordTSMenuTree")
     public String forwordMenuTree(){
         return "system/menu/menu-tree";
     }
 
-    @RequestMapping("searchMenuTree")
+    @RequestMapping("searchTSMenuTree")
     @ResponseBody
     public RestResult searchMenuTree(HttpServletRequest request) {
         RestResult result = new RestResult();
         try {
-            result = tsMenuService.searchMenuTree(request);
+            result = tsMenuService.searchTSMenuTree(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setSuccess(false);

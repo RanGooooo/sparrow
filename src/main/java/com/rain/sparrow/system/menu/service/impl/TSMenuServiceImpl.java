@@ -3,7 +3,7 @@ package com.rain.sparrow.system.menu.service.impl;
 import com.github.pagehelper.util.StringUtil;
 import com.rain.sparrow.common.dto.RestResult;
 import com.rain.sparrow.common.dto.TreeDto;
-import com.rain.sparrow.system.menu.constant.MenuConstant;
+import com.rain.sparrow.system.menu.constant.TSMenuConstant;
 import com.rain.sparrow.system.menu.dto.TSMenuDto;
 import com.rain.sparrow.system.menu.entity.TSMenu;
 import com.rain.sparrow.system.menu.dao.TSMenuDao;
@@ -61,16 +61,16 @@ public class TSMenuServiceImpl implements TSMenuService{
         }
         BeanUtils.copyProperties(dto,menu);
         if(StringUtils.isEmpty(menu.getParentMenuId())){
-            menu.setParentMenuId(MenuConstant.PARENT_MENU_TOP);
+            menu.setParentMenuId(TSMenuConstant.PARENT_MENU_TOP);
         }
         tsMenuRepository.save(menu);
     }
 
     @Override
-    public RestResult searchMenuTree(HttpServletRequest request) throws Exception {
+    public RestResult searchTSMenuTree(HttpServletRequest request) throws Exception {
         RestResult result = new RestResult();
         TSMenuDto dto = new TSMenuDto();
-        List<TSMenu> list = tsMenuDao.searchMenuList(dto);
+        List<TSMenu> list = tsMenuDao.searchTSMenuList(dto);
         List<TreeDto> treeList = new ArrayList<>();
         for (TSMenu menu:list){
             TreeDto treeDto = new TreeDto();
@@ -84,7 +84,7 @@ public class TSMenuServiceImpl implements TSMenuService{
     }
 
     @Override
-    public RestResult searchMenuList(HttpServletRequest request) throws Exception {
+    public RestResult searchTSMenuList(HttpServletRequest request) throws Exception {
         RestResult result = new RestResult();
         String parentMenuId = request.getParameter("parentMenuId");
         TSMenuDto dto = new TSMenuDto();
@@ -93,13 +93,13 @@ public class TSMenuServiceImpl implements TSMenuService{
         }
         dto.setParentMenuId(parentMenuId);
 
-        List<TSMenu> list = tsMenuDao.searchMenuList(dto);
+        List<TSMenu> list = tsMenuDao.searchTSMenuList(dto);
         result.setObject(list);
         return result;
     }
 
     @Override
-    public void forwordMenuSave(HttpServletRequest request) throws Exception {
+    public void forwordTSMenuSave(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
         if(StringUtil.isNotEmpty(id)){
             Optional<TSMenu> optional = tsMenuRepository.findById(id);

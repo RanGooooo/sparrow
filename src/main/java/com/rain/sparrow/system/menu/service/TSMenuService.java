@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 public interface TSMenuService {
     void menuSave(TSMenuDto dto) throws Exception;
 
-    RestResult searchMenuList(HttpServletRequest request) throws Exception;
+    RestResult searchTSMenuList(HttpServletRequest request) throws Exception;
 
-    RestResult searchMenuTree(HttpServletRequest request) throws Exception;
+    RestResult searchTSMenuTree(HttpServletRequest request) throws Exception;
 
-    void forwordMenuSave(HttpServletRequest request) throws Exception;
+    void forwordTSMenuSave(HttpServletRequest request) throws Exception;
 
     void menuDelete(HttpServletRequest request) throws Exception;
 }

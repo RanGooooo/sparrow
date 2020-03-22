@@ -1,5 +1,6 @@
 package com.rain.sparrow.system.menu.service.impl;
 
+import com.github.pagehelper.util.StringUtil;
 import com.rain.sparrow.common.dto.RestResult;
 import com.rain.sparrow.common.dto.TreeDto;
 import com.rain.sparrow.system.menu.constant.MenuConstant;
@@ -100,13 +101,15 @@ public class TSMenuServiceImpl implements TSMenuService{
     @Override
     public void forwordMenuSave(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
-        Optional<TSMenu> optional = tsMenuRepository.findById(id);
-        TSMenu menu = optional.get();
-        if(menu != null){
-            String parentMenuId = menu.getParentMenuId();
-            TSMenu parentMenu = tsMenuRepository.findTSMenuById(parentMenuId);
-            request.setAttribute("parentMenu",parentMenu);
+        if(StringUtil.isNotEmpty(id)){
+            Optional<TSMenu> optional = tsMenuRepository.findById(id);
+            TSMenu menu = optional.get();
+            if(menu != null){
+                String parentMenuId = menu.getParentMenuId();
+                TSMenu parentMenu = tsMenuRepository.findTSMenuById(parentMenuId);
+                request.setAttribute("parentMenu",parentMenu);
+            }
+            request.setAttribute("menu",menu);
         }
-        request.setAttribute("menu",menu);
     }
 }

@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>MAIN</title>
-    <link rel="stylesheet" href="/common/open-source/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/common/open-source/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/common/open-source/element-ui/element-ui.css">
-    <link rel="stylesheet" href="/common/open-source/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/common/common.css">
-    <link rel="stylesheet" href="/system/main/main.css">
-    <link rel="stylesheet" href="/common/component/RanGoDialog.css">
-    <script src="/common/open-source/jquery/jquery.min.js"></script>
+    <link rel="stylesheet" href="/static/common/open-source/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/common/common.css">
+    <link rel="stylesheet" href="/static/system/main/main.css">
+    <link rel="stylesheet" href="/static/common/component/RanGoDialog.css">
+    <script src="/static/common/open-source/jquery/jquery.min.js"></script>
     <script src="/static/common/open-source/element-ui/vue.js"></script>
     <script src="/static/common/open-source/element-ui/element-ui.js"></script>
-    <script src="/common/common.js"></script>
-    <script src="/system/main/main.js"></script>
-    <script src="/common/component/RanGoDialog.js"></script>
+    <script src="/static/common/common.js"></script>
+    <script src="/static/system/main/main.js"></script>
+    <script src="/static/common/component/RanGoDialog.js"></script>
 </head>
 <body>
 
@@ -97,7 +97,7 @@
                                     </em>
                                 </li>
                                 <li menu-name="机构管理">
-                                    <em href="javascript:void(0);" class="third">
+                                    <em href="javascript:void(0);" class="third" menu-url="/TSMenuController/forwordMenuTree">
                                         <span><i class="fa fa-sitemap"></i></span>
                                         <cite>机构管理</cite>
                                     </em>
@@ -182,8 +182,11 @@
                     showWarningMessage(message){
                         this.$notify({title: "警告",message: message,type: "warning"});
                     },
-                    showErrorMessage(){
-                        this.$notify.error({title: "错误",message: "系统错误"});
+                    showErrorMessage(message){
+                        if(!message){
+                            message = "系统错误";
+                        }
+                        this.$notify.error({title: "错误",message: message});
                     }
                 }
             });
@@ -191,11 +194,6 @@
     }
     catch(err){
     }
-
-
-    $(function () {
-        commonVue.showErrorMessage();
-    });
 </script>
 </body>
 </html>

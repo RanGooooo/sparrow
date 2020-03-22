@@ -31,17 +31,17 @@ RanGoDialogInner.initHtml = function(datas){
     html += '        <div class="dialog-context">';
     html += '            <iframe id="'+iFrameId+'" class="dialog-iframe" src="'+src+'"></iframe>';
     html += '        </div>';
-    html += '<div class="dialog-footer">';
-    html += '<div style="text-align: right;">';
+    html += '        <div class="dialog-footer">';
+    html += '           <div style="text-align: right;">';
     html += RanGoDialogInner.initButtonHtml({
         id:id,
         iFrameId:iFrameId,
         parentFrameId:parentFrameId,
         button:button
     });
-    html += '</div>';
-    html += '</div>';
-    html += '</div>';
+    html += '           </div>';
+    html += '       </div>';
+    html += '   </div>';
     html += '</div>';
     return html;
 
@@ -65,7 +65,7 @@ RanGoDialogInner.initButtonHtml = function(param){
     var html = '';
     var button = param.button;
     $(button).each(function(index,obj){
-        html += "<em class='dialog-button dialog-button-primary' buttonindex='"+index+"'><cite>"+obj.name+"</cite></em>";
+        html += "<em class='dialog-button dialog-button-primary' :loading='true' buttonindex='"+index+"'><cite>"+obj.name+"</cite></em>";
     });
     return html;
 };

@@ -78,21 +78,6 @@
         </div>
     </form>
 <script>
-    $(function () {
-        top.window.commonVue.showErrorMessage();
-    });
-
-    /*export default {
-        methods: {
-            open1() {
-                this.$notify({
-                    title: '成功',
-                    message: '这是一条成功的提示消息',
-                    type: 'success'
-                });
-            }
-        }
-    }*/
 
     function menuRanGoDialog(){
         RanGoDialog.init({
@@ -122,8 +107,6 @@
     }
 
     function menuSave() {
-        //window.commonVue.creatAjaxF();
-        commonVue.creatAjaxF();
         if(!checkData()){
             throw 'error';
         }
@@ -133,13 +116,16 @@
             async:false,
             data:formToJsonObject("menuForm"),
             success:function(result){
-                common.showMessage(result.message);
-                if(!result.success){
+                if(result.success){
+                    common.showMessage(common.messageType.SUCCESS,result.message);
+                }else{
+                    common.showMessage(common.messageType.WARNING,result.message);
                     throw 'error';
                 }
+
             },
             error:function(e){
-                common.showMessage("错误！！");
+                common.showMessage(common.messageType.ERROR,null);
             }
         });
     }

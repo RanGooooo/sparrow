@@ -7,12 +7,23 @@ var common = window.common || {};
 // var commonVue = window.commonVue || {};
 
 
+common.messageType = {
+    "SUCCESS" : 1300,
+    "WARNING" : 800,
+    "ERROR" : 550,
+};
 /**
  *  展示指定消息内容
  */
-common.showMessage = function(msg){
-    if(msg){
-        alert(msg);
+common.showMessage = function(type,msg){
+    if(type === common.messageType.SUCCESS){
+        top.window.commonVue.showSuccessMessage(msg);
+    }
+    if(type === common.messageType.WARNING){
+        top.window.commonVue.showWarningMessage(msg);
+    }
+    if(type === common.messageType.ERROR){
+        top.window.commonVue.showErrorMessage(msg);
     }
 };
 

@@ -1,6 +1,8 @@
 package com.rain.sparrow.system.org.user.service.impl;
 
+import com.rain.sparrow.common.annotation.check.CheckData;
 import com.rain.sparrow.common.dto.RestResult;
+import com.rain.sparrow.system.org.user.constant.TSUserConstant;
 import com.rain.sparrow.system.org.user.dao.TSUserDao;
 import com.rain.sparrow.system.org.user.dao.TSUserRepository;
 import com.rain.sparrow.system.org.user.dto.TSUserDto;
@@ -42,14 +44,14 @@ public class TSUserServiceImpl implements TSUserService {
     }
 
     @Override
-    public void userSave(TSUserDto dto) throws Exception{
-        //TODO 判空代码 稍后添加
+    public void userSave(@CheckData  TSUserDto dto) throws Exception{
         String id = dto.getId();
         TSUser entity = new TSUser();
         if(!StringUtils.isEmpty(id)){
             entity  = userRepository.findTSUserById(id);
         }
         BeanUtils.copyProperties(dto,entity);
+        entity.setAccountState(TSUserConstant.ACCOUNT_STATE_01);
         userRepository.save(entity);
     }
 

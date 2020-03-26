@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>系统日志</title>
-    <link rel="stylesheet" href="/static/common/open-source/element-ui/element-ui.css">
+    <link rel="stylesheet" href="/static/common/common.css">
+    <link rel="stylesheet" href="/static/common/open-source/element-ui/element-ui-min.css">
     <script src="/static/common/open-source/jquery/jquery.min.js"></script>
     <script src="/static/common/open-source/element-ui/vue.js"></script>
     <script src="/static/common/open-source/element-ui/element-ui.js"></script>
@@ -22,6 +23,9 @@
             margin-bottom: 0;
             width: 50%;
         }
+        .el-input__suffix{
+            top: -2px !important;
+        }
     </style>
 </head>
 <body>
@@ -29,7 +33,7 @@
 <div id="app">
     <el-row style="padding-bottom: 10px;">
         <el-col :span="24">
-            <el-button size="small" type="primary" @click="forwordTSUserSave('')">新增用户</el-button>
+            <el-button size="mini" type="info" @click="forwordTSUserSave('')">新增用户</el-button>
         </el-col>
     </el-row>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
@@ -43,35 +47,38 @@
             </el-select>
         </el-form-item>
         <el-form-item>
-            <el-button size="small" type="primary" @click="forwordTSUserSave('')">查询</el-button>
+            <el-button size="mini" type="primary" @click="forwordTSUserSave('')">查询</el-button>
         </el-form-item>
     </el-form>
     <el-table :data="tableData" style="width: 100%">
         <el-table-column type="expand">
             <template slot-scope="props">
                 <el-form label-position="left" inline class="demo-table-expand">
-                    <el-form-item label="商品名称"><span>{{ props.row.name }}</span></el-form-item>
-                    <el-form-item label="所属店铺"><span>{{ props.row.shop }}</span></el-form-item>
-                    <el-form-item label="商品 ID"><span>{{ props.row.id }}</span></el-form-item>
-                    <el-form-item label="店铺 ID"><span>{{ props.row.shopId }}</span></el-form-item>
-                    <el-form-item label="商品分类"><span>{{ props.row.category }}</span></el-form-item>
-                    <el-form-item label="店铺地址"><span>{{ props.row.address }}</span></el-form-item>
-                    <el-form-item label="商品描述"><span>{{ props.row.desc }}</span></el-form-item>
+                    <el-form-item label="手机号码"><span>{{ props.row.mobilePhone }}</span></el-form-item>
+                    <el-form-item label="电子邮箱"><span>{{ props.row.email }}</span></el-form-item>
                 </el-form>
             </template>
         </el-table-column>
-        <el-table-column label="商品 ID" prop="id"></el-table-column>
-        <el-table-column label="商品名称" prop="name"></el-table-column>
-        <el-table-column label="描述" prop="desc"></el-table-column>
+        <el-table-column label="用户名" prop="userName"></el-table-column>
+        <el-table-column label="真实姓名" prop="realName"></el-table-column>
+        <el-table-column label="禁止使用/正常使用" prop="accountState" align="center">
+            <template slot-scope="scope">
+                <el-switch
+                        v-model="value"
+                        active-color="#13ce66"
+                        inactive-color="#ff4949"
+                        active-value="100"
+                        inactive-value="0">
+                </el-switch>
+            </template>
+        </el-table-column>
     </el-table>
 </div>
-
-
-
 <script>
     new Vue({
         el: "#app",
         data: {
+            value: '100',
             tableData: [],
             formInline: {
                 user: '',
@@ -86,13 +93,11 @@
                 var self = this;
                 common.ajax({
                     url:"/TSUserController/searchTSUserList",
-                    data : {
-                    },
                     async:false,
                     success:function(result){
                         console.log(result.object);
                         if(!result.success){
-                            common.showMessage(common.messageType.WARNING,result.message);
+                            common.showMessageS(result);
                         }else{
                             self.tableData = result.object;
                         }
@@ -104,24 +109,22 @@
             },
             forwordTSUserSave: function (id) {
                 RanGoDialog.init({
-                    title:'新增菜单',
+                    title:'新增用户',
                     src: '/TSUserController/forwordTSUserSave?id=' + id,
                     button: [
                         {
                             name:'确定',
-                            click: 'userSave'
+                            click: userSave
                         }
                     ]
                 });
-            },
-            userSave: function (window) {
-                window.menuSave();
-                this.searchTSUserList();
             }
-
         }
     });
 
+    function userSave(window) {
+        window.userSave();
+    }
 </script>
 </body>
 </html>

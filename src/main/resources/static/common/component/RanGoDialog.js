@@ -25,7 +25,7 @@ RanGoDialogInner.initHtml = function(datas){
     html += '       <div class="dialog-header">';
     html += '           <span class="dialog-title">'+title+'</span>';
     html += '           <em class="dialog-headerbtn" onclick="RanGoDialog.close(\''+id+'\');">';
-    html += '           <i class="fa fa-close"></i>';
+    html += '               <i class="el-dialog__close el-icon el-icon-close"></i>';
     html += '           </em>';
     html += '        </div>';
     html += '        <div class="dialog-context">';

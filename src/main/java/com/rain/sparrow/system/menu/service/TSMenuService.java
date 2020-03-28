@@ -15,4 +15,6 @@ public interface TSMenuService {
     void forwordTSMenuSave(HttpServletRequest request) throws Exception;
 
     void menuDelete(HttpServletRequest request) throws Exception;
+
+    RestResult searchMyTSMenuList(HttpServletRequest request);
 }

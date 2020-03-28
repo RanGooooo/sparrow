@@ -40,6 +40,20 @@ public class TSMenuController {
         return result;
     }
 
+    @RequestMapping("searchMyTSMenuList")
+    @ResponseBody
+    public RestResult searchMyTSMenuList(HttpServletRequest request) {
+        RestResult result = new RestResult();
+        try {
+            result = tsMenuService.searchMyTSMenuList(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
 
     @RequestMapping("forwordTSMenuSave")
     public String forwordTSMenuSave(HttpServletRequest request){

@@ -38,6 +38,7 @@ common.showMessageS = function(result){
 common.ajax = function(param) {
     var mergeParam = $.extend({
         type : 'POST',
+        async:true,
         timeout : 30000
     } , param , {
         error:function(e){

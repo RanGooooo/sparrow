@@ -39,6 +39,7 @@ public class TSMenuServiceImpl implements TSMenuService{
         tsMenuRepository.deleteById(id);
     }
 
+
     @Override
     public void menuSave(TSMenuDto dto) throws Exception{
         String menuName = dto.getMenuName();
@@ -93,6 +94,16 @@ public class TSMenuServiceImpl implements TSMenuService{
         }
         dto.setParentMenuId(parentMenuId);
 
+        List<TSMenu> list = tsMenuDao.searchTSMenuList(dto);
+        result.setObject(list);
+        return result;
+    }
+
+
+    @Override
+    public RestResult searchMyTSMenuList(HttpServletRequest request) {
+        RestResult result = new RestResult();
+        TSMenuDto dto = new TSMenuDto();
         List<TSMenu> list = tsMenuDao.searchTSMenuList(dto);
         result.setObject(list);
         return result;

@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TSMainController {
 
 
+    @RequestMapping("console")
+    public String console(){
+        return "system/main/console";
+    }
 
     @RequestMapping("index")
     public String index(){

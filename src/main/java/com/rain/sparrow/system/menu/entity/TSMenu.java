@@ -26,6 +26,8 @@ public class TSMenu {
     private String menuIcon;
     /**父菜单id*/
     private String parentMenuId;
+    /**[00 树枝]，[01 叶子]*/
+    private String position;
 
     @Id
     @GeneratedValue(generator = "paymentableGenerator")
@@ -79,7 +81,12 @@ public class TSMenu {
     public void setParentMenuId(String parentMenuId) {
         this.parentMenuId = parentMenuId;
     }
+    @Column(name ="position")
+    public String getPosition() {
+        return position;
+    }
 
-
-
+    public void setPosition(String position) {
+        this.position = position;
+    }
 }

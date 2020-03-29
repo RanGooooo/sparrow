@@ -51,7 +51,7 @@
     <div class="console-main">
         <div v-if="showIFrameId==='console'">
             <el-collapse v-model="activeNames" @change="handleChange">
-                <el-collapse-item  name="1">
+                <!--<el-collapse-item  name="1">
                     <template slot="title">
                         <i class="fa fa-cog application-title-icon"></i>
                         <h3 class="application-title-text">系统管理</h3>
@@ -82,26 +82,39 @@
                             <span>角色管理</span>
                         </div>
                     </div>
-                </el-collapse-item>
-
-
-                <template v-for="oneLevelMenu in menuList"><!--一级菜单-->
-                    <el-collapse-item v-if="TOP===oneLevelMenu.parentMenuId"  v-bind:name="oneLevelMenu.id">
-                        <template slot="title">
-                            <span class="application-title-icon" v-html = 'oneLevelMenu.menuIcon'></span>
-                            <h3 class="application-title-text">{{oneLevelMenu.menuName}}</h3>
-                        </template>
-                        <template v-for="twoLevelMenu in menuList"><!--二级菜单-->
-                            <div class="application-container" v-if="oneLevelMenu.id===twoLevelMenu.parentMenuId">
-                                <el-card shadow="hover" class="application-card application-card-blue" @click.native="addTab('001','机构管理')">
-                                    <span v-html = 'twoLevelMenu.menuIcon'></span>
+                </el-collapse-item>-->
+                <el-collapse-item v-for="oneLevelMenu in menuList" v-if="TOP===oneLevelMenu.parentMenuId"  v-bind:name="oneLevelMenu.id"><!--一级菜单-->
+                    <template slot="title">
+                        <span class="application-title-icon" v-html = 'oneLevelMenu.menuIcon'></span>
+                        <h3 class="application-title-text">{{oneLevelMenu.menuName}}</h3>
+                    </template>
+                    <template v-for="twoLevelMenu in menuList" v-if="oneLevelMenu.id===twoLevelMenu.parentMenuId"><!--二级菜单-->
+                        <div class="application-container">
+                            <el-card shadow="hover" class="application-card application-card-blue" @click.native="addTab('001','机构管理')">
+                                <span v-html = 'twoLevelMenu.menuIcon'></span>
+                            </el-card>
+                            <span>{{twoLevelMenu.menuName}}</span>
+                        </div>
+                        <!--<div class="application-container-array">
+                            <div class="application-container small" v-for="threeLevelMenu in menuList" v-if="twoLevelMenu.id===threeLevelMenu.parentMenuId">&lt;!&ndash;三级菜单&ndash;&gt;
+                                <el-card shadow="hover" class="application-card small application-card-green" @click.native="addTab('003','角色管理')">
+                                    <span v-html = 'threeLevelMenu.menuIcon'></span>
                                 </el-card>
-                                <span>{{twoLevelMenu.menuName}}</span>
+                                <span>{{threeLevelMenu.menuName}}</span>
                             </div>
-                        </template>
-                    </el-collapse-item>
-                </template>
-
+                        </div>-->
+                    </template>
+                    <template v-for="twoLevelMenu in menuList" v-if="oneLevelMenu.id===twoLevelMenu.parentMenuId"><!--二级菜单-->
+                        <div class="application-container-array">
+                            <div class="application-container small" v-for="threeLevelMenu in menuList" v-if="twoLevelMenu.id===threeLevelMenu.parentMenuId"><!--三级菜单-->
+                                <el-card shadow="hover" class="application-card small application-card-green" @click.native="addTab('003','角色管理')">
+                                    <span v-html = 'threeLevelMenu.menuIcon'></span>
+                                </el-card>
+                                <span>{{threeLevelMenu.menuName}}</span>
+                            </div>
+                        </div>
+                    </template>
+                </el-collapse-item>
             </el-collapse>
         </div>
 

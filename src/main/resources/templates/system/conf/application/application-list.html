@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统日志</title>
+    <link rel="stylesheet" href="/static/common/open-source/element-ui/element-ui-min.css">
+    <link rel="stylesheet" href="/static/common/open-source/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/common/common.css">
+    <link rel="stylesheet" href="/static/common/component/RanGoDialog.css">
+    <script src="/static/common/open-source/jquery/jquery.min.js"></script>
+    <script src="/static/common/open-source/element-ui/vue.js"></script>
+    <script src="/static/common/open-source/element-ui/element-ui.js"></script>
+    <script src="/static/common/common.js"></script>
+    <script src="/static/common/component/RanGoDialog.js"></script>
+
+</head>
+<body>
+
+<div id="app">
+    <el-table
+            :data="tableData"
+            style="width: 100%"
+            row-key="id"
+            lazy
+            :load="load"
+            :tree-props="{children: 'children', hasChildren: 'position'}">
+        <el-table-column
+                prop="applicationName"
+                label="应用名称"
+                width="200">
+        </el-table-column>
+        <el-table-column
+                prop="applicationUrl"
+                label="应用地址"
+                width="380">
+        </el-table-column>
+        <el-table-column
+                prop="applicationIcon"
+                label="应用图标"
+                width="80"
+                align="center">
+            <template slot-scope="scope">
+                <span v-html = 'scope.row.applicationIcon'></span>
+            </template>
+        </el-table-column>
+        <el-table-column label="禁止使用/正常使用" prop="runningState" align="center">
+            <template slot-scope="scope">
+                <el-switch
+                        v-model="scope.row.runningState"
+                        active-color="#13ce66"
+                        inactive-color="#ff4949"
+                        active-value="01"
+                        inactive-value="00">
+                </el-switch>
+            </template>
+        </el-table-column>
+        <el-table-column label="操作">
+            <template slot="header" slot-scope="scope">
+                <el-input
+                        v-model="search"
+                        size="mini"
+                        placeholder="输入关键字搜索"/>
+            </template>
+            <template slot-scope="scope">
+                <el-button
+                        size="mini"
+                        @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                <el-button
+                        size="mini"
+                        type="danger"
+                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            tableData: [],
+            search: ''
+        },
+        mounted () {
+            this.tableData = this.searchTSApplicationList();
+        },
+        methods: {
+            searchTSApplicationList(id){
+                const self = this;
+                let applicationList = [];
+                common.ajax({
+                    url:"/TSApplicationController/searchTSApplicationList",
+                    async:false,
+                    data : {
+                        "parentApplicationId":id
+                    },
+                    success:function(result){
+                        applicationList = result.object;
+                    }
+                });
+                return applicationList;
+            },
+            load(row, treeNode, resolve) {
+                setTimeout(() => {
+                    resolve(this.searchTSApplicationList(row.id))
+                }, 1000)
+            }
+        }
+    });
+
+</script>
+</body>
+</html>

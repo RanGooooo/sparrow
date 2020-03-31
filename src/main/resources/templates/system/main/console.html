@@ -46,14 +46,15 @@
                               v-bind:name="oneLevelMenu.id"
             ><!--一级菜单-->
                 <template slot="title">
-                    <div style="display: inherit;width: 100%;position: absolute;z-index: 10000;" @click="applicationTitleClick(oneLevelMenu)">
+                    <div class="application-title-div" @click="applicationTitleClick(oneLevelMenu.menuName)">
                         <span class="application-title-icon" v-html = 'oneLevelMenu.menuIcon'></span>
                         <h3 class="application-title-text">{{oneLevelMenu.menuName}}</h3>
                     </div>
                 </template>
                 <template v-for="twoLevelMenu in applicationList" v-if="oneLevelMenu.id===twoLevelMenu.parentMenuId"><!--二级菜单-->
                     <div class="application-container">
-                        <el-card shadow="hover" class="application-card application-card-blue" @click.native="applicationContainerArrayView(twoLevelMenu,oneLevelIndex)">
+                        <el-card shadow="hover" class="application-card application-card-blue"
+                                 @click.native="applicationContainerArrayView(twoLevelMenu,oneLevelIndex,oneLevelMenu.menuName + ',' + twoLevelMenu.menuName)">
                             <span v-html = 'twoLevelMenu.menuIcon'></span>
                         </el-card>
                         <span>{{twoLevelMenu.menuName}}</span>
@@ -62,7 +63,8 @@
                 <template v-for="twoLevelMenu in applicationList" v-if="oneLevelMenu.id===twoLevelMenu.parentMenuId"><!--三级菜单-->
                     <div class="application-container-array" v-if="applicationContainerArrayShowIds[oneLevelIndex]===twoLevelMenu.id">
                         <div class="application-container small" v-for="threeLevelMenu in applicationList" v-if="twoLevelMenu.id===threeLevelMenu.parentMenuId">
-                            <el-card shadow="hover" class="application-card small application-card-green" @click.native="addTab(threeLevelMenu)">
+                            <el-card shadow="hover" class="application-card small application-card-green"
+                                     @click.native="addTab(threeLevelMenu,oneLevelMenu.menuName + ',' + twoLevelMenu.menuName + ',' + threeLevelMenu.menuName)">
                                 <span v-html = 'threeLevelMenu.menuIcon'></span>
                             </el-card>
                             <span>{{threeLevelMenu.menuName}}</span>
@@ -142,7 +144,8 @@
                     }
                 });
             },
-            applicationContainerArrayView(twoLevelMenu,oneLevelIndex) {
+            applicationContainerArrayView(twoLevelMenu,oneLevelIndex,dataBreadcrumbs) {
+                this.breadcrumbsPush(dataBreadcrumbs);
                 let id = twoLevelMenu.id;
                 let menuName = twoLevelMenu.menuName;
                 let position = twoLevelMenu.position;
@@ -150,7 +153,8 @@
                     this.$set(this.applicationContainerArrayShowIds,oneLevelIndex,id);
                 }
             },
-            addTab(application) {
+            addTab(application,dataBreadcrumbs) {
+                this.breadcrumbsPush(dataBreadcrumbs);
                 let id = application.id;
                 let menuName = application.menuName;
                 let menuUrl = application.menuUrl;
@@ -170,54 +174,41 @@
                 });
 
             },
-            applicationTitleClick(oneLevelMenu){
+            applicationTitleClick(dataBreadcrumbs){
+                this.breadcrumbsPush(dataBreadcrumbs);
+            },
 
-                let pId = oneLevelMenu.parentMenuId;
-                let menuName = oneLevelMenu.menuName;
-                this.breadcrumbs.push({
-                    pId: pId,
-                    title: menuName
+            breadcrumbsPush(dataBreadcrumbs){
+                this.breadcrumbs = [{
+                    title: "首页"
+                }];
+                let dataBreadcrumbArr = dataBreadcrumbs.split(",");
+                dataBreadcrumbArr.forEach((obj, index) => {
+                        this.breadcrumbs.push({
+                        title: obj
+                    });
                 });
-                /*let crumbIndex = null;
-                this.breadcrumbs.forEach((obj, index) => {
-                    if(obj.pId === pId){
-                        obj.title = menuName;
-                        crumbIndex = index;
-                    }
-                });
-                if(crumbIndex!==null){
 
-                }*/
-
-
-//                let id = oneLevelMenu.id;
-//                let pId = oneLevelMenu.parentMenuId;
-//                let flag = false;
-//                this.applicationActiveCollapseIds.forEach(function(obj,key,arr){
-//                    if(obj === id){
-//                        flag = true;
+//                let pId = application.p,arentMenuId;
+//                let menuName = application.menuName;
+//                let crumbIndex = null;
+//                this.breadcrumbs.forEach((obj, index) => {
+//                    if(obj.pId === pId){
+//                        obj.title = menuName;
+//                        crumbIndex = index;
 //                    }
 //                });
-//                if(flag){
-//                    this.breadcrumbsPush(oneLevelMenu);
-//                }else{
-//                    let newBreadcrumbs = [];
-//                    this.breadcrumbs.forEach((obj, index) => {
-//                        if(obj.pId !== pId){
-//                            newBreadcrumbs.push({
-//                                pId: obj.pId,
-//                                title: obj.title
-//                            });
-//                        }
+//                if(crumbIndex!==null){
+//                    this.$set(this.breadcrumbs,crumbIndex,{
+//                        pId: pId,
+//                        title: menuName
 //                    });
-//                    this.breadcrumbs = newBreadcrumbs;
+//                }else{
+//                    this.breadcrumbs.push({
+//                        pId: pId,
+//                        title: menuName
+//                    });
 //                }
-            },
-            breadcrumbsRemove(){
-                this.breadcrumbs.$remove('222');
-            },
-            breadcrumbsPush(application){
-
             },
 
 
@@ -228,7 +219,6 @@
             },
 
             handleChange(val) {
-
             },
 
             removeTab(targetName) {

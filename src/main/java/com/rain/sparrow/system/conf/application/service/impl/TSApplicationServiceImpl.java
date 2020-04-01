@@ -28,6 +28,15 @@ public class TSApplicationServiceImpl implements TSApplicationService {
     private TSApplicationRepository applicationRepository;
 
     @Override
+    public RestResult searchMyTSApplicationList(HttpServletRequest request) throws Exception {
+        RestResult result = new RestResult();
+        TSApplicationDto dto = new TSApplicationDto();
+        List<TSApplication> list = applicationDao.searchTSApplicationList(dto);
+        result.setObject(list);
+        return result;
+    }
+
+    @Override
     public RestResult searchTSApplicationList(HttpServletRequest request) throws Exception {
         RestResult result = new RestResult();
         String parentApplicationId = request.getParameter("parentApplicationId");

@@ -39,6 +39,20 @@ public class TSApplicationController {
         return result;
     }
 
+    @RequestMapping("searchMyTSApplicationList")
+    @ResponseBody
+    public RestResult searchMyTSApplicationList(HttpServletRequest request) {
+        RestResult result = new RestResult();
+        try {
+            result = applicationService.searchMyTSApplicationList(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
     @RequestMapping("forwordTSApplicationSave")
     public String forwordTSApplicationSave(HttpServletRequest request){
         try {

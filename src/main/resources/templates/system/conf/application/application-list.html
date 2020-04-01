@@ -12,7 +12,27 @@
     <script src="/static/common/open-source/element-ui/element-ui.js"></script>
     <script src="/static/common/common.js"></script>
     <script src="/static/common/component/RanGoDialog.js"></script>
+    <style>
+        .header-title{
+            cursor: pointer;
+        }
+        .header-icon{
+            background-color: #EEEEEE;
+            border-radius: 4px;
+            text-align: right;
+            padding: 0 5px;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+        .header-icon i{
+            transition: color .15s linear;
+        }
 
+        .header-icon i:hover{
+            color: #5cb6ff;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -28,6 +48,18 @@
                 prop="applicationName"
                 label="应用名称"
                 width="200">
+            <template slot="header" slot-scope="scope">
+                <span class="header-title" v-if="applicationNameHeader==='00'" @click="applicationNameHeaderClick('01')">应用名称 <i class="el-icon-thumb"></i></span>
+                <div v-if="applicationNameHeader==='01'">
+                    <div>
+                        <el-input v-model="applicationName" size="small"  placeholder="输入应用名称"/>
+                    </div>
+                    <div class="header-icon">
+                        <i class="el-icon-check"></i>
+                        <i class="el-icon-close" @click="applicationNameHeaderClick('00')"></i>
+                    </div>
+                </div>
+            </template>
         </el-table-column>
         <el-table-column
                 prop="applicationUrl"
@@ -47,8 +79,8 @@
             <template slot-scope="scope">
                 <el-switch
                         v-model="scope.row.runningState"
-                        active-color="#13ce66"
-                        inactive-color="#ff4949"
+                        active-color="#00CC66"
+                        inactive-color="#888888"
                         active-value="01"
                         inactive-value="00">
                 </el-switch>
@@ -56,17 +88,16 @@
         </el-table-column>
         <el-table-column label="操作">
             <template slot="header" slot-scope="scope">
-                <el-input
-                        v-model="search"
-                        size="mini"
-                        placeholder="输入关键字搜索"/>
+                <el-button-group>
+                    <el-button type="primary" size="small" @click="forwordTSApplicationSave">新增菜单</el-button>
+                </el-button-group>
             </template>
             <template slot-scope="scope">
                 <el-button
-                        size="mini"
+                        size="small"
                         @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                 <el-button
-                        size="mini"
+                        size="small"
                         type="danger"
                         @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             </template>
@@ -78,13 +109,28 @@
     new Vue({
         el: "#app",
         data: {
+            applicationName: "",
+            applicationNameHeader:"00",
+
             tableData: [],
-            search: ''
+
         },
         mounted () {
             this.tableData = this.searchTSApplicationList();
         },
         methods: {
+            forwordTSApplicationSave: function (id) {
+                RanGoDialog.init({
+                    title:'新增用户',
+                    src: '/TSApplicationController/forwordTSApplicationSave?id=' + id,
+                    button: [
+                        {
+                            name:'确定',
+                            click: applicationSave
+                        }
+                    ]
+                });
+            },
             searchTSApplicationList(id){
                 const self = this;
                 let applicationList = [];
@@ -104,9 +150,16 @@
                 setTimeout(() => {
                     resolve(this.searchTSApplicationList(row.id))
                 }, 1000)
+            },
+            applicationNameHeaderClick(status) {
+                this.applicationNameHeader = status;
             }
         }
     });
+
+    function applicationSave(window) {
+        window.applicationSave();
+    }
 
 </script>
 </body>

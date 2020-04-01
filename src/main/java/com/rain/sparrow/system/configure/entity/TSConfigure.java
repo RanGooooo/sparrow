@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "configure_db")
+@Table(name = "t_s_configure")
 @Alias(value = "TSConfigure")
 public class TSConfigure {
 /**主键*/

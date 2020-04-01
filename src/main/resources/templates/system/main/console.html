@@ -35,39 +35,39 @@
         </div>
         <div>
             <el-tabs v-model="applicationActiveTabId" closable @tab-remove="removeTab" @tab-click="clickTab">
-                <el-tab-pane v-for="(item, index) in applicationTabs" :key="item.id" :label="item.title" :name="item.id"></el-tab-pane>
+                <el-tab-pane v-for="(item, index) in applicationTabs" :label="item.title" :name="item.id"></el-tab-pane>
             </el-tabs>
         </div>
     </div>
     <div class="console-main">
         <el-collapse v-model="applicationActiveCollapseIds" v-show="applicationActiveTabId==='console'" @change="handleChange">
-            <el-collapse-item v-for="(oneLevelMenu,oneLevelIndex) in applicationList"
-                              v-if="menuTopId===oneLevelMenu.parentMenuId"
-                              v-bind:name="oneLevelMenu.id"
+            <el-collapse-item v-for="(oneLevelApplication,oneLevelIndex) in applicationList"
+                              v-if="applicationTopId===oneLevelApplication.parentApplicationId"
+                              v-bind:name="oneLevelApplication.id"
             ><!--一级菜单-->
                 <template slot="title">
-                    <div class="application-title-div" @click="applicationTitleClick(oneLevelMenu.menuName)">
-                        <span class="application-title-icon" v-html = 'oneLevelMenu.menuIcon'></span>
-                        <h3 class="application-title-text">{{oneLevelMenu.menuName}}</h3>
+                    <div class="application-title-div" @click="applicationTitleClick(oneLevelApplication.applicationName)">
+                        <span class="application-title-icon" v-html = 'oneLevelApplication.applicationIcon'></span>
+                        <h3 class="application-title-text">{{oneLevelApplication.applicationName}}</h3>
                     </div>
                 </template>
-                <template v-for="twoLevelMenu in applicationList" v-if="oneLevelMenu.id===twoLevelMenu.parentMenuId"><!--二级菜单-->
+                <template v-for="twoLevelApplication in applicationList" v-if="oneLevelApplication.id===twoLevelApplication.parentApplicationId"><!--二级菜单-->
                     <div class="application-container">
                         <el-card shadow="hover" class="application-card application-card-blue"
-                                 @click.native="applicationContainerArrayView(twoLevelMenu,oneLevelIndex,oneLevelMenu.menuName + ',' + twoLevelMenu.menuName)">
-                            <span v-html = 'twoLevelMenu.menuIcon'></span>
+                                 @click.native="applicationContainerArrayView(twoLevelApplication,oneLevelIndex,oneLevelApplication.applicationName + ',' + twoLevelApplication.applicationName)">
+                            <span v-html = 'twoLevelApplication.applicationIcon'></span>
                         </el-card>
-                        <span>{{twoLevelMenu.menuName}}</span>
+                        <span>{{twoLevelApplication.applicationName}}</span>
                     </div>
                 </template>
-                <template v-for="twoLevelMenu in applicationList" v-if="oneLevelMenu.id===twoLevelMenu.parentMenuId"><!--三级菜单-->
-                    <div class="application-container-array" v-if="applicationContainerArrayShowIds[oneLevelIndex]===twoLevelMenu.id">
-                        <div class="application-container small" v-for="threeLevelMenu in applicationList" v-if="twoLevelMenu.id===threeLevelMenu.parentMenuId">
+                <template v-for="twoLevelApplication in applicationList" v-if="oneLevelApplication.id===twoLevelApplication.parentApplicationId"><!--三级菜单-->
+                    <div class="application-container-array" v-if="applicationContainerArrayShowIds[oneLevelIndex]===twoLevelApplication.id">
+                        <div class="application-container small" v-for="threeLevelApplication in applicationList" v-if="twoLevelApplication.id===threeLevelApplication.parentApplicationId">
                             <el-card shadow="hover" class="application-card small application-card-green"
-                                     @click.native="addTab(threeLevelMenu,oneLevelMenu.menuName + ',' + twoLevelMenu.menuName + ',' + threeLevelMenu.menuName)">
-                                <span v-html = 'threeLevelMenu.menuIcon'></span>
+                                     @click.native="addTab(threeLevelApplication,oneLevelApplication.applicationName + ',' + twoLevelApplication.applicationName + ',' + threeLevelApplication.applicationName)">
+                                <span v-html = 'threeLevelApplication.applicationIcon'></span>
                             </el-card>
-                            <span>{{threeLevelMenu.menuName}}</span>
+                            <span>{{threeLevelApplication.applicationName}}</span>
                         </div>
                     </div>
                 </template>
@@ -109,46 +109,56 @@
     }
     catch(err){
     }
+    const consoleId = "console";
+    const consoleName = "桌面";
 
 
     new Vue({
         el: "#consoleApp",
         data: {
+
             squareUrl: "/test/canvas.png",/*头像*/
-            menuTopId: "TOP",/*菜单顶级id*/
+            applicationTopId: "TOP",/*菜单顶级id*/
             applicationContainerArrayShowIds: [],/*三级菜单显示状态*/
             applicationList: [],/*应用集合*/
             applicationActiveCollapseIds: [],/*折叠面板展开id集合*/
-            applicationActiveTabId: "console",/*当前显示页面id*/
+            applicationActiveTabId: consoleId,/*当前显示页面id*/
             applicationTabs: [{
-                id: "console",
-                title: "桌面"
+                id: consoleId,
+                title: consoleName,
+                dataBreadcrumbs: consoleName
             }],
             applicationIFrames:[],
             breadcrumbs:[{
-                title: "首页"
+                title: consoleName
             }]
         },
         mounted () {
             this.searchTSApplicationList();
         },
         methods: {
+            pushApplicationTab(id,title,dataBreadcrumbs){
+                this.applicationTabs.push({
+                    id: id,
+                    title: title,
+                    dataBreadcrumbs: dataBreadcrumbs
+                });
+            },
             /*获取用户菜单*/
             searchTSApplicationList(){
                 const self = this;
                 common.ajax({
-                    url:"/TSMenuController/searchMyTSMenuList",
+                    url:"/TSApplicationController/searchMyTSApplicationList",
                     success:function(result){
                         self.applicationList = result.object;
                         self.$set(self.applicationActiveCollapseIds,0,self.applicationList[0].id);
                     }
                 });
             },
-            applicationContainerArrayView(twoLevelMenu,oneLevelIndex,dataBreadcrumbs) {
+            applicationContainerArrayView(twoLevelApplication,oneLevelIndex,dataBreadcrumbs) {
                 this.breadcrumbsPush(dataBreadcrumbs);
-                let id = twoLevelMenu.id;
-                let menuName = twoLevelMenu.menuName;
-                let position = twoLevelMenu.position;
+                let id = twoLevelApplication.id;
+                let position = twoLevelApplication.position;
                 if(position !== "01"){
                     this.$set(this.applicationContainerArrayShowIds,oneLevelIndex,id);
                 }
@@ -156,88 +166,74 @@
             addTab(application,dataBreadcrumbs) {
                 this.breadcrumbsPush(dataBreadcrumbs);
                 let id = application.id;
-                let menuName = application.menuName;
-                let menuUrl = application.menuUrl;
+                let applicationName = application.applicationName;
+                let applicationUrl = application.applicationUrl;
                 this.applicationActiveTabId = id;
-                this.applicationTabs.forEach(function(obj,key,arr){
+                this.applicationTabs.forEach(function(obj){
                     if(obj.id === id){
                         throw 'error';
                     }
                 });
-                this.applicationTabs.push({
-                    id: id,
-                    title: menuName
-                });
+                this.pushApplicationTab(id,applicationName,dataBreadcrumbs);
                 this.applicationIFrames.push({
                     id: id,
-                    url: menuUrl
+                    url: applicationUrl
                 });
+            },
 
+            clickTab(targetTab, event){
+                this.breadcrumbsPush(this.applicationTabs.filter(tab => tab.id === targetTab.name)[0].dataBreadcrumbs);
             },
             applicationTitleClick(dataBreadcrumbs){
                 this.breadcrumbsPush(dataBreadcrumbs);
             },
 
             breadcrumbsPush(dataBreadcrumbs){
-                this.breadcrumbs = [{
-                    title: "首页"
-                }];
+                if(dataBreadcrumbs=== consoleName){
+                    this.breadcrumbs = [];
+                }else{
+                    this.breadcrumbs = [{
+                        title: consoleName
+                    }];
+                }
                 let dataBreadcrumbArr = dataBreadcrumbs.split(",");
                 dataBreadcrumbArr.forEach((obj, index) => {
-                        this.breadcrumbs.push({
+                    this.breadcrumbs.push({
                         title: obj
                     });
                 });
-
-//                let pId = application.p,arentMenuId;
-//                let menuName = application.menuName;
-//                let crumbIndex = null;
-//                this.breadcrumbs.forEach((obj, index) => {
-//                    if(obj.pId === pId){
-//                        obj.title = menuName;
-//                        crumbIndex = index;
-//                    }
-//                });
-//                if(crumbIndex!==null){
-//                    this.$set(this.breadcrumbs,crumbIndex,{
-//                        pId: pId,
-//                        title: menuName
-//                    });
-//                }else{
-//                    this.breadcrumbs.push({
-//                        pId: pId,
-//                        title: menuName
-//                    });
-//                }
+            },
+            removeTab(targetId) {
+                debugger;
+                let tabs = this.applicationTabs;
+                let activeId = this.applicationActiveTabId;
+                let dataBreadcrumbs = "";
+                if (activeId === targetId) {
+                    tabs.forEach((tab, index) => {
+                        if (tab.id === targetId) {
+                            let nextTab = tabs[index + 1] || tabs[index - 1];
+                            if (nextTab) {
+                                activeId = nextTab.id;
+                                dataBreadcrumbs = nextTab.dataBreadcrumbs;
+                            }
+                        }
+                    });
+                }
+                this.breadcrumbsPush(dataBreadcrumbs);
+                this.applicationActiveTabId = activeId;
+                this.applicationTabs = tabs.filter(tab => tab.id !== targetId);
+                let iframes = this.applicationIFrames;
+                this.applicationIFrames = iframes.filter(iframe => iframe.id !== targetId);
             },
 
 
 //=========================================================================
 
-            clickTab(){
-
-            },
 
             handleChange(val) {
             },
 
-            removeTab(targetName) {
-                let tabs = this.applicationTabs;
-                let activeName = this.showIFrameId;
-                if (activeName === targetName) {
-                    tabs.forEach((tab, index) => {
-                        if (tab.name === targetName) {
-                            let nextTab = tabs[index + 1] || tabs[index - 1];
-                            if (nextTab) {
-                                activeName = nextTab.name;
-                            }
-                        }
-                    });
-                }
 
-                this.showIFrameId = activeName;
-                this.applicationTabs = tabs.filter(tab => tab.name !== targetName);
-            }
         }
     });
 </script>

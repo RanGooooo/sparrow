@@ -8,7 +8,7 @@ import java.util.Date;
 
 
 @Entity
-@Table(name = "log_db")
+@Table(name = "t_s_log")
 @Alias(value = "TSLog")
 public class TSLog {
 /***/

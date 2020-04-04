@@ -1,5 +1,6 @@
 package com.rain.sparrow.system.conf.application.entity;
 
+import com.rain.sparrow.common.annotation.check.NotNull;
 import org.apache.ibatis.type.Alias;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -14,14 +15,19 @@ public class TSApplication {
     /**主键*/
     private String id;
     /**应用名称*/
+    @NotNull
     private String applicationName;
     /**应用地址*/
+    @NotNull
     private String applicationUrl;
     /**应用等级*/
+    @NotNull
     private String applicationLevel;
     /**应用排序*/
+    @NotNull
     private String applicationOrder;
     /**应用图标*/
+    @NotNull
     private String applicationIcon;
     /**父应用id*/
     private String parentApplicationId;

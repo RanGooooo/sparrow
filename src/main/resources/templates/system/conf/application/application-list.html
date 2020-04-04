@@ -89,13 +89,13 @@
         <el-table-column label="操作">
             <template slot="header" slot-scope="scope">
                 <el-button-group>
-                    <el-button type="primary" size="small" @click="forwordTSApplicationSave">新增菜单</el-button>
+                    <el-button type="primary" size="small" @click="forwordTSApplicationSave('')">新增菜单</el-button>
                 </el-button-group>
             </template>
             <template slot-scope="scope">
                 <el-button
                         size="small"
-                        @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                        @click="forwordTSApplicationSave(scope.row.id)">编辑</el-button>
                 <el-button
                         size="small"
                         type="danger"
@@ -115,13 +115,13 @@
             tableData: [],
 
         },
-        mounted () {
+        mounted() {
             this.tableData = this.searchTSApplicationList();
         },
         methods: {
             forwordTSApplicationSave: function (id) {
                 RanGoDialog.init({
-                    title:'新增用户',
+                    title:'新增应用',
                     src: '/TSApplicationController/forwordTSApplicationSave?id=' + id,
                     button: [
                         {
@@ -158,7 +158,7 @@
     });
 
     function applicationSave(window) {
-        window.applicationSave();
+        window.app.applicationSave();
     }
 
 </script>

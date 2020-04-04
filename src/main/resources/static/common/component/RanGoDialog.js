@@ -65,7 +65,7 @@ RanGoDialogInner.initButtonHtml = function(param){
     var html = '';
     var button = param.button;
     $(button).each(function(index,obj){
-        html += "<em class='dialog-button dialog-button-primary' :loading='true' buttonindex='"+index+"'><cite>"+obj.name+"</cite></em>";
+        html += "<em class='dialog-button dialog-button-primary' :loading='true' buttonindex='"+index+"'>"+obj.name+"</em>";
     });
     return html;
 };

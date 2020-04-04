@@ -7,7 +7,7 @@ package com.rain.sparrow.common.constant.status;
  */
 public interface RunningStateConstant {
 
-    /**停止运行*/
+    /**停止运行 默认*/
     String RUNNING_STATE_00 = "00";
     /**正在运行*/
     String RUNNING_STATE_01 = "01";

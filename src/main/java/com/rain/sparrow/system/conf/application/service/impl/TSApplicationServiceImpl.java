@@ -1,5 +1,8 @@
 package com.rain.sparrow.system.conf.application.service.impl;
 
+import com.alibaba.druid.support.json.JSONUtils;
+import com.rain.sparrow.common.annotation.check.CheckData;
+import com.rain.sparrow.common.constant.status.RunningStateConstant;
 import com.rain.sparrow.common.dto.RestResult;
 import com.rain.sparrow.system.conf.application.dao.TSApplicationDao;
 import com.rain.sparrow.system.conf.application.dao.TSApplicationRepository;
@@ -54,16 +57,18 @@ public class TSApplicationServiceImpl implements TSApplicationService {
     public void forwordTSApplicationSave(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
         TSApplication entity = applicationRepository.findTSApplicationById(id);
-        request.setAttribute("application",entity);
+
+        request.setAttribute("TSApplication",JSONUtils.toJSONString(entity));
     }
 
     @Override
-    public void applicationSave(TSApplicationDto dto) throws Exception{
-        //TODO 判空代码 稍后添加
+    public void applicationSave(@CheckData TSApplicationDto dto) throws Exception{
         String id = dto.getId();
         TSApplication entity = new TSApplication();
         if(!StringUtils.isEmpty(id)){
             entity  = applicationRepository.findTSApplicationById(id);
+        }else{
+            dto.setRunningState(RunningStateConstant.RUNNING_STATE_00);
         }
         BeanUtils.copyProperties(dto,entity);
         applicationRepository.save(entity);

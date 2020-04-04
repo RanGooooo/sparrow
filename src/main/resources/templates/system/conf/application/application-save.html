@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单新增</title>
+    <link rel="stylesheet" href="/static/common/open-source/element-ui/element-ui.css">
+    <link rel="stylesheet" href="/static/common/common.css">
+    <script src="/static/common/open-source/jquery/jquery.min.js"></script>
+    <script src="/static/common/open-source/element-ui/vue.js"></script>
+    <script src="/static/common/open-source/element-ui/element-ui.js"></script>
+    <script src="/static/common/common.js"></script>
+    <script src="/static/common/component/RanGoDialog.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input id="TSApplication" th:value="${TSApplication}">
+        <el-form :model="TSApplicationForm" :rules="rules" ref="TSApplicationForm" label-width="100px">
+            <el-form-item label="应用名称" prop="applicationName">
+                <el-input v-model="TSApplicationForm.applicationName" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="应用地址" prop="applicationUrl">
+                <el-input v-model="TSApplicationForm.applicationUrl" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="节点位置" prop="position">
+                <template>
+                    <el-radio v-model="TSApplicationForm.position" label="00">树枝</el-radio>
+                    <el-radio v-model="TSApplicationForm.position" label="01">叶子</el-radio>
+                </template>
+            </el-form-item>
+            <el-form-item label="应用等级" prop="applicationLevel">
+                <el-radio-group v-model="TSApplicationForm.applicationLevel">
+                    <el-radio :label="1">Ⅰ级</el-radio>
+                    <el-radio :label="2">Ⅱ级</el-radio>
+                    <el-radio :label="3">Ⅲ级</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="应用排序" prop="applicationOrder">
+                <el-input-number v-model="TSApplicationForm.applicationOrder" size="small" :min="1" :max="99"></el-input-number>
+            </el-form-item>
+            <el-form-item label="应用图标" prop="applicationIcon">
+                <el-input v-model="TSApplicationForm.applicationIcon" clearable  th:value="${TSApplication?.applicationIcon}"></el-input>
+            </el-form-item>
+            <el-form-item label="父应用" prop="parentApplicationId">
+                <el-input v-model="TSApplicationForm.parentApplicationId" v-show="false"></el-input>
+                <el-input v-model="TSApplicationForm.parentApplicationName" :readonly="true">
+                    <el-button slot="append" icon="el-icon-search"@click="applicationRanGoDialog"></el-button>
+                </el-input>
+            </el-form-item>
+        </el-form>
+    </div>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data() {
+            return {
+                TSApplicationForm: {
+                    applicationName:"",
+                    applicationUrl:"",
+                    applicationLevel:"",
+                    applicationOrder:"",
+                    applicationIcon:"",
+                    parentApplicationId:"",
+                    parentApplicationName:"",
+                    position:"",
+                },
+                rules: {
+                    applicationName: [
+                        { required: true, message: '请输入应用名称', trigger: 'blur' }
+                    ],
+                    applicationUrl: [
+                        { required: true, message: '请输入应用地址', trigger: 'blur' }
+                    ],
+                    applicationLevel: [
+                        { required: true, message: '请输入应用等级', trigger: 'blur' }
+                    ],
+                    applicationOrder: [
+                        { required: true, message: '请输入应用排序', trigger: 'blur' }
+                    ],
+                    applicationIcon: [
+                        { required: true, message: '请输入应用图标', trigger: 'blur' }
+                    ],
+                    parentApplicationId: [
+                        { required: true, message: '请输入父应用', trigger: 'blur' }
+                    ],
+                    position: [
+                        { required: true, message: '请输入节点位置', trigger: 'blur' }
+                    ],
+                }
+            }
+        },
+        mounted() {
+        },
+        methods: {
+            applicationSave(){
+                var self = this;
+                this.$refs['TSApplicationForm'].validate((valid) => {
+                    if(!valid) {
+                        throw 'error';
+                    }
+                    common.ajax({
+                        url:"/TSApplicationController/applicationSave",
+                        async:false,
+                        data:self.TSApplicationForm,
+                        success:function(result){
+                            common.showMessageS(result);
+                            if(!result.success){
+                                throw 'error';
+                            }
+                            throw 'error';
+                        }
+                    });
+                });
+            },
+            applicationRanGoDialog(){
+                RanGoDialog.init({
+                    title:'选择父级应用',
+                    src: '/TSMenuController/forwordTSMenuTree',
+                    button: [
+                        {
+                            name:'确定',
+                            click: getMenuCheckedNodes
+                        }
+                    ]
+                });
+            },
+
+        }
+    });
+
+    function getMenuCheckedNodes(window){
+        var nodes = window.getMenuCheckedNodes();
+        if(nodes.length > 0){
+            app.TSApplicationForm.parentApplicationId = nodes[0].id;
+            app.TSApplicationForm.parentApplicationName = nodes[0].name;
+        }else{
+        }
+    }
+
+</script>
+</body>
+</html>

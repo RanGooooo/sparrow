@@ -93,6 +93,7 @@
     padding: 12px 20px;
     font-size: 14px;
     border-radius: 4px;
+    font-style:normal;
 }
 
 .dialog-button:hover {

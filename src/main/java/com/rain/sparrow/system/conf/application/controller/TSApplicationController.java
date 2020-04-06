@@ -91,4 +91,23 @@ public class TSApplicationController {
         return result;
     }
 
+    @RequestMapping("forwordTSApplicationTree")
+    public String forwordTSApplicationTree(){
+        return applicationPath + "application-tree";
+    }
+
+    @RequestMapping("searchTSApplicationTree")
+    @ResponseBody
+    public RestResult searchTSApplicationTree(HttpServletRequest request) {
+        RestResult result = new RestResult();
+        try {
+            result = applicationService.searchTSApplicationTree(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
 }

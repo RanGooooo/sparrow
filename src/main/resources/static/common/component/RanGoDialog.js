@@ -24,6 +24,9 @@ RanGoDialogInner.initHtml = function(datas){
     html += '    <div class="dialog-container">';
     html += '       <div class="dialog-header">';
     html += '           <span class="dialog-title">'+title+'</span>';
+    html += '           <em class="dialog-headerbtn" style="right: 50px;" onclick="RanGoDialog.reload(\''+iFrameId+'\');">';
+    html += '               <i class="el-dialog__close el-icon el-icon-refresh-right"></i>';
+    html += '           </em>';
     html += '           <em class="dialog-headerbtn" onclick="RanGoDialog.close(\''+id+'\');">';
     html += '               <i class="el-dialog__close el-icon el-icon-close"></i>';
     html += '           </em>';
@@ -73,6 +76,12 @@ RanGoDialogInner.initButtonHtml = function(param){
 RanGoDialog.close = function(id){
     $(top.document).find("#"+id).remove();
 };
+
+RanGoDialog.reload = function(iFrameId){
+    $('#' + iFrameId).attr('src', $('#' + iFrameId).attr('src'));
+};
+
+
 
 RanGoDialog.window = function(iFrameId){
     var window = top.document.getElementById(iFrameId).contentWindow;

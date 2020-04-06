@@ -1,10 +1,17 @@
 package com.rain.sparrow.system.conf.application.dto;
 
 import com.rain.sparrow.system.conf.application.entity.TSApplication;
-import com.rain.sparrow.system.menu.entity.TSMenu;
 
 public class TSApplicationDto extends TSApplication{
 
+    /**父应用id*/
+    private String parentApplicationName;
 
+    public String getParentApplicationName() {
+        return parentApplicationName;
+    }
 
+    public void setParentApplicationName(String parentApplicationName) {
+        this.parentApplicationName = parentApplicationName;
+    }
 }

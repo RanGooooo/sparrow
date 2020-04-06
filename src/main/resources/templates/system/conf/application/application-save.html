@@ -13,13 +13,13 @@
 </head>
 <body>
     <div id="app">
-        <input id="TSApplication" th:value="${TSApplication}">
+        <input id="TSApplication" type="hidden" th:value="${TSApplication}">
         <el-form :model="TSApplicationForm" :rules="rules" ref="TSApplicationForm" label-width="100px">
             <el-form-item label="应用名称" prop="applicationName">
-                <el-input v-model="TSApplicationForm.applicationName" clearable></el-input>
+                <el-input size="medium" v-model="TSApplicationForm.applicationName" clearable></el-input>
             </el-form-item>
             <el-form-item label="应用地址" prop="applicationUrl">
-                <el-input v-model="TSApplicationForm.applicationUrl" clearable></el-input>
+                <el-input size="medium" v-model="TSApplicationForm.applicationUrl" clearable></el-input>
             </el-form-item>
             <el-form-item label="节点位置" prop="position">
                 <template>
@@ -28,22 +28,22 @@
                 </template>
             </el-form-item>
             <el-form-item label="应用等级" prop="applicationLevel">
-                <el-radio-group v-model="TSApplicationForm.applicationLevel">
-                    <el-radio :label="1">Ⅰ级</el-radio>
-                    <el-radio :label="2">Ⅱ级</el-radio>
-                    <el-radio :label="3">Ⅲ级</el-radio>
-                </el-radio-group>
+                <template>
+                    <el-radio v-model="TSApplicationForm.applicationLevel" label="1">Ⅰ级</el-radio>
+                    <el-radio v-model="TSApplicationForm.applicationLevel" label="2">Ⅱ级</el-radio>
+                    <el-radio v-model="TSApplicationForm.applicationLevel" label="3">Ⅲ级</el-radio>
+                </template>
             </el-form-item>
             <el-form-item label="应用排序" prop="applicationOrder">
                 <el-input-number v-model="TSApplicationForm.applicationOrder" size="small" :min="1" :max="99"></el-input-number>
             </el-form-item>
             <el-form-item label="应用图标" prop="applicationIcon">
-                <el-input v-model="TSApplicationForm.applicationIcon" clearable  th:value="${TSApplication?.applicationIcon}"></el-input>
+                <el-input size="medium" v-model="TSApplicationForm.applicationIcon" clearable></el-input>
             </el-form-item>
             <el-form-item label="父应用" prop="parentApplicationId">
                 <el-input v-model="TSApplicationForm.parentApplicationId" v-show="false"></el-input>
-                <el-input v-model="TSApplicationForm.parentApplicationName" :readonly="true">
-                    <el-button slot="append" icon="el-icon-search"@click="applicationRanGoDialog"></el-button>
+                <el-input size="medium" v-model="TSApplicationForm.parentApplicationName" :readonly="true">
+                    <el-button slot="append" icon="el-icon-search"@click="forwordTSApplicationTree"></el-button>
                 </el-input>
             </el-form-item>
         </el-form>
@@ -89,8 +89,14 @@
             }
         },
         mounted() {
+            this.init();
         },
         methods: {
+            init(){
+                if($("#TSApplication").val()){
+                    this.TSApplicationForm = JSON.parse($("#TSApplication").val());
+                }
+            },
             applicationSave(){
                 var self = this;
                 this.$refs['TSApplicationForm'].validate((valid) => {
@@ -106,19 +112,18 @@
                             if(!result.success){
                                 throw 'error';
                             }
-                            throw 'error';
                         }
                     });
                 });
             },
-            applicationRanGoDialog(){
+            forwordTSApplicationTree(){
                 RanGoDialog.init({
                     title:'选择父级应用',
-                    src: '/TSMenuController/forwordTSMenuTree',
+                    src: '/TSApplicationController/forwordTSApplicationTree',
                     button: [
                         {
                             name:'确定',
-                            click: getMenuCheckedNodes
+                            click: getTSApplicationCheckedNodes
                         }
                     ]
                 });
@@ -127,12 +132,11 @@
         }
     });
 
-    function getMenuCheckedNodes(window){
-        var nodes = window.getMenuCheckedNodes();
+    function getTSApplicationCheckedNodes(window){
+        var nodes = window.getTSApplicationCheckedNodes();
         if(nodes.length > 0){
             app.TSApplicationForm.parentApplicationId = nodes[0].id;
             app.TSApplicationForm.parentApplicationName = nodes[0].name;
-        }else{
         }
     }
 

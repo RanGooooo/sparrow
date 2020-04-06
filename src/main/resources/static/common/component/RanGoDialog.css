@@ -84,16 +84,15 @@
     box-sizing: border-box;
     outline: none;
     margin: 0;
-    margin-right: 0px;
     transition: .1s;
     font-weight: 500;
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
-    padding: 12px 20px;
     font-size: 14px;
     border-radius: 4px;
     font-style:normal;
+    padding: 9px 15px;
 }
 
 .dialog-button:hover {

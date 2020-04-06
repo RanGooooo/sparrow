@@ -6,8 +6,12 @@
         SELECT * FROM t_s_application
         <where>
             <if test="parentApplicationId!=null and parentApplicationId!=''">
-                parent_application_id = #{parentApplicationId}
+              AND parent_application_id = #{parentApplicationId}
             </if>
+            <if test="applicationName!=null and applicationName!=''">
+              AND application_name  like '%' #{applicationName} '%'
+            </if>
+
         </where>
     </select>
 

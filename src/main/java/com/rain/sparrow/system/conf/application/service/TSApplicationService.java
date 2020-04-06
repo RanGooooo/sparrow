@@ -16,4 +16,6 @@ public interface TSApplicationService {
     void applicationDelete(HttpServletRequest request) throws Exception;
 
     RestResult searchMyTSApplicationList(HttpServletRequest request) throws Exception;
+
+    RestResult searchTSApplicationTree(HttpServletRequest request) throws Exception;
 }

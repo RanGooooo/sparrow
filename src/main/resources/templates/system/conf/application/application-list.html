@@ -49,14 +49,14 @@
                 label="应用名称"
                 width="200">
             <template slot="header" slot-scope="scope">
-                <span class="header-title" v-if="applicationNameHeader==='00'" @click="applicationNameHeaderClick('01')">应用名称 <i class="el-icon-thumb"></i></span>
+                <span class="header-title" v-if="applicationNameHeader==='00'" @click="applicationNameHeaderViewClick('01')">应用名称 <i class="el-icon-thumb"></i></span>
                 <div v-if="applicationNameHeader==='01'">
                     <div>
                         <el-input v-model="applicationName" size="small"  placeholder="输入应用名称"/>
                     </div>
                     <div class="header-icon">
-                        <i class="el-icon-check"></i>
-                        <i class="el-icon-close" @click="applicationNameHeaderClick('00')"></i>
+                        <i class="el-icon-check" @click="applicationNameHeaderSearchClick()"></i>
+                        <i class="el-icon-close" @click="applicationNameHeaderViewClick('00')"></i>
                     </div>
                 </div>
             </template>
@@ -111,12 +111,10 @@
         data: {
             applicationName: "",
             applicationNameHeader:"00",
-
             tableData: [],
-
         },
         mounted() {
-            this.tableData = this.searchTSApplicationList();
+            this.tableData = this.searchTSApplicationList('TOP');
         },
         methods: {
             forwordTSApplicationSave: function (id) {
@@ -131,14 +129,15 @@
                     ]
                 });
             },
-            searchTSApplicationList(id){
+            searchTSApplicationList(parentApplicationId){
                 const self = this;
                 let applicationList = [];
                 common.ajax({
                     url:"/TSApplicationController/searchTSApplicationList",
                     async:false,
                     data : {
-                        "parentApplicationId":id
+                        "parentApplicationId":parentApplicationId,
+                        "applicationName":self.applicationName,
                     },
                     success:function(result){
                         applicationList = result.object;
@@ -151,8 +150,12 @@
                     resolve(this.searchTSApplicationList(row.id))
                 }, 1000)
             },
-            applicationNameHeaderClick(status) {
+            applicationNameHeaderViewClick(status) {
+                this.applicationName = '';
                 this.applicationNameHeader = status;
+            },
+            applicationNameHeaderSearchClick() {
+                this.tableData = this.searchTSApplicationList('');
             }
         }
     });

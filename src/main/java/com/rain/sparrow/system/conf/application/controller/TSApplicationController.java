@@ -27,10 +27,10 @@ public class TSApplicationController {
 
     @RequestMapping("searchTSApplicationList")
     @ResponseBody
-    public RestResult searchTSApplicationList(HttpServletRequest request) {
+    public RestResult searchTSApplicationList(TSApplicationDto dto) {
         RestResult result = new RestResult();
         try {
-            result = applicationService.searchTSApplicationList(request);
+            result = applicationService.searchTSApplicationList(dto);
         } catch (Exception e) {
             e.printStackTrace();
             result.setSuccess(false);

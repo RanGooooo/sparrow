@@ -11,7 +11,9 @@
             <if test="applicationName!=null and applicationName!=''">
               AND application_name  like '%' #{applicationName} '%'
             </if>
-
+            <if test="runningState!=null and runningState!=''">
+              AND running_state = #{runningState}
+            </if>
         </where>
     </select>
 

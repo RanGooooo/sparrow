@@ -16,15 +16,15 @@
 <body>
 <div id="app">
     <el-collapse-transition>
-        <div v-show="show3">
+        <div v-show="showHeader">
             <el-form :inline="true" :model="dataTableForm" ref="dataTableForm" class="demo-form-inline" size="small">
                 <el-form-item label="应用名称" prop="applicationName">
                     <el-input v-model="dataTableForm.applicationName"></el-input>
                 </el-form-item>
                 <el-form-item label="应用状态" prop="runningState">
                     <el-select v-model="dataTableForm.runningState" clearable>
-                        <el-option label="正常使用" value="beijing"></el-option>
-                        <el-option label="禁止使用" value="beijing"></el-option>
+                        <el-option label="正常使用" value="01"></el-option>
+                        <el-option label="禁止使用" value="00"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item>
@@ -35,8 +35,7 @@
         </div>
     </el-collapse-transition>
     <el-table
-            :data="tableData"
-            style="width: 100%"
+            :data="dataTableList"
             row-key="id"
             lazy
             :load="load"
@@ -72,8 +71,8 @@
             </template>
         </el-table-column>
         <el-table-column label="操作">
-            <template slot="header" slot-scope="scope">
-                <el-button size="small" @click="show3 = !show3">高级筛选</el-button>
+            <template slot="header">
+                <el-button size="small" @click="showHeader = !showHeader">高级筛选</el-button>
                 <el-button size="small" @click="forwordTSApplicationSave('')">新增菜单</el-button>
             </template>
             <template slot-scope="scope">
@@ -93,6 +92,7 @@
     new Vue({
         el: "#app",
         data: {
+            dataTableList: [],
             dataTableForm: {
                 applicationName:"",
                 applicationUrl:"",
@@ -102,37 +102,26 @@
                 parentApplicationId:"",
                 parentApplicationName:"",
                 position:"",
+                runningState:""
             },
-            show3: true,
-            tableData: [],
+            showHeader: true,
+
         },
         mounted() {
-            this.dataTableReset();
+            this.dataTableList = this.searchTSApplicationList();
         },
         methods: {
             dataTableSearch(){
-                this.setParentApplicationId("");
-                this.tableData = this.searchTSApplicationList();
+                if(this.dataTableList.length > 0){
+                    this.dataTableList = [];
+                }else{
+                    this.dataTableForm.parentApplicationId = "";
+                    this.dataTableList = this.searchTSApplicationList();
+                }
             },
             dataTableReset() {
                 this.$refs['dataTableForm'].resetFields();
-                this.setParentApplicationId("TOP");
-                this.tableData = this.searchTSApplicationList();
-            },
-            setParentApplicationId(id) {
-                this.dataTableForm.parentApplicationId = id;
-            },
-            forwordTSApplicationSave: function (id) {
-                RanGoDialog.init({
-                    title:"新增应用",
-                    src: '/TSApplicationController/forwordTSApplicationSave?id=' + id,
-                    button: [
-                        {
-                            name:"确定",
-                            click: applicationSave
-                        }
-                    ]
-                });
+                this.dataTableList = this.searchTSApplicationList();
             },
             searchTSApplicationList(){
                 const self = this;
@@ -149,10 +138,26 @@
             },
             load(row, treeNode, resolve) {
                 setTimeout(() => {
-                    this.setParentApplicationId(row.id);
-                    resolve(this.searchTSApplicationList())
+                    this.dataTableForm.parentApplicationId = row.id;
+                    let resolveList = this.searchTSApplicationList();
+                    resolveList.forEach((obj, index) => {
+                        this.dataTableList = this.dataTableList.filter(dataTable => dataTable.id !== obj.id);
+                    });
+                    resolve(resolveList)
                 }, 1000)
-            }
+            },
+            forwordTSApplicationSave: function (id) {
+                RanGoDialog.init({
+                    title:"新增应用",
+                    src: '/TSApplicationController/forwordTSApplicationSave?id=' + id,
+                    button: [
+                        {
+                            name:"确定",
+                            click: applicationSave
+                        }
+                    ]
+                });
+            },
         }
     });
 

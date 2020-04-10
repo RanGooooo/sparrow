@@ -2,13 +2,21 @@
  * 公共方法
  * @author 赵宏宇
  */
-var common = window.common || {};
+let common = window.common || {};
 
 common.messageType = {
     "SUCCESS" : 200,
     "WARNING" : 300,
     "ERROR" : 500,
 };
+/*
+ *  全屏加载
+ */
+
+common.openFullScreen = function(){
+    return top.window.commonVue.openFullScreen("加载中","el-icon-loading","rgba(0, 0, 0, 0.7)");
+};
+
 /**
  *  展示指定消息内容
  */
@@ -24,9 +32,9 @@ common.showMessage = function(type,msg){
     }
 };
 common.showMessageS = function(result){
-    var success = result.success;
-    var msg = result.message;
-    var type = common.messageType.SUCCESS;
+    let success = result.success;
+    let msg = result.message;
+    let type = common.messageType.SUCCESS;
     if(!success){
         type = common.messageType.WARNING;
     }
@@ -36,7 +44,8 @@ common.showMessageS = function(result){
  * 对jQuery的ajax方法的二次封装
  */
 common.ajax = function(param) {
-    var mergeParam = $.extend({
+    let loading = common.openFullScreen();
+    let mergeParam = $.extend({
         type : 'POST',
         async:true,
         timeout : 30000
@@ -46,8 +55,11 @@ common.ajax = function(param) {
             throw 'error';
         },
         complete : function(response) {
+            setTimeout(() => {
+                loading.close();
+            }, 500);
             //再覆盖外部的complete方法之前并且不是session超时状态的情况，这个complete方法帮助运行外部complete方法
-            if(param.complete && typeof param.complete == "function") {
+            if(param.complete && typeof param.complete === "function") {
                 param.complete();
             }
         }

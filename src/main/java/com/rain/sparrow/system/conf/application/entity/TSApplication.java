@@ -31,8 +31,8 @@ public class TSApplication {
     private String applicationIcon;
     /**父应用id*/
     private String parentApplicationId;
-    /**[00 树枝]，[01 叶子]*/
-    private String position;
+    /**[true 树枝]，[false 叶子]*/
+    private Boolean position;
     /*RunningStateConstant*/
     private String runningState;
     @Id
@@ -88,10 +88,10 @@ public class TSApplication {
     this.parentApplicationId = parentApplicationId;
     }
     @Column(name ="position")
-    public String getPosition() {
+    public Boolean getPosition() {
     return position;
     }
-    public void setPosition(String position) {
+    public void setPosition(Boolean position) {
     this.position = position;
     }
 

@@ -5,6 +5,7 @@ import com.rain.sparrow.common.annotation.check.CheckData;
 import com.rain.sparrow.common.constant.status.RunningStateConstant;
 import com.rain.sparrow.common.dto.RestResult;
 import com.rain.sparrow.common.dto.TreeDto;
+import com.rain.sparrow.system.conf.application.constant.TSApplicationConstant;
 import com.rain.sparrow.system.conf.application.dao.TSApplicationDao;
 import com.rain.sparrow.system.conf.application.dao.TSApplicationRepository;
 import com.rain.sparrow.system.conf.application.dto.TSApplicationDto;
@@ -40,13 +41,16 @@ public class TSApplicationServiceImpl implements TSApplicationService {
     }
 
     @Override
-    public RestResult searchTSApplicationList(HttpServletRequest request) throws Exception {
+    public RestResult searchTSApplicationList(TSApplicationDto dto) throws Exception {
         RestResult result = new RestResult();
-        String parentApplicationId = request.getParameter("parentApplicationId");
-        String applicationName = request.getParameter("applicationName");
-        TSApplicationDto dto = new TSApplicationDto();
-        dto.setParentApplicationId(parentApplicationId);
-        dto.setApplicationName(applicationName);
+        String parentApplicationId = dto.getParentApplicationId();
+        String runningState = dto.getRunningState();
+        String applicationName = dto.getApplicationName();
+        if(StringUtils.isEmpty(parentApplicationId)&&
+            StringUtils.isEmpty(runningState)&&
+            StringUtils.isEmpty(applicationName)){
+            dto.setParentApplicationId(TSApplicationConstant.PARENT_APPLICATION_ID_TOP);
+        }
         List<TSApplication> list = applicationDao.searchTSApplicationList(dto);
         result.setObject(list);
         return result;

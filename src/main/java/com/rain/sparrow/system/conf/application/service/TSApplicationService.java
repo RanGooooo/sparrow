@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface TSApplicationService {
 
-    RestResult searchTSApplicationList(HttpServletRequest request) throws Exception;
+    RestResult searchTSApplicationList(TSApplicationDto dto) throws Exception;
 
     void forwordTSApplicationSave(HttpServletRequest request) throws Exception;
 

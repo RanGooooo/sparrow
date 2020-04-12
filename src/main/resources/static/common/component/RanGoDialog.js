@@ -1,9 +1,9 @@
-var RanGoDialog = window.RanGoDialog || {};
-var RanGoDialogInner = window.RanGoDialogInner || {};
+let RanGoDialog = window.RanGoDialog || {};
+let RanGoDialogInner = window.RanGoDialogInner || {};
 
 RanGoDialog.init = function(datas){
-    var id = common.guid();
-    var parentFrameId = window.frameElement && window.frameElement.id || '';
+    let id = common.guid();
+    let parentFrameId = window.frameElement && window.frameElement.id || '';
     datas.id = id;
     datas.parentFrameId = parentFrameId;
     datas.iFrameId = 'iframe_' + id;
@@ -13,13 +13,13 @@ RanGoDialog.init = function(datas){
 };
 
 RanGoDialogInner.initHtml = function(datas){
-    var id = datas.id;
-    var iFrameId = datas.iFrameId;
-    var parentFrameId = datas.parentFrameId;
-    var title = datas.title;
-    var src = datas.src;
-    var button = datas.button;
-    var html = '';
+    let id = datas.id;
+    let iFrameId = datas.iFrameId;
+    let parentFrameId = datas.parentFrameId;
+    let title = datas.title;
+    let src = datas.src;
+    let button = datas.button;
+    let html = '';
     html += '<div id="'+id+'" class="dialog-container-mark">';
     html += '    <div class="dialog-container">';
     html += '       <div class="dialog-header">';
@@ -52,21 +52,21 @@ RanGoDialogInner.initHtml = function(datas){
 
 
 RanGoDialogInner.initButtonClick = function (param) {
-    var id = param.id;
-    var iFrameId =  param.iFrameId;
-    var button = param.button;
+    let id = param.id;
+    let iFrameId =  param.iFrameId;
+    let button = param.button;
     $(top.document).find("#"+id+" .dialog-button.dialog-button-primary").click(function(){
-        var buttonindex = $(this).attr("buttonindex");
-        var click = button[buttonindex].click;
-        var window = RanGoDialog.window(iFrameId);
+        let buttonindex = $(this).attr("buttonindex");
+        let click = button[buttonindex].click;
+        let window = RanGoDialog.window(iFrameId);
         click.apply(null,[window]);
-        RanGoDialog.close(id);
+        //RanGoDialog.close(id);
     });
 };
 
 RanGoDialogInner.initButtonHtml = function(param){
-    var html = '';
-    var button = param.button;
+    let html = '';
+    let button = param.button;
     $(button).each(function(index,obj){
         html += "<em class='dialog-button dialog-button-primary' :loading='true' buttonindex='"+index+"'>"+obj.name+"</em>";
     });
@@ -84,6 +84,6 @@ RanGoDialog.reload = function(iFrameId){
 
 
 RanGoDialog.window = function(iFrameId){
-    var window = top.document.getElementById(iFrameId).contentWindow;
+    let window = top.document.getElementById(iFrameId).contentWindow;
     return window;
 };

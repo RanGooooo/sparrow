@@ -1,10 +1,10 @@
 try {
-    if(window.commonVue === undefined){
-        window.commonVue = new Vue({
-            el: '#commonVueApp',
-            data: function() {
-                return {
-                }
+    if(window.windowVue === undefined){
+        window.windowVue = new Vue({
+            el: '#windowVue',
+            data: {
+                loading:null,
+                buttonSize: "small",
             },
             mounted() {
             },
@@ -22,14 +22,10 @@ try {
                     this.$notify.error({title: "错误",message: message});
                 },
                 openFullScreen(text,spinner,background) {
-                    const loading = this.$loading({
-                        lock: true,
-                        text: text,
-                        spinner: spinner,
+                    this.loading = this.$loading({
                         background: background
                     });
-                    return loading;
-                }
+                },
             }
         });
     }

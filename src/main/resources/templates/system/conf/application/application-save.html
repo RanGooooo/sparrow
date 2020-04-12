@@ -14,7 +14,7 @@
 <body>
     <div id="app">
         <input id="TSApplication" type="hidden" th:value="${TSApplication}">
-        <el-form :model="TSApplicationForm" :rules="rules" ref="TSApplicationForm" label-width="100px">
+        <el-form :label-position="labelPosition" :model="TSApplicationForm" :rules="rules" ref="TSApplicationForm" label-width="100px">
             <el-form-item label="应用名称" prop="applicationName">
                 <el-input size="medium" v-model="TSApplicationForm.applicationName" clearable></el-input>
             </el-form-item>
@@ -23,8 +23,8 @@
             </el-form-item>
             <el-form-item label="节点位置" prop="position">
                 <template>
-                    <el-radio v-model="TSApplicationForm.position" label="00">树枝</el-radio>
-                    <el-radio v-model="TSApplicationForm.position" label="01">叶子</el-radio>
+                    <el-radio v-model="TSApplicationForm.position" label="true">树枝</el-radio>
+                    <el-radio v-model="TSApplicationForm.position" label="false">叶子</el-radio>
                 </template>
             </el-form-item>
             <el-form-item label="应用等级" prop="applicationLevel">
@@ -53,6 +53,7 @@
         el: "#app",
         data() {
             return {
+                labelPosition: "left",
                 TSApplicationForm: {
                     applicationName:"",
                     applicationUrl:"",

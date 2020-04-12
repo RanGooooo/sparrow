@@ -8,6 +8,12 @@
     user-select:none;
 }
 
+.common-container{
+    background-color: #EEEEEE;
+    border-radius: 4px;
+}
+
+/*TODO*/
 .el-form {
     width: 380px;
 }

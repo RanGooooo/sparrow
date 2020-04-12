@@ -1,0 +1,30 @@
+<el-drawer th:fragment="common-drawer"
+           :title="commonDrawer.title"
+           :visible.sync="commonDrawer.open"
+           :direction="commonDrawer.direction"
+           :with-header="commonDrawer.withHeader"
+           :size="commonDrawer.size">
+    <!--<el-page-header @back="goBack" :content="commonDrawer.title" style="padding: 18px 0;display: inline-flex;">
+    </el-page-header>-->
+    <!--<el-button size="small" @click="dataTableReset()">重置</el-button>-->
+
+    <div style="display: inline-flex;">
+        <div style="background-color: #EEEEEE;padding: 5px 10px;border-radius: 4px;position: absolute;top: 9px;">
+            <el-button size="small" @click="goBack()">返回</el-button>
+            <el-button size="small" @click="dataTableReset()">保存</el-button>
+            <el-button size="small" type="primary" @click="dataTableReset()">提交</el-button>
+        </div>
+    </div>
+    <div style="display: inline-flex;">
+        <div style="background-color: #EEEEEE;padding: 5px 10px;border-radius: 4px;position: absolute;top: 9px;">
+            <el-button size="small" @click="goBack()">返回</el-button>
+            <el-button size="small" @click="dataTableReset()">保存</el-button>
+            <el-button size="small" type="primary" @click="dataTableReset()">提交</el-button>
+        </div>
+    </div>
+
+
+    <div class="RanGo-drawer-iframe-div">
+        <iframe id="iFrameId" class="RanGo-drawer-iframe" :src="commonDrawer.url"></iframe>
+    </div>
+</el-drawer>

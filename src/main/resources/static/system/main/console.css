@@ -1,16 +1,16 @@
-#consoleApp{
+#consoleVue{
     padding: 0 40px;
 }
 
-#consoleApp .el-tabs__header{
+#consoleVue .el-tabs__header{
     margin:0;
 }
 
-#consoleApp .el-breadcrumb{
+#consoleVue .el-breadcrumb{
     line-height: 30px !important;
 }
 
-#consoleApp .el-card__body{
+#consoleVue .el-card__body{
     padding: 0;
 }
 
@@ -43,11 +43,15 @@
 }
 
 .console-header-navbar-menu-item{
-    background-color: #EEEEEE;
     height: 30px;
     padding: 5px 10px 5px 10px;
-    border-radius: 4px;
     margin-right: 5px;
+}
+/**/
+.console-tab-popover{
+    margin-top: 6px!important;
+    width: auto!important;
+    min-width: 0!important;
 }
 
 /*|||||||||||||||||||||||||Main|||||||||||||||||||||||||*/
@@ -85,10 +89,7 @@
 }
 
 .application-container-array{
-    background-color: #EEEEEE;
     padding: 10px 10px 10px 10px;
-    border-radius: 4px;
-    margin-right: 5px;
 }
 
 .application-container{

@@ -28,8 +28,8 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button size="small" @click="dataTableSearch()" type="primary">查询</el-button>
-                    <el-button size="small" @click="dataTableReset()">重置</el-button>
+                    <el-button :size="buttonSize" @click="dataTableSearch()" type="primary">查询</el-button>
+                    <el-button :size="buttonSize" @click="dataTableReset()">重置</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -86,43 +86,33 @@
             </template>
         </el-table-column>
     </el-table>
-
+    <common-drawer th:replace="common/common-drawer :: common-drawer"></common-drawer>
 </div>
 <script>
     new Vue({
         el: "#app",
         data: {
+            buttonSize: top.window.windowVue.buttonSize,
             dataTableList: [],
             dataTableForm: {
                 applicationName:"",
-                applicationUrl:"",
-                applicationLevel:"",
-                applicationOrder:"",
-                applicationIcon:"",
                 parentApplicationId:"",
-                parentApplicationName:"",
-                position:"",
                 runningState:""
             },
             showHeader: true,
-
+            commonDrawer: {
+                title: "",
+                url: "",
+                open: false,
+                direction: "ttb",
+                withHeader:false,
+                size:"100%"
+            },
         },
         mounted() {
             this.dataTableList = this.searchTSApplicationList();
         },
         methods: {
-            dataTableSearch(){
-                if(this.dataTableList.length > 0){
-                    this.dataTableList = [];
-                }else{
-                    this.dataTableForm.parentApplicationId = "";
-                    this.dataTableList = this.searchTSApplicationList();
-                }
-            },
-            dataTableReset() {
-                this.$refs['dataTableForm'].resetFields();
-                this.dataTableList = this.searchTSApplicationList();
-            },
             searchTSApplicationList(){
                 const self = this;
                 let applicationList = [];
@@ -136,6 +126,16 @@
                 });
                 return applicationList;
             },
+            dataTableSearch(){
+                this.dataTableForm.parentApplicationId = "";
+                this.dataTableList = this.searchTSApplicationList();
+            },
+            dataTableReset() {
+                this.dataTableForm.parentApplicationId = "";
+                this.dataTableForm.applicationName = "";
+                this.dataTableForm.runningState = "";
+                this.dataTableList = this.searchTSApplicationList();
+            },
             load(row, treeNode, resolve) {
                 setTimeout(() => {
                     this.dataTableForm.parentApplicationId = row.id;
@@ -147,16 +147,17 @@
                 }, 1000)
             },
             forwordTSApplicationSave: function (id) {
-                RanGoDialog.init({
-                    title:"新增应用",
-                    src: '/TSApplicationController/forwordTSApplicationSave?id=' + id,
-                    button: [
-                        {
-                            name:"确定",
-                            click: applicationSave
-                        }
-                    ]
-                });
+                if(id){
+                    this.commonDrawer.title = "编辑应用";
+                }else{
+                    this.commonDrawer.title = "新增应用";
+                }
+                this.commonDrawer.url = "/TSApplicationController/forwordTSApplicationSave?id=" + id;
+                this.commonDrawer.open = true;
+            },
+            goBack: function () {
+                this.commonDrawer.url = "";
+                this.commonDrawer.open = false;
             },
         }
     });

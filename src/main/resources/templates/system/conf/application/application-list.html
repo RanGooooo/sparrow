@@ -17,7 +17,7 @@
 <div id="app">
     <el-collapse-transition>
         <div v-show="showHeader">
-            <el-form :inline="true" :model="dataTableForm" ref="dataTableForm" class="demo-form-inline" size="small">
+            <el-form :inline="true" :model="dataTableForm" ref="dataTableForm" class="demo-form-inline" :size="size_input">
                 <el-form-item label="应用名称" prop="applicationName">
                     <el-input v-model="dataTableForm.applicationName"></el-input>
                 </el-form-item>
@@ -28,8 +28,8 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button :size="buttonSize" @click="dataTableSearch()" type="primary">查询</el-button>
-                    <el-button :size="buttonSize" @click="dataTableReset()">重置</el-button>
+                    <el-button :size="size_button" @click="dataTableSearch()" type="primary">查询</el-button>
+                    <el-button :size="size_button" @click="dataTableReset()">重置</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -72,17 +72,12 @@
         </el-table-column>
         <el-table-column label="操作">
             <template slot="header">
-                <el-button size="small" @click="showHeader = !showHeader">高级筛选</el-button>
-                <el-button size="small" @click="forwordTSApplicationSave('')">新增菜单</el-button>
+                <el-button :size="size_button" @click="showHeader = !showHeader">高级筛选</el-button>
+                <el-button :size="size_button" @click="forwordTSApplicationSave('')">新增菜单</el-button>
             </template>
             <template slot-scope="scope">
-                <el-button
-                        size="small"
-                        @click="forwordTSApplicationSave(scope.row.id)">编辑</el-button>
-                <el-button
-                        size="small"
-                        type="danger"
-                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                <el-button :size="size_button" @click="forwordTSApplicationSave(scope.row.id)">编辑</el-button>
+                <el-button :size="size_button" @click="handleDelete(scope.$index, scope.row)" type="danger">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -92,7 +87,8 @@
     new Vue({
         el: "#app",
         data: {
-            buttonSize: top.window.windowVue.buttonSize,
+            size_button: top.window.windowVue.size_button,
+            size_input: top.window.windowVue.size_input,
             dataTableList: [],
             dataTableForm: {
                 applicationName:"",

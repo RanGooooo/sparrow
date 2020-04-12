@@ -30,7 +30,7 @@
                     <span slot="label">
                         <el-popover width="160" v-model="item.visible" popper-class="console-tab-popover">
                             <div class="common-container">
-                                <el-button type="primary" size="mini" @click="item.visible = false">确定</el-button>
+                                <el-button type="primary" size="mini" @click="reloadIFrame(item)">刷新</el-button>
                             </div>
                             <i v-html="item.icon" slot="reference"></i>
                         </el-popover>
@@ -75,9 +75,8 @@
                 </transition>
             </el-collapse-item>
         </el-collapse>
-        <iframe v-for="iFrame in applicationIFrames" v-show="applicationActiveTabId===iFrame.id" :src="iFrame.url" class="console-main-iframe"></iframe>
+        <iframe :id="gernerateId(iFrame.id)" v-for="iFrame in applicationIFrames" v-show="applicationActiveTabId===iFrame.id" :src="iFrame.url" class="console-main-iframe"></iframe>
     </div>
-
 </div>
 <script>
     window.consoleVue = new Vue({
@@ -105,6 +104,14 @@
             this.searchTSApplicationList();
         },
         methods: {
+            gernerateId: function (id){
+                return "iFrame_" + id;
+            },
+            /*重置iframe*/
+            reloadIFrame(item){
+                item.visible = false;
+                document.getElementById(this.gernerateId(item.id)).contentWindow.location.reload(true);
+            },
             pushApplicationTab(application,dataBreadcrumbs){
                 let id = application.id;
                 let title = application.applicationName;
@@ -139,7 +146,6 @@
             addTab(application,dataBreadcrumbs) {
                 this.breadcrumbsPush(dataBreadcrumbs);
                 let id = application.id;
-                let applicationName = application.applicationName;
                 let applicationUrl = application.applicationUrl;
                 this.applicationActiveTabId = id;
                 this.applicationTabs.forEach(function(obj){

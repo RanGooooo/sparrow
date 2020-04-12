@@ -4,7 +4,8 @@ try {
             el: '#windowVue',
             data: {
                 loading:null,
-                buttonSize: "small",
+                size_button: "medium",/*系统按钮大小*/
+                size_input: "medium",/*系统输入框大小*/
             },
             mounted() {
             },

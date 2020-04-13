@@ -4,8 +4,6 @@ package com.rain.sparrow.develop.code.controller;
 import com.rain.sparrow.common.dto.RestResult;
 import com.rain.sparrow.develop.code.dto.THCodeDto;
 import com.rain.sparrow.develop.code.service.THCodeService;
-import com.rain.sparrow.system.menu.dto.TSMenuDto;
-import com.rain.sparrow.system.menu.service.TSMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +38,7 @@ public class THCodeController {
             codeService.codeSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;

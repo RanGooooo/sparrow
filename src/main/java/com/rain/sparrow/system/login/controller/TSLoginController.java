@@ -33,7 +33,7 @@ public class TSLoginController {
             tsLoginService.validate(userDto);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;

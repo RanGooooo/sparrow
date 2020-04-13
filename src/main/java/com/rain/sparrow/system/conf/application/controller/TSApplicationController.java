@@ -33,7 +33,7 @@ public class TSApplicationController {
             result = applicationService.searchTSApplicationList(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;
@@ -47,7 +47,7 @@ public class TSApplicationController {
             result = applicationService.searchMyTSApplicationList(request);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;
@@ -71,7 +71,7 @@ public class TSApplicationController {
             applicationService.applicationSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;
@@ -85,7 +85,7 @@ public class TSApplicationController {
             applicationService.applicationDelete(request);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;
@@ -104,7 +104,7 @@ public class TSApplicationController {
             result = applicationService.searchTSApplicationTree(request);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;

@@ -33,7 +33,7 @@ public class TSLogController {
             result = logService.searchTSLogList(request);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;
@@ -57,7 +57,7 @@ public class TSLogController {
             logService.logSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;
@@ -71,7 +71,7 @@ public class TSLogController {
             logService.logDelete(request);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;

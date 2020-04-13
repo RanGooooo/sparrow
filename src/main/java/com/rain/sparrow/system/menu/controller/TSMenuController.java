@@ -34,7 +34,7 @@ public class TSMenuController {
             result = tsMenuService.searchTSMenuList(request);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;
@@ -48,7 +48,7 @@ public class TSMenuController {
             result = tsMenuService.searchMyTSMenuList(request);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;
@@ -74,7 +74,7 @@ public class TSMenuController {
             tsMenuService.menuSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;
@@ -94,7 +94,7 @@ public class TSMenuController {
             result = tsMenuService.searchTSMenuTree(request);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;
@@ -108,7 +108,7 @@ public class TSMenuController {
             tsMenuService.menuDelete(request);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;

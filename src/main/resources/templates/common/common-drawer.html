@@ -4,24 +4,15 @@
            :direction="commonDrawer.direction"
            :with-header="commonDrawer.withHeader"
            :size="commonDrawer.size">
-    <!--<el-page-header @back="goBack" :content="commonDrawer.title" style="padding: 18px 0;display: inline-flex;">
-    </el-page-header>-->
-    <!--<el-button size="small" @click="dataTableReset()">重置</el-button>-->
-
     <div class="common-container" style="margin-top: 9px;">
         <div style="padding: 0 20px;height: 40px;line-height: 40px;display: inline-block;font-size: 14px;">
-            <el-button :size="size_button" @click="goBack()">返回</el-button>
-            <el-button :size="size_button" @click="dataTableReset()">保存</el-button>
-            <el-button :size="size_button" type="primary" @click="dataTableReset()">提交</el-button>
+            <el-button v-for="item in commonDrawer.buttonList" :size="size_button" @click="clickCall(item.click)">{{item.name}}</el-button>
         </div>
         <div style="padding: 0 20px;height: 40px;line-height: 40px;display: inline-block;font-size: 14px;float: right;">
             <span>{{commonDrawer.title}}</span>
         </div>
     </div>
     <div class="RanGo-drawer-iframe-div">
-        <iframe class="RanGo-drawer-iframe" :src="commonDrawer.url"></iframe>
+        <iframe :id="commonDrawer.iFrameId" class="RanGo-drawer-iframe" :src="commonDrawer.iFrameUrl"></iframe>
     </div>
 </el-drawer>
-<!--
-
--->

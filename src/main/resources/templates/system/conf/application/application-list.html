@@ -91,18 +91,29 @@
             size_input: top.window.windowVue.size_input,
             dataTableList: [],
             dataTableForm: {
-                applicationName:"",
                 parentApplicationId:"",
+                applicationName:"",
                 runningState:""
             },
             showHeader: true,
             commonDrawer: {
+                iFrameId:common.uuid(),
+                iFrameUrl: "",
                 title: "",
-                url: "",
                 open: false,
                 direction: "ttb",
                 withHeader:false,
-                size:"100%"
+                size:"100%",
+                buttonList: [
+                    {
+                        name: "返回",
+                        click: "goBack",
+                    },
+                    {
+                        name: "保存",
+                        click: "applicationSave",
+                    }
+                ]
             },
         },
         mounted() {
@@ -133,6 +144,7 @@
                 this.dataTableList = this.searchTSApplicationList();
             },
             load(row, treeNode, resolve) {
+                alert();
                 setTimeout(() => {
                     this.dataTableForm.parentApplicationId = row.id;
                     let resolveList = this.searchTSApplicationList();
@@ -148,20 +160,25 @@
                 }else{
                     this.commonDrawer.title = "新增应用";
                 }
-                this.commonDrawer.url = "/TSApplicationController/forwordTSApplicationSave?id=" + id;
+                this.commonDrawer.iFrameUrl = "/TSApplicationController/forwordTSApplicationSave?id=" + id;
                 this.commonDrawer.open = true;
             },
+
+            clickCall(click) {
+                this[click]();
+            },
+
             goBack: function () {
-                this.commonDrawer.url = "";
+                this.commonDrawer.iFrameUrl = "";
                 this.commonDrawer.open = false;
             },
+            applicationSave: function () {
+               //$("#" + this.commonDrawer.iFrameId)[0].contentDocument.app.applicationSave();
+//                common.iFrame(this.commonDrawer.iFrameId).window.app.applicationSave();
+               common.iFrameApp(this.commonDrawer.iFrameId).applicationSave();
+            }
         }
     });
-
-    function applicationSave(window) {
-        window.app.applicationSave();
-    }
-
 </script>
 </body>
 </html>

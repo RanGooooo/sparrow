@@ -38,7 +38,7 @@ public class TSBpmnController {
             result = tsBpmnService.searchBpmnList(request);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;
@@ -63,7 +63,7 @@ public class TSBpmnController {
             tsBpmnService.bpmnSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;

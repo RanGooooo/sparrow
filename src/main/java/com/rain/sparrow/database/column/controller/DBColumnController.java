@@ -3,7 +3,6 @@ package com.rain.sparrow.database.column.controller;
 
 import com.rain.sparrow.common.dto.RestResult;
 import com.rain.sparrow.database.column.service.DBColumnService;
-import com.rain.sparrow.database.table.service.DBTableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +27,7 @@ public class DBColumnController {
             result = dbColumnService.searchTableList(request);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;

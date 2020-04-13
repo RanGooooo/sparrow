@@ -4,13 +4,15 @@ import java.util.Map;
 
 public class RestResult {
 
-    public static final String errorMessage = "系统异常";
+    public static final String MESSAGE_TYPE_SUCCESS = "success";
 
-    public static final String errorCode = "500";
+    public static final String MESSAGE_TYPE_WARNING = "warning";
+
+    public static final String MESSAGE_TYPE_ERROR = "error";
+
+    private String type = MESSAGE_TYPE_SUCCESS;
 
     private String message = "操作成功";
-
-    private boolean success = true;
 
     private Map<Object,Object> map;
 
@@ -19,17 +21,17 @@ public class RestResult {
     public RestResult() {
     }
 
-    public RestResult(String message, boolean success) {
+    public RestResult(String type,String message) {
+        this.type = type;
         this.message = message;
-        this.success = success;
     }
 
-    public Object getObject() {
-        return object;
+    public String getType() {
+        return type;
     }
 
-    public void setObject(Object object) {
-        this.object = object;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getMessage() {
@@ -40,19 +42,19 @@ public class RestResult {
         this.message = message;
     }
 
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
     public Map<Object, Object> getMap() {
         return map;
     }
 
     public void setMap(Map<Object, Object> map) {
         this.map = map;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public void setObject(Object object) {
+        this.object = object;
     }
 }

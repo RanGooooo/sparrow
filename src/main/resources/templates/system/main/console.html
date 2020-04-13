@@ -110,7 +110,7 @@
             /*重置iframe*/
             reloadIFrame(item){
                 item.visible = false;
-                document.getElementById(this.gernerateId(item.id)).contentWindow.location.reload(true);
+                common.iFrame(this.gernerateId(item.id)).location.reload(true);
             },
             pushApplicationTab(application,dataBreadcrumbs){
                 let id = application.id;

@@ -33,7 +33,7 @@ public class XxxxxxxxxController {
             result = xxxxxxxxxService.searchXxxxxxxxxList(request);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;
@@ -57,7 +57,7 @@ public class XxxxxxxxxController {
             xxxxxxxxxService.xxxxxxxxxSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;
@@ -71,7 +71,7 @@ public class XxxxxxxxxController {
             xxxxxxxxxService.xxxxxxxxxDelete(request);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setSuccess(false);
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
             result.setMessage(e.getMessage());
         }
         return result;

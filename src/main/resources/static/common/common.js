@@ -4,17 +4,19 @@
  */
 let common = window.common || {};
 
-let loading = null;
-
 common.messageType = {
-    "SUCCESS" : 200,
-    "WARNING" : 300,
-    "ERROR" : 500,
+    "SUCCESS" : "success",
+    "WARNING" : "warning",
+    "ERROR" : "error",
+};
+
+/** 全屏等待加载 */
+common.openFullScreen = function(){
+    top.window.windowVue.loading = top.window.windowVue.$loading({
+        background: "rgba(255, 255, 255, 0.7)"
+    });
 };
 /** 全屏加载 */
-common.openFullScreen = function(){
-    top.window.windowVue.openFullScreen("加载中","el-icon-loading","rgba(255, 255, 255, 0.7)");
-};
 common.openFullScreenClose = function(){
     setTimeout(() => {
         top.window.windowVue.loading.close();
@@ -24,22 +26,21 @@ common.openFullScreenClose = function(){
 /** 展示指定消息内容 */
 common.showMessage = function(type,msg){
     if(type === common.messageType.SUCCESS){
-        top.window.windowVue.showSuccessMessage(msg);
+        top.window.windowVue.$notify({title: "成功",message: msg,type: common.messageType.SUCCESS});
     }
     if(type === common.messageType.WARNING){
-        top.window.windowVue.showWarningMessage(msg);
+        top.window.windowVue.$notify({title: "警告",message: msg,type: common.messageType.WARNING});
     }
     if(type === common.messageType.ERROR){
-        top.window.windowVue.showErrorMessage(msg);
+        if(!msg){
+            msg = "系统错误";
+        }
+        top.window.windowVue.$notify.error({title: "错误",message: msg});
     }
 };
 common.showMessageS = function(result){
-    let success = result.success;
+    let type = result.type;
     let msg = result.message;
-    let type = common.messageType.SUCCESS;
-    if(!success){
-        type = common.messageType.WARNING;
-    }
     common.showMessage(type,msg)
 };
 /** 对jQuery的ajax方法的二次封装 */
@@ -65,9 +66,13 @@ common.ajax = function(param) {
     $.ajax(mergeParam);
 };
 /** 获取UUID */
-common.guid = function() {
+common.uuid = function() {
     function S4() {
         return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
     }
     return (S4()+S4()+S4()+S4()+S4()+S4()+S4()+S4());
+};
+
+common.iFrameApp = function(iFrameId){
+    return $("#" + iFrameId)[0].contentWindow.app;
 };

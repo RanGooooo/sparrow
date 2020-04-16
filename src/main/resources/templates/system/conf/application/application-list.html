@@ -15,6 +15,7 @@
 </head>
 <body>
 <div id="app">
+    <common-drawer th:replace="common/common-drawer :: common-drawer"></common-drawer>
     <el-collapse-transition>
         <div v-show="showHeader">
             <el-form :inline="true" :model="dataTableForm" ref="dataTableForm" class="demo-form-inline" :size="size_input">
@@ -81,7 +82,6 @@
             </template>
         </el-table-column>
     </el-table>
-    <common-drawer th:replace="common/common-drawer :: common-drawer"></common-drawer>
 </div>
 <script>
     new Vue({
@@ -97,8 +97,8 @@
             },
             showHeader: true,
             commonDrawer: {
-                iFrameId:common.uuid(),
-                iFrameUrl: "",
+                frameId:common.uuid(),
+                frameUrl: "",
                 title: "",
                 open: false,
                 direction: "ttb",
@@ -144,7 +144,6 @@
                 this.dataTableList = this.searchTSApplicationList();
             },
             load(row, treeNode, resolve) {
-                alert();
                 setTimeout(() => {
                     this.dataTableForm.parentApplicationId = row.id;
                     let resolveList = this.searchTSApplicationList();
@@ -160,22 +159,18 @@
                 }else{
                     this.commonDrawer.title = "新增应用";
                 }
-                this.commonDrawer.iFrameUrl = "/TSApplicationController/forwordTSApplicationSave?id=" + id;
+                this.commonDrawer.frameUrl = "/TSApplicationController/forwordTSApplicationSave?id=" + id;
                 this.commonDrawer.open = true;
             },
-
             clickCall(click) {
                 this[click]();
             },
-
             goBack: function () {
-                this.commonDrawer.iFrameUrl = "";
+                this.commonDrawer.frameUrl = "";
                 this.commonDrawer.open = false;
             },
             applicationSave: function () {
-               //$("#" + this.commonDrawer.iFrameId)[0].contentDocument.app.applicationSave();
-//                common.iFrame(this.commonDrawer.iFrameId).window.app.applicationSave();
-               common.iFrameApp(this.commonDrawer.iFrameId).applicationSave();
+               common.frame(this.commonDrawer.frameId).app.applicationSave();
             }
         }
     });

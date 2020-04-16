@@ -9,7 +9,6 @@
     <script src="/static/common/open-source/element-ui/vue.js"></script>
     <script src="/static/common/open-source/element-ui/element-ui.js"></script>
     <script src="/static/common/common.js"></script>
-    <script src="/static/common/component/RanGoDialog.js"></script>
 </head>
 <body>
     <div id="app">
@@ -99,24 +98,23 @@
                 }
             },
             applicationSave(){
-                alert();
-//                let self = this;
-//                this.$refs['TSApplicationForm'].validate((valid) => {
-//                    if(!valid) {
-//                        throw 'error';
-//                    }
-//                    common.ajax({
-//                        url:"/TSApplicationController/applicationSave",
-//                        async:false,
-//                        data:self.TSApplicationForm,
-//                        success:function(result){
-//                            common.showMessageS(result);
-//                            if(!result.success){
-//                                throw 'error';
-//                            }
-//                        }
-//                    });
-//                });
+                let self = this;
+                this.$refs['TSApplicationForm'].validate((valid) => {
+                    if(!valid) {
+                        throw 'error';
+                    }
+                    common.ajax({
+                        url:"/TSApplicationController/applicationSave",
+                        async:false,
+                        data:self.TSApplicationForm,
+                        success:function(result){
+                            common.showMessageS(result);
+                            if(result.type  !== common.messageType.SUCCESS){
+                                throw 'error';
+                            }
+                        }
+                    });
+                });
             },
             forwordTSApplicationTree(){
                 RanGoDialog.init({
@@ -133,11 +131,6 @@
 
         }
     });
-
-    function sayHello() {
-        alert();
-    }
-    
     function getTSApplicationCheckedNodes(window){
         var nodes = window.getTSApplicationCheckedNodes();
         if(nodes.length > 0){

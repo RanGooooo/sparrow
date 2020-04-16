@@ -105,12 +105,12 @@
         },
         methods: {
             gernerateId: function (id){
-                return "iFrame_" + id;
+                return "frame_" + id;
             },
             /*重置iframe*/
             reloadIFrame(item){
                 item.visible = false;
-                common.iFrame(this.gernerateId(item.id)).location.reload(true);
+                common.frameReload(this.gernerateId(item.id));
             },
             pushApplicationTab(application,dataBreadcrumbs){
                 let id = application.id;

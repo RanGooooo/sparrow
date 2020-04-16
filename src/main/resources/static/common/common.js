@@ -4,11 +4,32 @@
  */
 let common = window.common || {};
 
+/** ===================展示指定消息内容=================== */
 common.messageType = {
     "SUCCESS" : "success",
     "WARNING" : "warning",
     "ERROR" : "error",
 };
+common.showMessage = function(type,msg){
+    if(type === common.messageType.SUCCESS){
+        top.window.windowVue.$notify({title: "成功",message: msg,type: type});
+    }
+    if(type === common.messageType.WARNING){
+        top.window.windowVue.$notify({title: "警告",message: msg,type: type});
+    }
+    if(type === common.messageType.ERROR){
+        if(!msg){
+            msg = "系统错误";
+        }
+        top.window.windowVue.$notify.error({title: "错误",message: msg});
+    }
+};
+common.showMessageS = function(result){
+    let type = result.type;
+    let msg = result.message;
+    common.showMessage(type,msg)
+};
+/** ==================================================== */
 
 /** 全屏等待加载 */
 common.openFullScreen = function(){
@@ -23,26 +44,6 @@ common.openFullScreenClose = function(){
     }, 500);
 };
 
-/** 展示指定消息内容 */
-common.showMessage = function(type,msg){
-    if(type === common.messageType.SUCCESS){
-        top.window.windowVue.$notify({title: "成功",message: msg,type: common.messageType.SUCCESS});
-    }
-    if(type === common.messageType.WARNING){
-        top.window.windowVue.$notify({title: "警告",message: msg,type: common.messageType.WARNING});
-    }
-    if(type === common.messageType.ERROR){
-        if(!msg){
-            msg = "系统错误";
-        }
-        top.window.windowVue.$notify.error({title: "错误",message: msg});
-    }
-};
-common.showMessageS = function(result){
-    let type = result.type;
-    let msg = result.message;
-    common.showMessage(type,msg)
-};
 /** 对jQuery的ajax方法的二次封装 */
 common.ajax = function(param) {
     common.openFullScreen();
@@ -73,6 +74,12 @@ common.uuid = function() {
     return (S4()+S4()+S4()+S4()+S4()+S4()+S4()+S4());
 };
 
-common.iFrameApp = function(iFrameId){
-    return $("#" + iFrameId)[0].contentWindow.app;
+
+common.frame = function(frameId){
+    return $("#" + frameId)[0].contentWindow;
 };
+
+common.frameReload = function(frameId){
+    common.frame(frameId).location.reload(true);
+};
+

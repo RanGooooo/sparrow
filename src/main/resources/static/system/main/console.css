@@ -1,5 +1,21 @@
 #consoleVue{
-    padding: 0 40px;
+    /*text-align: center;*/
+    /*display: -webkit-box;*/
+    /*display: -moz-box;
+    display: -ms-flexbox;*/
+    /*display: -webkit-flex;*/
+    /*display: flex;*/
+    /*-webkit-box-align: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;*/
+    /*-webkit-align-items: center;*/
+    /*align-items: center;*/
+    /*-webkit-box-pack: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;*/
+    /*min-height: 90vh;*/
 }
 
 #consoleVue .el-tabs__header{
@@ -16,12 +32,19 @@
 
 /*|||||||||||||||||||||||||Header|||||||||||||||||||||||||*/
 .console-header{
-    position: fixed;
-    top: 10px;
+    /*position: fixed;
     left: 40px;
     right: 40px;
     z-index: 1001;
     background: #ffffff;
+    padding-top: 10px;*/
+
+    position: fixed;
+    left: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: #ffffff;
+    padding: 10px 20px 0 20px;
 }
 
 .console-header-navbar{
@@ -57,11 +80,10 @@
 /*|||||||||||||||||||||||||Main|||||||||||||||||||||||||*/
 .console-main{
     position: absolute;
-    top: 80px;
+    top: 78px;
     bottom: 0;
-    /*margin: 0 40px;*/
-    right: 40px;
-    left: 40px;
+    right: 20px;
+    left: 20px;
 }
 .console-main-iframe{
     height: 99%;

@@ -12,6 +12,27 @@
 </head>
 <body>
     <div id="app">
+
+        <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+            <el-form :model="form">
+                <el-form-item label="活动名称" :label-width="formLabelWidth">
+                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="活动区域" :label-width="formLabelWidth">
+                    <el-select v-model="form.region" placeholder="请选择活动区域">
+                        <el-option label="区域一" value="shanghai"></el-option>
+                        <el-option label="区域二" value="beijing"></el-option>
+                    </el-select>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+            </div>
+        </el-dialog>
+
+
+
         <input id="TSApplication" type="hidden" th:value="${TSApplication}">
         <el-form :label-position="labelPosition" :model="TSApplicationForm" :rules="rules" ref="TSApplicationForm" label-width="100px">
             <el-form-item label="应用名称" prop="applicationName">
@@ -50,11 +71,24 @@
 <script>
     window.app = new Vue({
         el: "#app",
-        data() {
-            return {
-                labelPosition: "left",
+        data: {
+            dialogFormVisible: false,
+            form: {
+                name: '',
+                region: '',
+                date1: '',
+                date2: '',
+                delivery: false,
+                type: [],
+                resource: '',
+                desc: ''
+            },
+            formLabelWidth: '120px',
+
+
+            labelPosition: "left",
                 TSApplicationForm: {
-                    applicationName:"",
+                applicationName:"",
                     applicationUrl:"",
                     applicationLevel:"",
                     applicationOrder:"",
@@ -62,30 +96,29 @@
                     parentApplicationId:"",
                     parentApplicationName:"",
                     position:"",
-                },
-                rules: {
-                    applicationName: [
-                        { required: true, message: '请输入应用名称', trigger: 'blur' }
-                    ],
+            },
+            rules: {
+                applicationName: [
+                    { required: true, message: '请输入应用名称', trigger: 'blur' }
+                ],
                     applicationUrl: [
-                        { required: true, message: '请输入应用地址', trigger: 'blur' }
-                    ],
+                    { required: true, message: '请输入应用地址', trigger: 'blur' }
+                ],
                     applicationLevel: [
-                        { required: true, message: '请输入应用等级', trigger: 'blur' }
-                    ],
+                    { required: true, message: '请输入应用等级', trigger: 'blur' }
+                ],
                     applicationOrder: [
-                        { required: true, message: '请输入应用排序', trigger: 'blur' }
-                    ],
+                    { required: true, message: '请输入应用排序', trigger: 'blur' }
+                ],
                     applicationIcon: [
-                        { required: true, message: '请输入应用图标', trigger: 'blur' }
-                    ],
+                    { required: true, message: '请输入应用图标', trigger: 'blur' }
+                ],
                     parentApplicationId: [
-                        { required: true, message: '请输入父应用', trigger: 'blur' }
-                    ],
+                    { required: true, message: '请输入父应用', trigger: 'blur' }
+                ],
                     position: [
-                        { required: true, message: '请输入节点位置', trigger: 'blur' }
-                    ],
-                }
+                    { required: true, message: '请输入节点位置', trigger: 'blur' }
+                ],
             }
         },
         mounted() {
@@ -117,7 +150,8 @@
                 });
             },
             forwordTSApplicationTree(){
-                RanGoDialog.init({
+                this.dialogFormVisible = true;
+               /* RanGoDialog.init({
                     title:'选择父级应用',
                     src: '/TSApplicationController/forwordTSApplicationTree',
                     button: [
@@ -126,7 +160,7 @@
                             click: getTSApplicationCheckedNodes
                         }
                     ]
-                });
+                });*/
             },
 
         }

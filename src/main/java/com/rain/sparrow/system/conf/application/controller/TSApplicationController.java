@@ -91,11 +91,6 @@ public class TSApplicationController {
         return result;
     }
 
-    @RequestMapping("forwordTSApplicationTree")
-    public String forwordTSApplicationTree(){
-        return applicationPath + "application-tree";
-    }
-
     @RequestMapping("searchTSApplicationTree")
     @ResponseBody
     public RestResult searchTSApplicationTree(HttpServletRequest request) {

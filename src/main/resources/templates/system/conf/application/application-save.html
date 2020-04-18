@@ -3,43 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>菜单新增</title>
-    <link rel="stylesheet" href="/static/common/open-source/element-ui/element-ui.css">
-    <link rel="stylesheet" href="/static/common/common.css">
-    <script src="/static/common/open-source/jquery/jquery.min.js"></script>
-    <script src="/static/common/open-source/element-ui/vue.js"></script>
-    <script src="/static/common/open-source/element-ui/element-ui.js"></script>
-    <script src="/static/common/common.js"></script>
+    <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
+    <link rel="stylesheet" href="/static/common/open-source/ztree/zTreeStyle/zTreeStyle.css">
+    <script src="/static/common/open-source/ztree/jquery.ztree.all.js"></script>
+    <script src="/static/common/open-source/ztree/jquery.ztree.exhide.js"></script>
+    <style>
+        .demo-form-inline{
+            width: 100%;
+        }
+        .demo-form-inline div{
+            margin-bottom: 0!important;
+        }
+        .popper-class{
+            top:5px!important;
+            bottom: 15px;
+            overflow-y: auto;
+            position: fixed !important;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
-
-        <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-            <el-form :model="form">
-                <el-form-item label="活动名称" :label-width="formLabelWidth">
-                    <el-input v-model="form.name" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="活动区域" :label-width="formLabelWidth">
-                    <el-select v-model="form.region" placeholder="请选择活动区域">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                    </el-select>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="dialogFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-            </div>
-        </el-dialog>
-
-
-
         <input id="TSApplication" type="hidden" th:value="${TSApplication}">
         <el-form :label-position="labelPosition" :model="TSApplicationForm" :rules="rules" ref="TSApplicationForm" label-width="100px">
             <el-form-item label="应用名称" prop="applicationName">
-                <el-input size="medium" v-model="TSApplicationForm.applicationName" clearable></el-input>
+                <el-input :size="size_input" v-model="TSApplicationForm.applicationName" clearable></el-input>
             </el-form-item>
             <el-form-item label="应用地址" prop="applicationUrl">
-                <el-input size="medium" v-model="TSApplicationForm.applicationUrl" clearable></el-input>
+                <el-input :size="size_input" v-model="TSApplicationForm.applicationUrl" clearable></el-input>
             </el-form-item>
             <el-form-item label="节点位置" prop="position">
                 <template>
@@ -55,16 +46,30 @@
                 </template>
             </el-form-item>
             <el-form-item label="应用排序" prop="applicationOrder">
-                <el-input-number v-model="TSApplicationForm.applicationOrder" size="small" :min="1" :max="99"></el-input-number>
+                <el-input-number :size="size_input" v-model="TSApplicationForm.applicationOrder" :min="1" :max="99"></el-input-number>
             </el-form-item>
             <el-form-item label="应用图标" prop="applicationIcon">
-                <el-input size="medium" v-model="TSApplicationForm.applicationIcon" clearable></el-input>
+                <el-input :size="size_input" v-model="TSApplicationForm.applicationIcon" clearable></el-input>
             </el-form-item>
             <el-form-item label="父应用" prop="parentApplicationId">
                 <el-input v-model="TSApplicationForm.parentApplicationId" v-show="false"></el-input>
-                <el-input size="medium" v-model="TSApplicationForm.parentApplicationName" :readonly="true">
-                    <el-button slot="append" icon="el-icon-search"@click="forwordTSApplicationTree"></el-button>
-                </el-input>
+                <el-popover
+                        placement="right"
+                        width="300"
+                        trigger="click"
+                        @hide="hide"
+                        popper-class="popper-class">
+                    <el-form :inline="true" :model="treeForm" class="demo-form-inline">
+                        <el-form-item>
+                            <el-input :size="size_input" v-model="treeForm.applicationName" placeholder="应用名称" @keyup.native="keyupEnter()"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button :size="size_button" type="danger" @click="keyupEnter" plain>取消</el-button>
+                        </el-form-item>
+                    </el-form>
+                    <ul id="applicationTree" class="ztree" style="padding-bottom: 20px;"></ul>
+                    <el-input slot="reference" :size="size_input" v-model="TSApplicationForm.parentApplicationName" :readonly="true"></el-input>
+                </el-popover>
             </el-form-item>
         </el-form>
     </div>
@@ -72,20 +77,8 @@
     window.app = new Vue({
         el: "#app",
         data: {
-            dialogFormVisible: false,
-            form: {
-                name: '',
-                region: '',
-                date1: '',
-                date2: '',
-                delivery: false,
-                type: [],
-                resource: '',
-                desc: ''
-            },
-            formLabelWidth: '120px',
-
-
+            size_button: top.window.windowVue.size_button,
+            size_input: top.window.windowVue.size_input,
             labelPosition: "left",
                 TSApplicationForm: {
                 applicationName:"",
@@ -114,21 +107,50 @@
                     { required: true, message: '请输入应用图标', trigger: 'blur' }
                 ],
                     parentApplicationId: [
-                    { required: true, message: '请输入父应用', trigger: 'blur' }
+                    { required: false, message: '请输入父应用', trigger: 'blur' }
                 ],
                     position: [
                     { required: true, message: '请输入节点位置', trigger: 'blur' }
                 ],
+            },
+            treeForm:{
+                applicationName:""
+            },
+            treeList:[],
+            setting: {
+                callback: {
+                    onClick: onClick,
+                    onCheck: onClick
+                },
+                check: {
+                    enable: true
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                }
             }
         },
         mounted() {
             this.init();
+            this.initTree();
         },
         methods: {
             init(){
                 if($("#TSApplication").val()){
                     this.TSApplicationForm = JSON.parse($("#TSApplication").val());
                 }
+            },
+            initTree(){
+                let self = this;
+                common.ajax({
+                    url:"/TSApplicationController/searchTSApplicationTree",
+                    success:function(result){
+                        self.treeList = result.object;
+                        $.fn.zTree.init($("#applicationTree"), self.setting, result.object);
+                    }
+                });
             },
             applicationSave(){
                 let self = this;
@@ -149,30 +171,38 @@
                     });
                 });
             },
-            forwordTSApplicationTree(){
-                this.dialogFormVisible = true;
-               /* RanGoDialog.init({
-                    title:'选择父级应用',
-                    src: '/TSApplicationController/forwordTSApplicationTree',
-                    button: [
-                        {
-                            name:'确定',
-                            click: getTSApplicationCheckedNodes
-                        }
-                    ]
-                });*/
+            hide(){
+                var nodes = getTSApplicationCheckedNodes();
+                if(nodes.length > 0){
+                    this.TSApplicationForm.parentApplicationId = nodes[0].id;
+                    this.TSApplicationForm.parentApplicationName = nodes[0].name;
+                }else{
+                    this.TSApplicationForm.parentApplicationId = "";
+                    this.TSApplicationForm.parentApplicationName = "";
+                }
             },
+            keyupEnter(){
+                let list = this.treeList.filter(tree => tree.name.indexOf(this.treeForm.applicationName) !== -1);
+                $.fn.zTree.init($("#applicationTree"), this.setting, list);
+            }
 
         }
     });
-    function getTSApplicationCheckedNodes(window){
-        var nodes = window.getTSApplicationCheckedNodes();
-        if(nodes.length > 0){
-            app.TSApplicationForm.parentApplicationId = nodes[0].id;
-            app.TSApplicationForm.parentApplicationName = nodes[0].name;
-        }
-    }
 
+    function checkOne(selelctId){
+        let tree = $.fn.zTree.getZTreeObj('applicationTree');
+        tree.checkAllNodes(false);		//取消全部勾选
+        tree.checkNode(tree.getNodeByParam("id", selelctId), true);
+    }
+    function onClick(event, treeId, treeNode) {
+        let selelctId = treeNode.id;
+        checkOne(selelctId);
+    }
+    function getTSApplicationCheckedNodes(){
+        let tree = $.fn.zTree.getZTreeObj('applicationTree');
+        let nodes = tree.getCheckedNodes(true);
+        return nodes;
+    }
 </script>
 </body>
 </html>

@@ -86,7 +86,8 @@
     left: 20px;
 }
 .console-main-iframe{
-    height: 99%;
+    display: block;
+    height: 100%;
     width: 100%;
     border: none;
 }

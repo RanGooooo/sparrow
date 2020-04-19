@@ -76,6 +76,9 @@ public class TSApplicationServiceImpl implements TSApplicationService {
     public void applicationSave(@CheckData TSApplicationDto dto) throws Exception{
         String id = dto.getId();
         TSApplication entity = new TSApplication();
+        if(StringUtils.isEmpty(dto.getParentApplicationId())){
+            dto.setParentApplicationId(TSApplicationConstant.PARENT_APPLICATION_ID_TOP);
+        }
         if(!StringUtils.isEmpty(id)){
             entity  = applicationRepository.findTSApplicationById(id);
         }else{
@@ -89,7 +92,7 @@ public class TSApplicationServiceImpl implements TSApplicationService {
     public void applicationDelete(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
         if(StringUtils.isEmpty(id)){
-            throw new Exception("删除TSApplication_ZH失败，主键为空");
+            throw new Exception("删除失败，主键为空");
         }
         applicationRepository.deleteById(id);
     }

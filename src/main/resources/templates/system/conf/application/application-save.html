@@ -6,7 +6,6 @@
     <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
     <link rel="stylesheet" href="/static/common/open-source/ztree/zTreeStyle/zTreeStyle.css">
     <script src="/static/common/open-source/ztree/jquery.ztree.all.js"></script>
-    <script src="/static/common/open-source/ztree/jquery.ztree.exhide.js"></script>
     <style>
         .demo-form-inline{
             width: 100%;
@@ -83,12 +82,12 @@
                 TSApplicationForm: {
                 applicationName:"",
                     applicationUrl:"",
-                    applicationLevel:"",
+                    applicationLevel:"3",
                     applicationOrder:"",
                     applicationIcon:"",
                     parentApplicationId:"",
                     parentApplicationName:"",
-                    position:"",
+                    position:"false",
             },
             rules: {
                 applicationName: [

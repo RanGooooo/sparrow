@@ -6,7 +6,9 @@
            :size="commonDrawer.size">
     <div class="common-container" style="margin-top: 9px;">
         <div style="padding: 0 20px;height: 40px;line-height: 40px;display: inline-block;font-size: 14px;">
-            <el-button v-for="item in commonDrawer.buttonList" :size="size_button" @click="clickCall(item.click)">{{item.name}}</el-button>
+            <template v-for="item in commonDrawer.buttonList">
+                <el-button :type="item.type" :size="size_button" @click="clickCall(item.click)">{{item.name}}</el-button>
+            </template>
         </div>
         <div style="padding: 0 20px;height: 40px;line-height: 40px;display: inline-block;font-size: 14px;float: right;">
             <span>{{commonDrawer.title}}</span>

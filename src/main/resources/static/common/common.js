@@ -9,19 +9,20 @@ common.messageType = {
     "SUCCESS" : "success",
     "WARNING" : "warning",
     "ERROR" : "error",
+    "INFO" : "info"
 };
 common.showMessage = function(type,msg){
     if(type === common.messageType.SUCCESS){
-        top.window.windowVue.$notify({title: "成功",message: msg,type: type});
+        common.windowVue().$notify({title: "成功",message: msg,type: type});
     }
     if(type === common.messageType.WARNING){
-        top.window.windowVue.$notify({title: "警告",message: msg,type: type});
+        common.windowVue().$notify({title: "警告",message: msg,type: type});
     }
     if(type === common.messageType.ERROR){
         if(!msg){
             msg = "系统错误";
         }
-        top.window.windowVue.$notify.error({title: "错误",message: msg});
+        common.windowVue().$notify.error({title: "错误",message: msg});
     }
 };
 common.showMessageS = function(result){
@@ -31,16 +32,39 @@ common.showMessageS = function(result){
 };
 /** ==================================================== */
 
+common.confirm = function (param) {
+    let type = param.type;
+    let iconClass = "";
+    if(type === common.messageType.SUCCESS){
+        iconClass = "common-green el-icon-success";
+    }
+    if(type === common.messageType.WARNING){
+        iconClass = "common-orange el-icon-warning";
+    }
+    if(type === common.messageType.ERROR){
+        iconClass = "common-red el-icon-question";
+    }
+    if(type === common.messageType.INFO){
+        iconClass = "common-blue el-icon-info";
+    }
+    return common.windowVue().$confirm(param.message, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: type,
+        iconClass: iconClass
+    });
+};
+
 /** 全屏等待加载 */
 common.openFullScreen = function(){
-    top.window.windowVue.loading = top.window.windowVue.$loading({
+    common.windowVue().loading = common.windowVue().$loading({
         background: "rgba(255, 255, 255, 0.7)"
     });
 };
 /** 全屏加载 */
 common.openFullScreenClose = function(){
     setTimeout(() => {
-        top.window.windowVue.loading.close();
+        common.windowVue().loading.close();
     }, 500);
 };
 
@@ -66,6 +90,11 @@ common.ajax = function(param) {
     });
     $.ajax(mergeParam);
 };
+
+common.windowVue = function(){
+    return top.window.windowVue;
+};
+
 /** 获取UUID */
 common.uuid = function() {
     function S4() {

@@ -13,7 +13,25 @@
     border-radius: 4px;
 }
 
-/*TODO*/
+/*element 通用*/
 .el-form {
     width: 380px;
+}
+.el-popconfirm__main{
+    margin-bottom: 12px;
+    margin-top: 8px;
+}
+
+
+.common-blue{
+    color: #0066FF!important;
+}
+.common-orange{
+    color: #FF9900!important;
+}
+.common-green{
+    color: #009966!important;
+}
+.common-red{
+    color: #FF0033!important;
 }

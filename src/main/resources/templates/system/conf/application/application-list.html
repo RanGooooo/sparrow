@@ -11,6 +11,12 @@
         .el-form-item{
             margin-bottom: 0!important;
         }
+        .el-button{
+            margin-right: 10px;
+        }
+        .el-button + .el-button{
+            margin-left: 0!important;
+        }
     </style>
 </head>
 <body>
@@ -78,7 +84,7 @@
             </template>
             <template slot-scope="scope">
                 <el-button :size="size_button" @click="forwordTSApplicationSave(scope.row.id)">编辑</el-button>
-                <el-button :size="size_button" @click="handleDelete(scope.$index, scope.row)" type="danger">删除</el-button>
+                <el-button :size="size_button" @click="applicationDelete(scope)" type="danger">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -112,6 +118,7 @@
                     {
                         name: "保存",
                         click: "applicationSave",
+                        type: "primary"
                     }
                 ]
             },
@@ -121,7 +128,7 @@
         },
         methods: {
             searchTSApplicationList(){
-                const self = this;
+                let  self = this;
                 let applicationList = [];
                 common.ajax({
                     url:"/TSApplicationController/searchTSApplicationList",
@@ -130,6 +137,9 @@
                     success:function(result){
                         applicationList = result.object;
                     }
+                });
+                applicationList.forEach((obj, index) => {
+                       obj.position = JSON.parse(obj.position);
                 });
                 return applicationList;
             },
@@ -153,7 +163,7 @@
                     resolve(resolveList)
                 }, 1000)
             },
-            forwordTSApplicationSave: function (id) {
+            forwordTSApplicationSave(id) {
                 if(id){
                     this.commonDrawer.title = "编辑应用";
                 }else{
@@ -165,12 +175,35 @@
             clickCall(click) {
                 this[click]();
             },
-            goBack: function () {
+            goBack() {
                 this.commonDrawer.frameUrl = "";
                 this.commonDrawer.open = false;
             },
-            applicationSave: function () {
+            applicationSave() {
                common.frame(this.commonDrawer.frameId).app.applicationSave();
+               this.goBack();
+               this.dataTableSearch();
+            },
+            applicationDelete(scope){
+                scope.store.loadData();
+                /*this.dataTableList.splice(scope.$index, 1);
+                debugger;*/
+                alert(scope);
+//                common.confirm({
+//                    message: "此操作将永久删除该数据, 是否继续？",
+//                    type: common.messageType.ERROR
+//                }).then(() => {
+//                    let  self = this;
+//                    common.ajax({
+//                        url:"/TSApplicationController/applicationDelete?id=" + id,
+//                        success:function(result){
+//                            common.showMessageS(result);
+//                            self.dataTableSearch();
+//                        }
+//                    });
+//                }).catch(() => {
+//
+//                });
             }
         }
     });

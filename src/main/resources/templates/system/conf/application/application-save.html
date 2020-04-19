@@ -61,10 +61,10 @@
                         popper-class="popper-class">
                     <el-form :inline="true" :model="treeForm" class="demo-form-inline">
                         <el-form-item>
-                            <el-input :size="size_input" v-model="treeForm.applicationName" placeholder="应用名称" @keyup.native="keyupEnter()"></el-input>
+                            <el-input :size="size_input" v-model="treeForm.applicationName" placeholder="应用名称" @keyup.native="search"></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-button :size="size_button" type="danger" @click="keyupEnter" plain>取消</el-button>
+                            <el-button :size="size_button" type="danger" @click="empty" plain>取消</el-button>
                         </el-form-item>
                     </el-form>
                     <ul id="applicationTree" class="ztree" style="padding-bottom: 20px;"></ul>
@@ -172,7 +172,7 @@
                 });
             },
             hide(){
-                var nodes = getTSApplicationCheckedNodes();
+                let nodes = getTSApplicationCheckedNodes();
                 if(nodes.length > 0){
                     this.TSApplicationForm.parentApplicationId = nodes[0].id;
                     this.TSApplicationForm.parentApplicationName = nodes[0].name;
@@ -181,27 +181,25 @@
                     this.TSApplicationForm.parentApplicationName = "";
                 }
             },
-            keyupEnter(){
+            search(){
                 let list = this.treeList.filter(tree => tree.name.indexOf(this.treeForm.applicationName) !== -1);
                 $.fn.zTree.init($("#applicationTree"), this.setting, list);
+            },
+            empty(){
+                getTree().checkAllNodes(false);		//取消全部勾选
             }
-
         }
     });
-
-    function checkOne(selelctId){
-        let tree = $.fn.zTree.getZTreeObj('applicationTree');
-        tree.checkAllNodes(false);		//取消全部勾选
-        tree.checkNode(tree.getNodeByParam("id", selelctId), true);
+    function getTree() {
+        return $.fn.zTree.getZTreeObj('applicationTree');
     }
     function onClick(event, treeId, treeNode) {
-        let selelctId = treeNode.id;
-        checkOne(selelctId);
+        app.empty();
+        let tree = getTree();
+        tree.checkNode(tree.getNodeByParam("id", treeNode.id), true);
     }
     function getTSApplicationCheckedNodes(){
-        let tree = $.fn.zTree.getZTreeObj('applicationTree');
-        let nodes = tree.getCheckedNodes(true);
-        return nodes;
+        return getTree().getCheckedNodes(true);
     }
 </script>
 </body>

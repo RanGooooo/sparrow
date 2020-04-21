@@ -5,7 +5,7 @@
     <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
     <style>
         .demo-form-inline {
-            padding: 10px 10px 0 10px;
+            padding: 15px 10px;
             width: auto;
         }
         .el-form-item{
@@ -42,11 +42,12 @@
         </div>
     </el-collapse-transition>
     <el-table
+            ref="refTable"
             :data="dataTableList"
             row-key="id"
-            lazy
-            :load="load"
-            :tree-props="{children: 'children', hasChildren: 'position'}">
+            border
+            @expand-change="exChange"
+            :tree-props="{children: 'children'}">
         <el-table-column
                 prop="applicationName"
                 label="应用名称"
@@ -84,7 +85,7 @@
             </template>
             <template slot-scope="scope">
                 <el-button :size="size_button" @click="forwordTSApplicationSave(scope.row.id)">编辑</el-button>
-                <el-button :size="size_button" @click="applicationDelete(scope)" type="danger">删除</el-button>
+                <el-button :size="size_button" @click="applicationDelete(scope.row.id)" type="danger">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -139,29 +140,42 @@
                     }
                 });
                 applicationList.forEach((obj, index) => {
-                       obj.position = JSON.parse(obj.position);
+                    obj.position = JSON.parse(obj.position);
+                    if(obj.position){
+                        obj.children = [{id: common.uuid()}]
+                    }
                 });
                 return applicationList;
             },
+            toggleRowExpansion(list){
+                list.forEach(row => {
+                    row.children=[];
+                    this.$refs.refTable.toggleRowExpansion(row,false);
+                });
+            },
             dataTableSearch(){
+                this.toggleRowExpansion(this.dataTableList);
                 this.dataTableForm.parentApplicationId = "";
                 this.dataTableList = this.searchTSApplicationList();
             },
             dataTableReset() {
+                this.toggleRowExpansion(this.dataTableList);
                 this.dataTableForm.parentApplicationId = "";
                 this.dataTableForm.applicationName = "";
                 this.dataTableForm.runningState = "";
                 this.dataTableList = this.searchTSApplicationList();
             },
-            load(row, treeNode, resolve) {
-                setTimeout(() => {
+            exChange(row, ex) {
+                if(ex&&!row.open){
+                    row.open = true;
                     this.dataTableForm.parentApplicationId = row.id;
                     let resolveList = this.searchTSApplicationList();
                     resolveList.forEach((obj, index) => {
                         this.dataTableList = this.dataTableList.filter(dataTable => dataTable.id !== obj.id);
+                        this.$refs.refTable.toggleRowExpansion(obj,false);
                     });
-                    resolve(resolveList)
-                }, 1000)
+                    row.children = resolveList;
+                }
             },
             forwordTSApplicationSave(id) {
                 if(id){
@@ -184,11 +198,11 @@
                this.goBack();
                this.dataTableSearch();
             },
-            applicationDelete(scope){
-                scope.store.loadData();
+            applicationDelete(id){
+                let node = this.$refs.multipleTable;
+                console.log(node);
                 /*this.dataTableList.splice(scope.$index, 1);
                 debugger;*/
-                alert(scope);
 //                common.confirm({
 //                    message: "此操作将永久删除该数据, 是否继续？",
 //                    type: common.messageType.ERROR

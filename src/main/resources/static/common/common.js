@@ -63,9 +63,7 @@ common.openFullScreen = function(){
 };
 /** 全屏加载 */
 common.openFullScreenClose = function(){
-    setTimeout(() => {
-        common.windowVue().loading.close();
-    }, 500);
+    common.windowVue().loading.close();
 };
 
 /** 对jQuery的ajax方法的二次封装 */

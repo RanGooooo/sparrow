@@ -152,6 +152,7 @@
                 });
             },
             applicationSave(){
+                let object = null;
                 let self = this;
                 this.$refs['TSApplicationForm'].validate((valid) => {
                     if(!valid) {
@@ -163,12 +164,14 @@
                         data:self.TSApplicationForm,
                         success:function(result){
                             common.showMessageS(result);
+                            object = result.object;
                             if(result.type  !== common.messageType.SUCCESS){
                                 throw 'error';
                             }
                         }
                     });
                 });
+                return object;
             },
             hide(){
                 let nodes = getTSApplicationCheckedNodes();

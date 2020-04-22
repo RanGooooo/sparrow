@@ -73,7 +73,8 @@ public class TSApplicationServiceImpl implements TSApplicationService {
     }
 
     @Override
-    public void applicationSave(@CheckData TSApplicationDto dto) throws Exception{
+    public RestResult applicationSave(@CheckData TSApplicationDto dto) throws Exception{
+        RestResult result = new RestResult();
         String id = dto.getId();
         TSApplication entity = new TSApplication();
         if(StringUtils.isEmpty(dto.getParentApplicationId())){
@@ -86,6 +87,9 @@ public class TSApplicationServiceImpl implements TSApplicationService {
         }
         BeanUtils.copyProperties(dto,entity);
         applicationRepository.save(entity);
+        dto.setId(entity.getId());
+        result.setObject(dto);
+        return result;
     }
 
     @Override

@@ -68,7 +68,7 @@ public class TSApplicationController {
     public RestResult applicationSave(TSApplicationDto dto) {
         RestResult result = new RestResult();
         try {
-            applicationService.applicationSave(dto);
+            result= applicationService.applicationSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);

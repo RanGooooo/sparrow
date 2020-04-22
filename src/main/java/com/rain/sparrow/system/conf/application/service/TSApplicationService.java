@@ -11,7 +11,7 @@ public interface TSApplicationService {
 
     void forwordTSApplicationSave(HttpServletRequest request) throws Exception;
 
-    void applicationSave(TSApplicationDto dto) throws Exception;
+    RestResult applicationSave(TSApplicationDto dto) throws Exception;
 
     void applicationDelete(HttpServletRequest request) throws Exception;
 

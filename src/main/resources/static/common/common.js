@@ -4,6 +4,10 @@
  */
 let common = window.common || {};
 
+common.constant = {
+    "TOPID" : "TOP"
+};
+
 /** ===================展示指定消息内容=================== */
 common.messageType = {
     "SUCCESS" : "success",

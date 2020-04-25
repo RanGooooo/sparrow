@@ -77,8 +77,13 @@ public class TSApplicationServiceImpl implements TSApplicationService {
         RestResult result = new RestResult();
         String id = dto.getId();
         TSApplication entity = new TSApplication();
-        if(StringUtils.isEmpty(dto.getParentApplicationId())){
+        String parentApplicationId = dto.getParentApplicationId();
+        if(StringUtils.isEmpty(parentApplicationId)){
             dto.setParentApplicationId(TSApplicationConstant.PARENT_APPLICATION_ID_TOP);
+        }else{
+            TSApplication parentApplication = applicationRepository.findTSApplicationById(parentApplicationId);
+            parentApplication.setPosition(TSApplicationConstant.POSITION_TRUE);
+            applicationRepository.save(parentApplication);
         }
         if(!StringUtils.isEmpty(id)){
             entity  = applicationRepository.findTSApplicationById(id);
@@ -97,6 +102,14 @@ public class TSApplicationServiceImpl implements TSApplicationService {
         String id = request.getParameter("id");
         if(StringUtils.isEmpty(id)){
             throw new Exception("删除失败，主键为空");
+        }
+        TSApplication entity = applicationRepository.findTSApplicationById(id);
+        String parentApplicationId = entity.getParentApplicationId();
+        List<TSApplication> applicationList = applicationRepository.findTSApplicationByParentApplicationId(parentApplicationId);
+        if(applicationList.size()==1){
+            TSApplication parent = applicationRepository.findTSApplicationById(parentApplicationId);
+            parent.setPosition(TSApplicationConstant.POSITION_FALSE);
+            applicationRepository.save(parent);
         }
         applicationRepository.deleteById(id);
     }

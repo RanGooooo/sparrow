@@ -113,4 +113,10 @@ common.frame = function(frameId){
 common.frameReload = function(frameId){
     common.frame(frameId).location.reload(true);
 };
+common.notNull = function(obj){
+    if(obj!==undefined&&obj!==null){
+        return true;
+    }
+    return false;
+};
 

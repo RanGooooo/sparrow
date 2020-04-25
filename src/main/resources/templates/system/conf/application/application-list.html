@@ -125,9 +125,6 @@
                 name: '王小虎',
                 address: '上海市普陀区金沙江路 1518 弄'
             }],
-
-
-
             size_button: top.window.windowVue.size_button,
             size_input: top.window.windowVue.size_input,
             dataTableList: [],
@@ -176,7 +173,9 @@
                 applicationList.forEach((obj, index) => {
                     obj.position = JSON.parse(obj.position);
                     if(obj.position){
-                        obj.children = [{id: common.uuid()}]
+                        obj.children = [{id: common.uuid()}];
+                    }else{
+                        obj.children = [];
                     }
                 });
                 return applicationList;
@@ -228,17 +227,66 @@
                 this.commonDrawer.open = false;
             },
             applicationSave() {
-               let object = common.frame(this.commonDrawer.frameId).app.applicationSave();
-               this.goBack();
-               let parentApplicationId = object.parentApplicationId;
-               if(parentApplicationId === "TOP"){
-                   this.dataTableList.push(object);
-               }else{
-                   let parentNode = this.getParentNode(parentApplicationId,this.dataTableList);
-                   parentNode.children.push(object);
-               }
-
-
+                let newNode = common.frame(this.commonDrawer.frameId).app.applicationSave();
+                let id = newNode.id;
+                let oldNode = this.getNode(id,this.dataTableList);
+                if(common.notNull(oldNode)){
+                    newNode.children = oldNode.children;
+                    let oldNodePid = oldNode.parentApplicationId;
+                    if(oldNodePid === common.constant.TOPID){
+                        this.dataTableList = this.dataTableList.filter(obj => obj.id !== id);
+                    }else{
+                        let parentNode = this.getParentNode(oldNodePid,this.dataTableList);
+                        parentNode.children = parentNode.children.filter(obj => obj.id !== id);
+                    }
+                }
+                let newNodePid = newNode.parentApplicationId;
+                if(newNodePid === common.constant.TOPID){
+                   this.applicationPush(this.dataTableList,newNode);
+                }else{
+                    let parentNode = this.getParentNode(newNodePid,this.dataTableList);
+                    if(common.notNull(parentNode)){
+                        parentNode.position = true;
+                        this.applicationPush(parentNode.children,newNode);
+                    }
+                }
+                this.goBack();
+            },
+            applicationPush(list,object){
+                let target = list.filter(row => row.id === object.id);
+                if(target[0]){
+                    target[0].id = object.id;
+                    target[0].applicationName = object.applicationName;
+                    target[0].applicationUrl = object.applicationUrl;
+                    target[0].applicationLevel = object.applicationLevel;
+                    target[0].applicationOrder = object.applicationOrder;
+                    target[0].applicationIcon = object.applicationIcon;
+                    target[0].parentApplicationId = object.parentApplicationId;
+                    target[0].parentApplicationName = object.parentApplicationName;
+                    target[0].position = JSON.parse(object.position);
+                }else{
+                    list.push(object);
+                }
+            },
+            getNode(id,list){
+                let result = null;
+                try{
+                    if(list!==undefined){
+                        list.forEach((row, index) => {
+                            if(result !== null){
+                                throw new Error("ending");
+                            }
+                            if(row.id === id){
+                                result = row;
+                                throw new Error("ending");
+                            }else{
+                                result = this.getParentNode(id,row.children)
+                            }
+                        });
+                    }
+                }catch(e) {
+                }
+                return result;
             },
             getParentNode(parentApplicationId,list){
                 let result = null;
@@ -272,8 +320,12 @@
                         url:"/TSApplicationController/applicationDelete?id=" + id,
                         success:function(result){
                             common.showMessageS(result);
-                            let parentNode = self.getParentNode(parentApplicationId,self.dataTableList);
-                            parentNode.children = parentNode.children.filter(obj => obj.id !== id);
+                            if(parentApplicationId === common.constant.TOPID){
+                                self.dataTableList = self.dataTableList.filter(obj => obj.id !== id);
+                            }else{
+                                let parentNode = self.getParentNode(parentApplicationId,self.dataTableList);
+                                parentNode.children = parentNode.children.filter(obj => obj.id !== id);
+                            }
                         }
                     });
                 }).catch(() => {

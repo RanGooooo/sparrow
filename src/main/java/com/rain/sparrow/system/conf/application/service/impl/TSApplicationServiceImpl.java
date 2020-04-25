@@ -104,6 +104,10 @@ public class TSApplicationServiceImpl implements TSApplicationService {
             throw new Exception("删除失败，主键为空");
         }
         TSApplication entity = applicationRepository.findTSApplicationById(id);
+        List<TSApplication> applicationList1 = applicationRepository.findTSApplicationByParentApplicationId(id);
+        if(applicationList1.size()>0){
+            throw new Exception("存在子应用");
+        }
         String parentApplicationId = entity.getParentApplicationId();
         List<TSApplication> applicationList = applicationRepository.findTSApplicationByParentApplicationId(parentApplicationId);
         if(applicationList.size()==1){

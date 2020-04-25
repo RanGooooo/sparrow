@@ -320,11 +320,13 @@
                         url:"/TSApplicationController/applicationDelete?id=" + id,
                         success:function(result){
                             common.showMessageS(result);
-                            if(parentApplicationId === common.constant.TOPID){
-                                self.dataTableList = self.dataTableList.filter(obj => obj.id !== id);
-                            }else{
-                                let parentNode = self.getParentNode(parentApplicationId,self.dataTableList);
-                                parentNode.children = parentNode.children.filter(obj => obj.id !== id);
+                            if(result.type === common.messageType.SUCCESS){
+                                if(parentApplicationId === common.constant.TOPID){
+                                    self.dataTableList = self.dataTableList.filter(obj => obj.id !== id);
+                                }else{
+                                    let parentNode = self.getParentNode(parentApplicationId,self.dataTableList);
+                                    parentNode.children = parentNode.children.filter(obj => obj.id !== id);
+                                }
                             }
                         }
                     });

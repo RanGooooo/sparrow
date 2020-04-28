@@ -44,7 +44,7 @@ public class XxxxxxxxxServiceImpl implements XxxxxxxxxService {
     @Override
     public void xxxxxxxxxSave(XxxxxxxxxDto dto) throws Exception{
         //TODO 判空代码 稍后添加
-        String id = dto.getId();
+        String id = "";//dto.getId();
         Xxxxxxxxx entity = new Xxxxxxxxx();
         if(!StringUtils.isEmpty(id)){
             entity  = xxxxxxxxxRepository.findXxxxxxxxxById(id);

@@ -1,8 +1,8 @@
 package model.temp.xxxxxxxxx.dto;
 
-import com.rain.sparrow.system.menu.entity.TSMenu;
+import model.temp.xxxxxxxxx.entity.Xxxxxxxxx;
 
-public class XxxxxxxxxDto extends TSMenu{
+public class XxxxxxxxxDto extends Xxxxxxxxx{
 
 
 

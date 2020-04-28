@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>控制台</title>
+    <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
+    <link rel="stylesheet" href="/static/system/main/console.css">
+</head>
+<body style="background: url(/system/login/login.svg),#3360ff;min-height: 100vh">
+<div id="consoleVue">
+    <div class="console-header">
+        <div class="console-header-navbar">
+            <div class="console-header-navbar-crumbs">
+                <el-breadcrumb separator="/">
+                    <el-breadcrumb-item v-for="breadcrumb in breadcrumbs">{{breadcrumb.title}}</el-breadcrumb-item>
+                </el-breadcrumb>
+            </div>
+            <div class="console-header-navbar-menu">
+                <div class="common-container console-header-navbar-menu-item">
+                    <i class="fa fa-cog application-title-icon"></i>
+                </div>
+                <div class="console-header-navbar-menu-img">
+                    <el-avatar shape="square" :size="50" :src="squareUrl"></el-avatar>
+                </div>
+            </div>
+        </div>
+        <el-tabs v-model="applicationActiveTabId" closable @tab-remove="removeTab" @tab-click="clickTab">
+            <el-tab-pane v-for="(item, index) in applicationTabs" :name="item.id">
+                    <span slot="label">
+                        <el-popover width="160" v-model="item.visible" popper-class="console-tab-popover">
+                            <div class="common-container">
+                                <el-button type="primary" size="mini" @click="reloadIFrame(item)">刷新</el-button>
+                            </div>
+                            <i v-html="item.icon" slot="reference"></i>
+                        </el-popover>
+                        {{item.title}}
+                    </span>
+            </el-tab-pane>
+        </el-tabs>
+    </div>
+    <div class="console-main">
+        <el-collapse style="padding: 0 20px;background: #fff;" v-model="applicationActiveCollapseIds" v-show="applicationActiveTabId===consoleId" @change="handleChange">
+            <el-collapse-item v-for="(oneLevelApplication,oneLevelIndex) in applicationList"
+                              v-if="applicationTopId===oneLevelApplication.parentApplicationId"
+                              v-bind:name="oneLevelApplication.id"
+            ><!--一级菜单-->
+                <template slot="title">
+                    <div class="application-title-div" @click="applicationTitleClick(oneLevelApplication.applicationName)">
+                        <i class="application-title-icon" v-html='oneLevelApplication.applicationIcon'></i>
+                        <h3 class="application-title-text">{{oneLevelApplication.applicationName}}</h3>
+                    </div>
+                </template>
+                <template v-for="twoLevelApplication in applicationList" v-if="oneLevelApplication.id===twoLevelApplication.parentApplicationId"><!--二级菜单-->
+                    <div class="application-container">
+                        <el-card shadow="hover" class="application-card application-card-blue"
+                                 @click.native="applicationContainerArrayView(twoLevelApplication,oneLevelIndex,oneLevelApplication.applicationName + ',' + twoLevelApplication.applicationName)">
+                            <i v-html='twoLevelApplication.applicationIcon'></i>
+                        </el-card>
+                        <span>{{twoLevelApplication.applicationName}}</span>
+                    </div>
+                </template>
+                <transition name="el-fade-in-linear">
+                    <template v-for="twoLevelApplication in applicationList" v-if="oneLevelApplication.id===twoLevelApplication.parentApplicationId"><!--三级菜单-->
+                        <div class="common-container application-container-array" v-if="applicationContainerArrayShowIds[oneLevelIndex]===twoLevelApplication.id">
+                            <div class="application-container small" v-for="threeLevelApplication in applicationList" v-if="twoLevelApplication.id===threeLevelApplication.parentApplicationId">
+                                <el-card shadow="hover" class="application-card small application-card-green"
+                                         @click.native="addTab(threeLevelApplication,oneLevelApplication.applicationName + ',' + twoLevelApplication.applicationName + ',' + threeLevelApplication.applicationName)">
+                                    <i v-html='threeLevelApplication.applicationIcon'></i>
+                                </el-card>
+                                <span>{{threeLevelApplication.applicationName}}</span>
+                            </div>
+                        </div>
+                    </template>
+                </transition>
+            </el-collapse-item>
+        </el-collapse>
+        <div style="padding: 0 20px;background: #fff;height: 100%;" v-for="iFrame in applicationIFrames" v-show="applicationActiveTabId===iFrame.id">
+            <iframe :id="gernerateId(iFrame.id)"  :src="iFrame.url" class="console-main-iframe"></iframe>
+        </div>
+    </div>
+</div>
+<script>
+    window.consoleVue = new Vue({
+        el: "#consoleVue",
+        data: {
+            consoleId: "console",
+            consoleName: "桌面",
+            squareUrl: "/test/canvas.png",/*头像*/
+            applicationTopId: "TOP",/*菜单顶级id*/
+            applicationContainerArrayShowIds: [],/*三级菜单显示状态*/
+            applicationList: [],/*应用集合*/
+            applicationActiveCollapseIds: [],/*折叠面板展开id集合*/
+            applicationActiveTabId: "",/*当前显示页面id*/
+            applicationTabs: [],/*tab集合*/
+            applicationIFrames:[],/*tab集合对应的IFrames集合*/
+            breadcrumbs:[],/*面包屑*/
+        },
+        mounted () {
+            this.applicationActiveTabId = this.consoleId;
+            this.pushApplicationTab({
+                id:this.consoleId,
+                applicationName:this.consoleName
+            },this.consoleName);
+            this.breadcrumbsPush(this.consoleName);
+            this.searchTSApplicationList();
+        },
+        methods: {
+            gernerateId: function (id){
+                return "frame_" + id;
+            },
+            /*重置iframe*/
+            reloadIFrame(item){
+                item.visible = false;
+                common.frameReload(this.gernerateId(item.id));
+            },
+            pushApplicationTab(application,dataBreadcrumbs){
+                let id = application.id;
+                let title = application.applicationName;
+                let icon = application.applicationIcon;
+                this.applicationTabs.push({
+                    id: id,
+                    title: title,
+                    icon: icon,
+                    dataBreadcrumbs: dataBreadcrumbs,
+                    visible: false,
+                });
+            },
+            /*获取用户菜单*/
+            searchTSApplicationList(){
+                const self = this;
+                common.ajax({
+                    url:"/TSApplicationController/searchMyTSApplicationList",
+                    success:function(result){
+                        self.applicationList = result.object;
+                        self.$set(self.applicationActiveCollapseIds,0,self.applicationList[0].id);
+                    }
+                });
+            },
+            applicationContainerArrayView(twoLevelApplication,oneLevelIndex,dataBreadcrumbs) {
+                this.breadcrumbsPush(dataBreadcrumbs);
+                let id = twoLevelApplication.id;
+                let position = twoLevelApplication.position;
+                if(position !== "01"){
+                    this.$set(this.applicationContainerArrayShowIds,oneLevelIndex,id);
+                }
+            },
+            addTab(application,dataBreadcrumbs) {
+                this.breadcrumbsPush(dataBreadcrumbs);
+                let id = application.id;
+                let applicationUrl = application.applicationUrl;
+                this.applicationActiveTabId = id;
+                this.applicationTabs.forEach(function(obj){
+                    if(obj.id === id){
+                        throw 'error';
+                    }
+                });
+                this.pushApplicationTab(application,dataBreadcrumbs);
+                this.applicationIFrames.push({
+                    id: id,
+                    url: applicationUrl
+                });
+            },
+
+            clickTab(targetTab, event){
+                this.breadcrumbsPush(this.applicationTabs.filter(tab => tab.id === targetTab.name)[0].dataBreadcrumbs);
+            },
+            applicationTitleClick(dataBreadcrumbs){
+                this.breadcrumbsPush(dataBreadcrumbs);
+            },
+
+            breadcrumbsPush(dataBreadcrumbs){
+                if(dataBreadcrumbs=== this.consoleName){
+                    this.breadcrumbs = [];
+                }else{
+                    this.breadcrumbs = [{
+                        title: this.consoleName
+                    }];
+                }
+                let dataBreadcrumbArr = dataBreadcrumbs.split(",");
+                dataBreadcrumbArr.forEach((obj, index) => {
+                    this.breadcrumbs.push({
+                        title: obj
+                    });
+                });
+            },
+            removeTab(targetId) {
+                let tabs = this.applicationTabs;
+                let activeId = this.applicationActiveTabId;
+                let dataBreadcrumbs = "";
+                if (activeId === targetId) {
+                    tabs.forEach((tab, index) => {
+                        if (tab.id === targetId) {
+                            let nextTab = tabs[index + 1] || tabs[index - 1];
+                            if (nextTab) {
+                                activeId = nextTab.id;
+                                dataBreadcrumbs = nextTab.dataBreadcrumbs;
+                            }
+                        }
+                    });
+                }
+                this.breadcrumbsPush(dataBreadcrumbs);
+                this.applicationActiveTabId = activeId;
+                this.applicationTabs = tabs.filter(tab => tab.id !== targetId);
+                let iframes = this.applicationIFrames;
+                this.applicationIFrames = iframes.filter(iframe => iframe.id !== targetId);
+            },
+//=========================================================================
+            handleChange(val) {
+            },
+        }
+    });
+</script>
+</body>
+</html>

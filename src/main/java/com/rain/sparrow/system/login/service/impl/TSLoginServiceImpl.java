@@ -2,7 +2,6 @@ package com.rain.sparrow.system.login.service.impl;
 
 import com.rain.sparrow.common.annotation.check.CheckData;
 import com.rain.sparrow.common.constant.AuthenticationConstant;
-import com.rain.sparrow.system.login.dao.TSLoginRepository;
 import com.rain.sparrow.system.login.dto.LoginUserDto;
 import com.rain.sparrow.system.login.service.TSLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,6 @@ public class TSLoginServiceImpl implements TSLoginService {
 
     @Autowired
     private HttpSession session;
-
-    @Autowired
-    private TSLoginRepository tsLoginRepository;
 
 
     @Override

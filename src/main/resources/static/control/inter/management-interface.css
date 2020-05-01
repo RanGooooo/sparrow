@@ -1,0 +1,25 @@
+.el-collapse-item__content{
+    padding-bottom: 0!important;
+}
+.el-table__expanded-cell{
+    padding: 0!important;
+}
+.el-table-column--selection .cell{
+    padding-right: 10px!important;
+}
+
+.parameter-value-cell{
+    padding: 0!important;
+}
+
+/*.parameter-value-cell:not(:first-child){*/
+    /*padding: 0!important;*/
+/*}*/
+
+.parameter-value-cell .cell{
+    padding: 0!important;
+}
+
+.has-gutter .parameter-value-cell .cell{
+    padding: 0 10px!important;
+}

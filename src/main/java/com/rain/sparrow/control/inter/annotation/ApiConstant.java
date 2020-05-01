@@ -1,4 +1,4 @@
-package com.rain.sparrow.common.annotation.mvc;
+package com.rain.sparrow.control.inter.annotation;
 
 /**
  * @Description

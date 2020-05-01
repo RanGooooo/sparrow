@@ -1,19 +1,21 @@
 package com.rain.sparrow.system.management.application.controller;
 
 
-import com.rain.sparrow.common.annotation.mvc.Api;
 import com.rain.sparrow.common.dto.RestResult;
+import com.rain.sparrow.control.inter.annotation.Api;
+import com.rain.sparrow.control.inter.annotation.ApiGroup;
 import com.rain.sparrow.system.management.application.dto.TSApplicationDto;
 import com.rain.sparrow.system.management.application.service.TSApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@Api(name = "应用管理")
+@ApiGroup(description  = "应用管理")
 @RequestMapping("TSApplicationController")
 public class TSApplicationController {
 
@@ -22,14 +24,14 @@ public class TSApplicationController {
     @Autowired
     private TSApplicationService applicationService;
 
-    @Api(name = "跳转应用列表")
+    @Api(description  = "跳转应用列表")
     @RequestMapping("forwordTSApplicationList")
     public String forwordTSApplicationList(){
         return applicationPath + "application-list";
     }
 
-    @Api(name = "搜索应用列表")
-    @RequestMapping("searchTSApplicationList")
+    @Api(description  = "搜索应用列表")
+    @RequestMapping(value = "searchTSApplicationList",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
     public RestResult searchTSApplicationList(TSApplicationDto dto) {
         RestResult result = new RestResult();
@@ -42,7 +44,7 @@ public class TSApplicationController {
         }
         return result;
     }
-    @Api(name = "搜索我的列表")
+    @Api(description  = "搜索我的列表")
     @RequestMapping("searchMyTSApplicationList")
     @ResponseBody
     public RestResult searchMyTSApplicationList(HttpServletRequest request) {
@@ -56,7 +58,7 @@ public class TSApplicationController {
         }
         return result;
     }
-    @Api(name = "跳转保存页面")
+    @Api(description  = "跳转保存页面")
     @RequestMapping("forwordTSApplicationSave")
     public String forwordTSApplicationSave(HttpServletRequest request){
         try {
@@ -66,7 +68,7 @@ public class TSApplicationController {
         }
         return applicationPath + "application-save";
     }
-    @Api(name = "应用保存")
+    @Api(description  = "应用保存")
     @RequestMapping("applicationSave")
     @ResponseBody
     public RestResult applicationSave(TSApplicationDto dto) {
@@ -80,7 +82,7 @@ public class TSApplicationController {
         }
         return result;
     }
-    @Api(name = "应用删除")
+    @Api(description  = "应用删除")
     @RequestMapping("applicationDelete")
     @ResponseBody
     public RestResult applicationDelete(HttpServletRequest request) {
@@ -94,7 +96,7 @@ public class TSApplicationController {
         }
         return result;
     }
-    @Api(name = "搜索应用树")
+    @Api(description  = "搜索应用树")
     @RequestMapping("searchTSApplicationTree")
     @ResponseBody
     public RestResult searchTSApplicationTree(HttpServletRequest request) {

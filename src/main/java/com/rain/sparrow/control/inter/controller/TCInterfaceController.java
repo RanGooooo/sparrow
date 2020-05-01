@@ -1,19 +1,21 @@
 package com.rain.sparrow.control.inter.controller;
 
 
-import com.rain.sparrow.common.annotation.mvc.Api;
+import com.rain.sparrow.control.inter.annotation.Api;
+import com.rain.sparrow.control.inter.annotation.ApiGroup;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@Api(name = "接口管理")
+@ApiGroup(description  = "接口管理")
 @RequestMapping("TCInterfaceController")
 public class TCInterfaceController {
 
     private static final String TCInterface_PATH = "control/inter/";
 
-    @Api(name = "跳转接口管理")
-    @RequestMapping("forwordManagementInterface")
+    @Api(description  = "跳转接口管理")
+    @RequestMapping(value = "forwordManagementInterface",method = RequestMethod.GET)
     public String forwordManagementInterface(){
         return TCInterface_PATH + "management-interface";
     }

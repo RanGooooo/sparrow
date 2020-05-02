@@ -5,6 +5,8 @@
     <title>接口管理</title>
     <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
     <link rel="stylesheet" href="/static/control/inter/management-interface.css">
+    <link rel="stylesheet" href="/static/common/open-source/jquery/jsonview/jquery.jsonview.min.css">
+    <script src="/static/common/open-source/jquery/jsonview/jquery.jsonview.min.js"></script>
 </head>
 <body>
     <div id="app">
@@ -17,7 +19,7 @@
                 <el-table :data="interface.apiList" :show-header="false"><!--接口映射方法-->
                     <el-table-column type="expand">
                         <template slot-scope="api">
-                            <div class="common-container" style="padding: 10px;">
+                            <div class="common-container" style="padding: 10px;border-radius: 0;">
                                 <el-table :data="api.row.parameterList" border>
                                     <el-table-column type="selection" align="center"></el-table-column>
                                     <el-table-column
@@ -31,20 +33,29 @@
                                             min-width="40%"
                                             class-name="parameter-value-cell">
                                         <template slot-scope="parameter">
-                                            <el-input
-                                                    style="border: none;"
-                                                    placeholder="请输入内容"
-                                                    v-model="parameter.row.value"
-                                                    clearable>
-                                            </el-input>
+                                            <el-input v-model="parameter.row.value" placeholder="请输入内容" clearable></el-input>
                                         </template>
                                     </el-table-column>
                                     <el-table-column
                                             prop="description"
                                             label="DESCRIPTION"
-                                            min-width="30%">
+                                            min-width="30%"
+                                            class-name="parameter-value-cell">
+                                        <template slot-scope="parameter">
+                                            <el-input v-model="parameter.row.description" placeholder="请输入内容" clearable></el-input>
+                                        </template>
                                     </el-table-column>
                                 </el-table>
+                                <el-row :gutter="10" style="margin-top: 10px;">
+                                    <el-col :span="24">
+                                        <el-card shadow="never">
+                                            <div slot="header">
+                                                <span style="color: #909399;font-weight: 600;font-size: 14px;">Response</span>
+                                            </div>
+                                            <div class="uuclass"></div>
+                                        </el-card>
+                                    </el-col>
+                                </el-row>
                             </div>
                         </template>
                     </el-table-column>
@@ -60,7 +71,7 @@
                             label="请求类型"
                             prop="method">
                         <template slot-scope="api">
-                            <el-button size="mini" v-for="requestMethod in api.row.requestMethodList" :type="requestMethod.type">{{requestMethod.name}}</el-button>
+                            <el-button @click="sendRequest(api.row)" size="mini" v-for="requestMethod in api.row.requestMethodList" :type="requestMethod.type">{{requestMethod.name}}</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -79,13 +90,20 @@
                 this.searchTCInterfaceList();
             },
             methods: {
-                /*获取用户菜单*/
                 searchTCInterfaceList(){
                     const self = this;
                     common.ajax({
                         url:"/controllerReflect/getUrlMapping",
                         success:function(result){
                             self.interfaceList = result;
+                        }
+                    });
+                },
+                sendRequest(api){
+                    common.ajax({
+                        url:api.mapping,
+                        success:function(result){
+                            $(".uuclass").JSONView(result);
                         }
                     });
                 }

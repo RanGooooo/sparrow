@@ -1,3 +1,4 @@
+/*〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓系统字体〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓*/
 *{
     font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
     margin:0;
@@ -8,12 +9,7 @@
     user-select:none;*/
 }
 
-.common-container{
-    background-color: #F5F7FA;;
-    border-radius: 4px;
-}
-
-/*element 通用*/
+/*〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓element-ui〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓*/
 .el-form {
     width: 380px;
 }
@@ -21,8 +17,22 @@
     margin-bottom: 12px;
     margin-top: 8px;
 }
-
-
+/*※※※※※※※※※※※※按钮 info颜色调整※※※※※※※※※※※※*/
+.el-button--info{
+    color: #fff!important;
+    background-color: #194CB2!important;
+    border-color: #194CB2!important;
+}
+.el-button--info:hover, .el-button--info:focus {
+    background: #4770c1!important;
+    border-color: #4770c1!important;
+    color: #fff!important;
+}
+/*〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓〓*/
+.common-container{
+    background-color: #F5F7FA;;
+    border-radius: 4px;
+}
 .common-blue{
     color: #0066FF!important;
 }

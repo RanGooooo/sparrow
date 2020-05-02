@@ -80,6 +80,7 @@ common.ajax = function(param) {
     } , param , {
         error:function(e){
             common.showMessage(common.messageType.ERROR,null);
+            common.openFullScreenClose();
             throw 'error';
         },
         complete : function(response) {

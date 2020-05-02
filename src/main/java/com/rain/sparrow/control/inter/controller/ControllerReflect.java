@@ -27,6 +27,7 @@ import java.util.Set;
 @Controller
 @RequestMapping("/controllerReflect")
 public class ControllerReflect {
+
     @ResponseBody
     @RequestMapping("getUrlMapping")
     public Map<String,ApiGroupDto> getUrlMapping(HttpServletRequest request) throws Exception {
@@ -52,13 +53,11 @@ public class ControllerReflect {
                 ApiDto apiDto = new ApiDto();
                 Api api = handlerMethod.getMethodAnnotation(Api.class);
                 apiDto.setDescription(api.description());
-                apiDto.setMapping(info.getPatternsCondition().toString());
+                apiDto.setMapping((String)info.getPatternsCondition().getPatterns().toArray()[0]);
                 Set<RequestMethod> requestMethods = info.getMethodsCondition().getMethods();
                 for (RequestMethod requestMethod:requestMethods) {
-//                    apiDto.setMethod(requestMethod.name());
                     ApiRequestMethodDto apiRequestMethodDto = new ApiRequestMethodDto();
                     apiRequestMethodDto.setName(requestMethod.name());
-                    apiRequestMethodDto.setType("success");
                     apiDto.addRequestMethod(apiRequestMethodDto);
                 }
                 String[] parameterNames = new LocalVariableTableParameterNameDiscoverer().getParameterNames(method);
@@ -67,42 +66,9 @@ public class ControllerReflect {
                     apiParameterDto.setKey(parameterName);
                     apiDto.addParameter(apiParameterDto);
                 }
-
                 apiGroupDto.addApi(apiDto);
             }
         }
         return apiGroupMap;
     }
 }
-
-//dto.put("method", handlerMethod.getMethod().getName());
-//        Method method = handlerMethod.getMethod();
-//        dto.put("className", handlerMethod.getMethod().getDeclaringClass().getName());
-//        RequestMethodsRequestCondition methodsCondition = info.getMethodsCondition();
-//        for (RequestMethod requestMethod : methodsCondition.getMethods()) {
-//        dto.put("type", requestMethod.toString());
-//        }
-//        PatternsRequestCondition p = info.getPatternsCondition();
-//        for (String url : p.getPatterns()) {
-//        dto.put("url", url);
-//        }
-
-
-
-//        for(RequestMappingInfo info : map.keySet()){
-//            HandlerMethod handlerMethod = map.get(info);
-//            Api methodAnnotation = map.get(info).getMethodAnnotation(Api.class);
-//            if(methodAnnotation!=null){
-//                Map<String, Object> dto = new HashMap<>();
-//                result.add(dto);
-//                dto.put("name",methodAnnotation.name());
-//                dto.put("mapping",info.getPatternsCondition().toString());
-//                MethodParameter[] methodParameters = handlerMethod.getMethodParameters();
-//                Method method = handlerMethod.getMethod();
-//
-//                for (MethodParameter m :methodParameters) {
-//
-//                    dto.put("methodParamter",m.getParameter().getName());
-//                }
-//            }
-//        }

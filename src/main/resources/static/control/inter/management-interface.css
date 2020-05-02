@@ -7,19 +7,19 @@
 .el-table-column--selection .cell{
     padding-right: 10px!important;
 }
-
 .parameter-value-cell{
     padding: 0!important;
 }
-
-/*.parameter-value-cell:not(:first-child){*/
-    /*padding: 0!important;*/
-/*}*/
-
 .parameter-value-cell .cell{
     padding: 0!important;
 }
-
 .has-gutter .parameter-value-cell .cell{
     padding: 0 10px!important;
+}
+.parameter-value-cell .cell .el-input__inner{
+    border:none!important;
+    border-radius: 0!important;
+}
+.common-container .el-card__header{
+    padding: 12px 18px!important;
 }

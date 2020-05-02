@@ -14,6 +14,8 @@ public class ApiDto {
 
     private String mapping;/*路径映射*/
 
+    private String response;
+
     private List<ApiRequestMethodDto> requestMethodList = new ArrayList<>();/*请求方式*/
 
     private List<ApiParameterDto> parameterList = new ArrayList<>();
@@ -32,6 +34,14 @@ public class ApiDto {
 
     public void setMapping(String mapping) {
         this.mapping = mapping;
+    }
+
+    public String getResponse() {
+        return response;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
     }
 
     public List<ApiRequestMethodDto> getRequestMethodList() {

@@ -19,9 +19,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 @Controller
@@ -30,7 +28,7 @@ public class ControllerReflect {
 
     @ResponseBody
     @RequestMapping("getUrlMapping")
-    public Map<String,ApiGroupDto> getUrlMapping(HttpServletRequest request) throws Exception {
+    public List<ApiGroupDto> getUrlMapping(HttpServletRequest request) throws Exception {
         Map<String,ApiGroupDto> apiGroupMap = new HashMap<>();
         WebApplicationContext wc = WebApplicationContextUtils.getRequiredWebApplicationContext(request.getSession().getServletContext());
         RequestMappingHandlerMapping rmhp = wc.getBean(RequestMappingHandlerMapping.class);
@@ -69,6 +67,11 @@ public class ControllerReflect {
                 apiGroupDto.addApi(apiDto);
             }
         }
-        return apiGroupMap;
+        Set<String> keySet = apiGroupMap.keySet();
+        List<ApiGroupDto> apiGroupDtoList = new ArrayList<>();
+        for (String key:keySet) {
+            apiGroupDtoList.add(apiGroupMap.get(key));
+        }
+        return apiGroupDtoList;
     }
 }

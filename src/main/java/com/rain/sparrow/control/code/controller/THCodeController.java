@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("THCodeController")
 public class THCodeController {
 
-    private static final String menuPath = "develop/code/";
+    private static final String menuPath = "control/code/";
 
     @Autowired
     private THCodeService codeService;
@@ -25,13 +25,41 @@ public class THCodeController {
         return menuPath + "code-save";
     }
 
-
     @RequestMapping("codeSave")
     @ResponseBody
     public RestResult codeSave(THCodeDto dto) {
         RestResult result = new RestResult();
         try {
             codeService.codeSave(dto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+
+    @RequestMapping("searchColumnList")
+    @ResponseBody
+    public RestResult searchColumnList(HttpServletRequest request) {
+        RestResult result = new RestResult();
+        try {
+            result = codeService.searchColumnList(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+    @RequestMapping("searchTableList")
+    @ResponseBody
+    public RestResult searchTableList(HttpServletRequest request) {
+        RestResult result = new RestResult();
+        try {
+            result = codeService.searchTableList(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);

@@ -3,173 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <title>菜单新增</title>
-    <link rel="stylesheet" href="/common/open-source/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="/common/common.css">
-    <link rel="stylesheet" href="/common/component/check/RanGoCheck.css">
-    <link rel="stylesheet" href="/develop/code/code-save.css">
-    <script src="/common/open-source/jquery/jquery.min.js"></script>
-    <script src="/common/common.js"></script>
-    <script src="/common/form_json.js"></script>
-    <script src="/common/component/RanGoDialog.js"></script>
-    <script src="/common/component/check/RanGoCheck.js"></script>
-    <script src="/develop/code/code-save.js"></script>
+    <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
+    <style>
+        html{
+            overflow-x: hidden;
+        }
+    </style>
 </head>
 <body>
-<div id="code" class="run-go-form-row" style="height: 100%;margin-top: 0;display: flex;overflow-x: scroll;">
-    <div class="title" style="min-width: 250px;">
-        <div class="row row-first">
-            <div class="col-12 title">
+<div id="app">
 
+    <el-row>
+        <el-col :span="8">
+            <el-table @row-click="columnList" :data="tableData" :height="tableHeight">
+                <el-table-column prop="tableName" label="表名"></el-table-column>
+            </el-table>
+        </el-col>
+        <el-col :span="8">
+            <el-table :data="columnData" :height="tableHeight">
+                <el-table-column prop="columnName" label="字段名"></el-table-column>
+                <el-table-column prop="dataType" label="类型"></el-table-column>
+            </el-table>
+        </el-col>
+        <el-col :span="8">
+            <div style="margin: 50px;">
+                <el-form :label-position="labelPosition" :model="TSCodeForm" :rules="rules" ref="TSCodeForm" label-width="100px">
+                    <el-form-item label="表名称" prop="table">
+                        <el-input :size="size_input" v-model="TSCodeForm.table" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="模块名称" prop="model">
+                        <el-input :size="size_input" v-model="TSCodeForm.model" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="实体类名称" prop="entity">
+                        <el-input :size="size_input" v-model="TSCodeForm.entity" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="包路径" prop="packagePath">
+                        <el-input :size="size_input" v-model="TSCodeForm.packagePath" placeholder="com.gxcx." clearable></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button :size="size_button" @click="codeSave()" type="primary">查询</el-button>
+                    </el-form-item>
+                </el-form>
             </div>
-        </div>
-        <div class="row row-second">
-            <div class="col-12 title">
-                <h5>表</h5>
-            </div>
-        </div>
-
-        <div class="row row-third">
-            <div class="col-12 title">
-                <div id="tableList" class="table-scroll" style="padding-left: 0;">
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="title" style="min-width: 250px;">
-        <div class="row row-first">
-            <div class="col-12 title">
-                <h1>数据库</h1>
-            </div>
-        </div>
-        <div class="row row-second">
-            <div class="col-12 title">
-                <h5>字段</h5>
-            </div>
-        </div>
-
-        <div class="row row-third">
-            <div class="col-12 title">
-                <div id="columnList" class="table-scroll" style="padding-left: 0;">
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="title" style="min-width: 350px;">
-        <div class="row row-first">
-            <div class="col-12 title">
-                <h1>解放双手</h1>
-            </div>
-        </div>
-        <div class="row row-second">
-            <div class="col-12 title">
-                <h5>模块</h5>
-            </div>
-        </div>
-        <div class="row row-third">
-            <div class="col-12 title">
-                <div class="table-scroll" style="padding-left: 0;">
-                    <div class="row run-go-form-row">
-                        <div class="col-3 title">
-                            <strong class="requiredmarker">*</strong>层
-                        </div>
-                        <div class="col-9" style="text-align: left;">
-                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" id="all">
-                                <label class="custom-control-label" for="all" style="line-height: 20px;">全选</label>
-                            </div>
-                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" id="packageEntity">
-                                <label class="custom-control-label" for="packageEntity" style="line-height: 20px;">Entity</label>
-                            </div>
-                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" id="packageDao">
-                                <label class="custom-control-label" for="packageDao" style="line-height: 20px;">Dao</label>
-                            </div>
-                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" id="packageMapper">
-                                <label class="custom-control-label" for="packageMapper" style="line-height: 20px;">Mapper</label>
-                            </div>
-                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" id="packageService">
-                                <label class="custom-control-label" for="packageService" style="line-height: 20px;">Service/Impl</label>
-                            </div>
-                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" id="packageController">
-                                <label class="custom-control-label" for="packageController" style="line-height: 20px;">Controller</label>
-                            </div>
-                            <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                                <input type="checkbox" class="custom-control-input" id="constantController">
-                                <label class="custom-control-label" for="constantController" style="line-height: 20px;">Constant</label>
-                            </div>
-                        </div>
-                    </div>
-                    <form id="baseForm">
-                        <div class="row run-go-form-row">
-                            <div class="col-3 title">
-                                <strong class="requiredmarker">*</strong>表名称
-                            </div>
-                            <div class="col-9" style="text-align: left;">
-                                <input id="table" name="table" class="form-control form-control-sm" type="text" placeholder="t_s_user" mydatatype="*" messageS="" readonly="readonly">
-                            </div>
-                        </div>
-                        <div class="row run-go-form-row">
-                            <div class="col-3 title">
-                                <strong class="requiredmarker">*</strong>模块名称
-                            </div>
-                            <div class="col-9" style="text-align: left;">
-                                <input id="model" name="model" class="form-control form-control-sm" type="text" placeholder="user" mydatatype="*" messageS="">
-                            </div>
-                        </div>
-                        <div class="row run-go-form-row">
-                            <div class="col-3 title">
-                                <strong class="requiredmarker">*</strong>实体类名称
-                            </div>
-                            <div class="col-9" style="text-align: left;">
-                                <input id="entity" name="entity" class="form-control form-control-sm" type="text" placeholder="TSUser" mydatatype="*" messageS="">
-                            </div>
-                        </div>
-                        <div class="row run-go-form-row">
-                            <div class="col-3 title">
-                                <strong class="requiredmarker">*</strong>包路径
-                            </div>
-                            <div class="col-9" style="text-align: left;">
-                                <input id="packagePath" name="packagePath" class="form-control form-control-sm" type="text" placeholder="com.gxcx." mydatatype="*" messageS="">
-                            </div>
-                        </div>
-                        <div class="row run-go-form-row">
-                            <div class="col-3 title">
-
-                            </div>
-                            <div class="col-9" style="text-align: left;">
-                                <button type="button" class="btn btn-outline-dark" style="margin-right: 25px;" onclick="codeSave();">解放</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="title" style="min-width: 350px;">
-        <div class="row row-first">
-            <div class="col-12 title">
-
-            </div>
-        </div>
-        <div class="row row-second">
-            <div class="col-12 title">
-
-            </div>
-        </div>
-        <div class="row row-third">
-            <div class="col-12 title">
-                <div class="table-scroll" style="padding-left: 0;text-align: left;">
-
-                </div>
-            </div>
-        </div>
-    </div>
+        </el-col>
+    </el-row>
 </div>
+<script>
+    window.app = new Vue({
+        el: "#app",
+        data: {
+            size_button: top.window.windowVue.size_button,
+            size_input: top.window.windowVue.size_input,
+            labelPosition: "left",
+            tableHeight: window.innerHeight,
+            TSCodeForm: {
+                table:"",
+                model:"",
+                entity:"",
+                packagePath:""
+            },
+            rules: {
+                table: [
+                    { required: true, message: '请输入', trigger: 'blur' }
+                ],
+                model: [
+                    { required: true, message: '请输入', trigger: 'blur' }
+                ],
+                entity: [
+                    { required: true, message: '请输入', trigger: 'blur' }
+                ],
+                packagePath: [
+                    { required: true, message: '请输入', trigger: 'blur' }
+                ]
+            },
+            tableData:[],
+            columnData:[],
+        },
+        mounted() {
+            this.tableList();
+        },
+        methods: {
+            tableList(){
+                let self = this;
+                common.ajax({
+                    url:"/THCodeController/searchTableList",
+                    success:function(result){
+                        self.tableData = result.object;
+                    }
+                });
+            },
+            columnList(row) {
+                let tableName = row.tableName;
+                this.TSCodeForm.table = tableName;
+                let tableNameArr = tableName.split("_");
+                let entity = "";
+                $(tableNameArr).each(function (index,obj) {
+                    if(obj.length > 1){
+                        entity += obj.substring(0, 1).toUpperCase() + obj.substring(1);
+                    }else{
+                        entity += obj.toUpperCase();
+                    }
+                });
+                this.TSCodeForm.entity = entity;
+                this.TSCodeForm.model = tableNameArr[tableNameArr.length - 1];
+                let self = this;
+                common.ajax({
+                    url:"/THCodeController/searchColumnList",
+                    data : {
+                        "tableName":tableName
+                    },
+                    success:function(result){
+                        self.columnData = result.object;
+                    }
+                });
+            },
+            codeSave(){
+                let self = this;
+                this.$refs['TSCodeForm'].validate((valid) => {
+                    if(!valid) {
+                        throw 'error';
+                    }
+                    common.ajax({
+                        url:"/THCodeController/codeSave",
+                        data:self.TSCodeForm,
+                        success:function(result){
+                            common.showMessageS(result);
+                        }
+                    });
+                });
+            },
+        }
+    });
+</script>
 </body>
 </html>

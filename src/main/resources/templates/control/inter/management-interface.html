@@ -5,8 +5,8 @@
     <title>接口管理</title>
     <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
     <link rel="stylesheet" href="/static/control/inter/management-interface.css">
-    <link rel="stylesheet" href="/static/common/open-source/jquery/jsonview/jquery.jsonview.min.css">
-    <script src="/static/common/open-source/jquery/jsonview/jquery.jsonview.min.js"></script>
+    <link rel="stylesheet" href="/static/common/open-source/jquery/jsonview/jquery.jsonview.css">
+    <script src="/static/common/open-source/jquery/jsonview/jquery.jsonview.js"></script>
 </head>
 <body>
     <div id="app">
@@ -52,7 +52,7 @@
                                             <div slot="header">
                                                 <span style="color: #909399;font-weight: 600;font-size: 14px;">Response</span>
                                             </div>
-                                            <div class="uuclass"></div>
+                                            <div :id="api.row.responseId"></div>
                                         </el-card>
                                     </el-col>
                                 </el-row>
@@ -95,17 +95,23 @@
                     common.ajax({
                         url:"/controllerReflect/getUrlMapping",
                         success:function(result){
+                            result.forEach(interface => {
+                                interface.apiList.forEach(api => {
+                                    api.responseId = common.uuid();
+                                });
+                            });
                             self.interfaceList = result;
+
                         }
                     });
                 },
                 sendRequest(api){
-                    common.ajax({
-                        url:api.mapping,
-                        success:function(result){
-                            $(".uuclass").JSONView(result);
-                        }
-                    });
+//                    common.ajax({
+//                        url:api.mapping,
+//                        success:function(result){
+//                            $("#" + api.responseId).JSONView(result);
+//                        }
+//                    });
                 }
             }
         });

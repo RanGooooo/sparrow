@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单新增</title>
+    <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
+    <link rel="stylesheet" href="/static/common/open-source/ztree/zTreeStyle/zTreeStyle.css">
+    <script src="/static/common/open-source/ztree/jquery.ztree.all.js"></script>
+    <style>
+        .box-card-group{
+            width: 500px;
+            display: inline-block;
+        }
+        .custom-tree-node {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+            padding-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" style="width: 3000px;background-color: #d9d9d9">
+        <div class="box-card-group">
+
+        </div>
+
+        <div class="box-card-group">
+
+        </div>
+
+
+        <div class="box-card-group">
+            <el-card shadow="never">
+                <div slot="header" class="clearfix">
+                    <span>机构</span>
+                    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                </div>
+                <el-tree
+                        :data="data"
+                        show-checkbox
+                        node-key="id"
+                        default-expand-all
+                        :expand-on-click-node="false">
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span>{{ node.label }}</span>
+        <span>
+          <el-button
+                  type="text"
+                  size="mini"
+                  @click="() => append(data)">
+            Append
+          </el-button>
+          <el-button
+                  type="text"
+                  size="mini"
+                  @click="() => remove(node, data)">
+            Delete
+          </el-button>
+        </span>
+      </span>
+                </el-tree>
+            </el-card>
+        </div>
+
+        <div class="box-card-group">
+            <el-card shadow="never">
+                <div slot="header" class="clearfix">
+                    <span>机构</span>
+                    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                </div>
+                <el-tree
+                        :data="data"
+                        show-checkbox
+                        node-key="id"
+                        default-expand-all
+                        :expand-on-click-node="false">
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span>{{ node.label }}</span>
+        <span>
+          <el-button
+                  type="text"
+                  size="mini"
+                  @click="() => append(data)">
+            Append
+          </el-button>
+          <el-button
+                  type="text"
+                  size="mini"
+                  @click="() => remove(node, data)">
+            Delete
+          </el-button>
+        </span>
+      </span>
+                </el-tree>
+            </el-card>
+        </div>
+
+    </div>
+<script>
+    let id = 1000;
+    window.app = new Vue({
+        el: "#app",
+        data: {
+
+        },
+        mounted() {
+            this.tableList();
+        },
+        methods: {
+
+
+        }
+    });
+
+</script>
+</body>
+</html>

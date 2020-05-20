@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>菜单新增</title>
+    <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
+    <style>
+        html{
+            overflow-x: auto;
+        }
+        .popper-class{
+            top:15px!important;
+            bottom: 15px;
+            right: 15px;
+            overflow-y: auto;
+            position: fixed !important;
+        }
+    </style>
+</head>
+<body>
+<div id="app" style="width: 3000px;background-color: #d9d9d9">
+    <el-row>
+        <el-col style="width: 500px;margin: 15px;">
+            <el-card shadow="never">
+                <el-row style="padding-bottom: 15px;">
+                    <el-popover
+                            placement="right"
+                            trigger="click"
+                            popper-class="popper-class">
+                        <el-table :data="gridData">
+                            <el-table-column width="150" property="date" label="日期"></el-table-column>
+                            <el-table-column width="100" property="name" label="姓名"></el-table-column>
+                            <el-table-column width="300" property="address" label="地址"></el-table-column>
+                        </el-table>
+                        <el-button size="mini" type="primary" slot="reference">新增顶级节点</el-button>
+                    </el-popover>
+
+                    <el-button size="mini" type="success">新增子节点</el-button>
+                    <el-button size="mini" type="info">删除节点</el-button>
+                </el-row>
+                <el-tree
+                        :data="data"
+                        show-checkbox
+                        node-key="id"
+                        default-expand-all
+                        :expand-on-click-node="false">
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span>{{ node.label }}</span>
+        <span>
+          <el-button
+                  type="text"
+                  size="mini"
+                  @click="() => append(data)">
+            Append
+          </el-button>
+          <el-button
+                  type="text"
+                  size="mini"
+                  @click="() => remove(node, data)">
+            Delete
+          </el-button>
+        </span>
+      </span>
+                </el-tree>
+            </el-card>
+        </el-col>
+        <el-col style="width: 500px;">
+            <el-table @row-click="columnList" :data="tableData" :height="tableHeight">
+                <el-table-column prop="tableName" label="用户"></el-table-column>
+            </el-table>
+        </el-col>
+        <el-col style="width: 500px;">
+            <el-table @row-click="columnList" :data="tableData" :height="tableHeight">
+                <el-table-column prop="tableName" label="角色"></el-table-column>
+            </el-table>
+        </el-col>
+        <el-col style="width: 500px;">
+            <el-table @row-click="columnList" :data="tableData" :height="tableHeight">
+                <el-table-column prop="tableName" label="权限"></el-table-column>
+            </el-table>
+        </el-col>
+    </el-row>
+</div>
+<script>
+    window.app = new Vue({
+        el: "#app",
+        data: {
+            tableData:[],
+            tableHeight: window.innerHeight,
+            gridData: [{
+                date: '2016-05-02',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+            }, {
+                date: '2016-05-04',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+            }, {
+                date: '2016-05-01',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+            }, {
+                date: '2016-05-03',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+            }],
+            data: [{
+                id: 1,
+                label: '一级 1',
+                children: [{
+                    id: 4,
+                    label: '二级 1-1',
+                    children: [{
+                        id: 9,
+                        label: '三级 1-1-1'
+                    }, {
+                        id: 10,
+                        label: '三级 1-1-2'
+                    }]
+                }]
+            }, {
+                id: 2,
+                label: '一级 2',
+                children: [{
+                    id: 5,
+                    label: '二级 2-1'
+                }, {
+                    id: 6,
+                    label: '二级 2-2'
+                }]
+            }, {
+                id: 3,
+                label: '一级 3',
+                children: [{
+                    id: 7,
+                    label: '二级 3-1'
+                }, {
+                    id: 8,
+                    label: '二级 3-2'
+                }]
+            }]
+        },
+        mounted() {
+            this.tableList();
+        },
+        methods: {
+
+            tableList(){
+                let self = this;
+                common.ajax({
+                    url:"/THCodeController/searchTableList",
+                    success:function(result){
+                        self.tableData = result.object;
+                    }
+                });
+            },
+
+            append(data) {
+                const newChild = { id: id++, label: 'testtest', children: [] };
+                if (!data.children) {
+                    this.$set(data, 'children', []);
+                }
+                data.children.push(newChild);
+            },
+
+            remove(node, data) {
+                const parent = node.parent;
+                const children = parent.data.children || parent.data;
+                const index = children.findIndex(d => d.id === data.id);
+                children.splice(index, 1);
+            },
+
+
+        }
+    });
+</script>
+</body>
+</html>

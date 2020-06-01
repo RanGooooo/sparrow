@@ -1,5 +1,6 @@
 package com.rain.sparrow.system.management.organization.group.entity;
 
+import com.rain.sparrow.common.annotation.check.NotNull;
 import org.apache.ibatis.type.Alias;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @Alias(value = "TSGroup")
 public class TSGroup {
 /**组名*/
+@NotNull
 private String groupName;
 /**主键*/
 private String id;
@@ -41,5 +43,6 @@ return parentGroupId;
 public void setParentGroupId(String parentGroupId) {
 this.parentGroupId = parentGroupId;
 }
+
 
 }

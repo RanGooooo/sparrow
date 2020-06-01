@@ -16,6 +16,9 @@ import org.springframework.util.StringUtils;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 统一校验数据格式
@@ -68,7 +71,7 @@ public class CheckDataAop {
                     if(param == null){
                         throw new SystemException(SystemExceptionConstant.V400,"提交信息有误","[" + method.getName() + "]方法参数为空");
                     }
-                    Field[] fields = param.getClass().getDeclaredFields();
+                    List<Field> fields = getAllField(param);
                     for (Field field : fields) {
                         boolean annotationPresent = field.isAnnotationPresent(NotNull.class);
                         if(annotationPresent) {
@@ -82,6 +85,16 @@ public class CheckDataAop {
                 }
             }
         }
+    }
+
+    private static List<Field> getAllField(Object model){
+        Class clazz = model.getClass();
+        List<Field> fields = new ArrayList<>();
+        while (clazz!=null){
+            fields.addAll(new ArrayList<>(Arrays.asList(clazz.getDeclaredFields())));
+            clazz = clazz.getSuperclass();
+        }
+        return fields;
     }
 
     @After("pointCut()")

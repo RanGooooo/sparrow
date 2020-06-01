@@ -6,4 +6,8 @@
         SELECT * FROM t_s_group
     </select>
 
+    <select id="searchTSGroupTree" resultType="com.rain.sparrow.system.management.organization.group.dto.TSGroupDto">
+        SELECT * FROM t_s_group
+    </select>
+
 </mapper>

@@ -1,5 +1,6 @@
 package com.rain.sparrow.system.management.organization.group.service.impl;
 
+import com.rain.sparrow.common.annotation.check.CheckData;
 import com.rain.sparrow.common.dto.RestResult;
 import com.rain.sparrow.system.management.organization.group.dao.TSGroupDao;
 import com.rain.sparrow.system.management.organization.group.dao.TSGroupRepository;
@@ -15,6 +16,11 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * 六一儿童节快乐
+* @Author:  zhaohongyu
+* @CreateDate:  2020-6-1 22:36
+*/
 @Service
 @Transactional
 public class TSGroupServiceImpl implements TSGroupService {
@@ -42,15 +48,17 @@ public class TSGroupServiceImpl implements TSGroupService {
     }
 
     @Override
-    public void groupSave(TSGroupDto dto) throws Exception{
-        //TODO 判空代码 稍后添加
-        String id = "";//dto.getId();
+    public RestResult groupSave(@CheckData TSGroupDto dto) throws Exception{
+        RestResult result = new RestResult();
+        String id = dto.getId();
         TSGroup entity = new TSGroup();
         if(!StringUtils.isEmpty(id)){
             entity  = groupRepository.findTSGroupById(id);
         }
         BeanUtils.copyProperties(dto,entity);
         groupRepository.save(entity);
+        result.setObject(entity);
+        return result;
     }
 
     @Override
@@ -61,10 +69,20 @@ public class TSGroupServiceImpl implements TSGroupService {
         }
         groupRepository.deleteById(id);
     }
+    
+    @Override
+    public RestResult searchTSGroupTree(HttpServletRequest request) {
+        RestResult result = new RestResult();
+        TSGroupDto dto = new TSGroupDto();
+        List<TSGroupDto> list = groupDao.searchTSGroupTree(dto);
+        for (TSGroupDto groupDto : list) {
+            
+        }
 
 
-
-
+        result.setObject(list);
+        return result;
+    }
 
 
 }

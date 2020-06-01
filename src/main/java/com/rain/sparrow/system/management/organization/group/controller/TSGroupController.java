@@ -39,6 +39,23 @@ public class TSGroupController {
         return result;
     }
 
+    @RequestMapping("searchTSGroupTree")
+    @ResponseBody
+    public RestResult searchTSGroupTree(HttpServletRequest request) {
+        RestResult result = new RestResult();
+        try {
+            result = groupService.searchTSGroupTree(request);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setType(RestResult.MESSAGE_TYPE_WARNING);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+
+
+
     @RequestMapping("forwordTSGroupSave")
     public String forwordTSGroupSave(HttpServletRequest request){
         try {
@@ -54,7 +71,7 @@ public class TSGroupController {
     public RestResult groupSave(TSGroupDto dto) {
         RestResult result = new RestResult();
         try {
-            groupService.groupSave(dto);
+            result = groupService.groupSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);

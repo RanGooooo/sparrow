@@ -81,7 +81,6 @@ common.ajax = function(param) {
         error:function(e){
             common.showMessage(common.messageType.ERROR,null);
             common.openFullScreenClose();
-            throw 'error';
         },
         complete : function(response) {
             common.openFullScreenClose();

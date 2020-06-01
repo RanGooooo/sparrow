@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 @Controller
 @ApiGroup(description  = "应用管理")
 @RequestMapping("TSApplicationController")
@@ -23,6 +24,7 @@ public class TSApplicationController {
 
     @Autowired
     private TSApplicationService applicationService;
+
 
     @Api(description  = "跳转应用列表")
     @RequestMapping("forwordTSApplicationList")

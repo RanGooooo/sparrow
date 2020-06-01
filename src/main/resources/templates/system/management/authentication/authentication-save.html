@@ -16,14 +16,39 @@
             position: fixed !important;
         }
     </style>
+
+    <style>
+        .custom-tree-node {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+            padding-right: 8px;
+        }
+    </style>
+
 </head>
+
 <body>
 <div id="app" style="width: 3000px;background-color: #d9d9d9">
+    <el-dialog title="新增组"
+            :visible.sync="Group.GroupDataFormDialogVisible"
+            :width="dialog_width">
+        <el-form :model="Group.GroupDataForm" :rules="Group.GroupDataFormRules" ref="GroupDataFormRef" label-width="80px">
+            <el-form-item label="组名" prop="groupName">
+                <el-input :size="size_input" v-model="Group.GroupDataForm.groupName" clearable></el-input>
+            </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+            <el-button :size="size_button" type="primary" @click="GroupDataFormSave()">确 定</el-button>
+        </span>
+    </el-dialog>
     <el-row>
         <el-col style="width: 500px;margin: 15px;">
             <el-card shadow="never">
                 <el-row style="padding-bottom: 15px;">
-                    <el-popover
+                    <!--<el-popover
                             placement="right"
                             trigger="click"
                             popper-class="popper-class">
@@ -32,50 +57,42 @@
                             <el-table-column width="100" property="name" label="姓名"></el-table-column>
                             <el-table-column width="300" property="address" label="地址"></el-table-column>
                         </el-table>
-                        <el-button size="mini" type="primary" slot="reference">新增顶级节点</el-button>
-                    </el-popover>
 
+                    </el-popover>-->
+                    <!--<el-button size="mini" type="primary" @click="Group.GroupDataFormDialogVisible = true">新增顶级节点</el-button>
                     <el-button size="mini" type="success">新增子节点</el-button>
-                    <el-button size="mini" type="info">删除节点</el-button>
+                    <el-button size="mini" type="info">删除节点</el-button>-->
                 </el-row>
                 <el-tree
-                        :data="data"
-                        show-checkbox
-                        node-key="id"
-                        default-expand-all
-                        :expand-on-click-node="false">
-      <span class="custom-tree-node" slot-scope="{ node, data }">
-        <span>{{ node.label }}</span>
-        <span>
-          <el-button
-                  type="text"
-                  size="mini"
-                  @click="() => append(data)">
-            Append
-          </el-button>
-          <el-button
-                  type="text"
-                  size="mini"
-                  @click="() => remove(node, data)">
-            Delete
-          </el-button>
-        </span>
-      </span>
+                        :load="loadNode"
+                        lazy
+                        :data="Group.GroupListData" node-key="id" :expand-on-click-node="false">
+                  <span class="custom-tree-node" slot-scope="{ node, data }">
+                    <span><i :class="data.icon"></i>{{ data.groupName }}</span>
+                    <span>
+                      <el-button type="text" size="mini" @click="GroupDataFormDialog(data)">
+                          新增子部门
+                      </el-button>
+                      <el-button type="text" size="mini" @click="() => remove(node, data)">
+                          删除部门
+                      </el-button>
+                    </span>
+                  </span>
                 </el-tree>
             </el-card>
         </el-col>
         <el-col style="width: 500px;">
-            <el-table @row-click="columnList" :data="tableData" :height="tableHeight">
+            <el-table  :data="tableData" :height="tableHeight">
                 <el-table-column prop="tableName" label="用户"></el-table-column>
             </el-table>
         </el-col>
         <el-col style="width: 500px;">
-            <el-table @row-click="columnList" :data="tableData" :height="tableHeight">
+            <el-table  :data="tableData" :height="tableHeight">
                 <el-table-column prop="tableName" label="角色"></el-table-column>
             </el-table>
         </el-col>
         <el-col style="width: 500px;">
-            <el-table @row-click="columnList" :data="tableData" :height="tableHeight">
+            <el-table  :data="tableData" :height="tableHeight">
                 <el-table-column prop="tableName" label="权限"></el-table-column>
             </el-table>
         </el-col>
@@ -85,8 +102,39 @@
     window.app = new Vue({
         el: "#app",
         data: {
+            size_button: top.window.windowVue.size_button,
+            size_input: top.window.windowVue.size_input,
+            dialog_width: top.window.windowVue.dialog_width.WIDTH_M,
+            Group:{
+                TargetGroup:{},
+                GroupListData: [{
+                    id: common.uuid(),
+                    icon: 'el-icon-office-building',
+                    groupName:"公司",
+                    children: [{
+                        id: common.uuid(),
+                        icon: 'el-icon-menu',
+                        groupName:"开发部",
+                    }]
+                }],
+                GroupDataFormDialogVisible: false,
+                GroupDataForm: {
+                    groupName:"",
+                    parentGroupId:""
+                },
+                GroupDataFormRules: {
+                    groupName: [
+                        { required: true, message: '请输入组名', trigger: 'blur' },
+                    ]
+                },
+            },
+
+
+
+
             tableData:[],
             tableHeight: window.innerHeight,
+
             gridData: [{
                 date: '2016-05-02',
                 name: '王小虎',
@@ -104,64 +152,67 @@
                 name: '王小虎',
                 address: '上海市普陀区金沙江路 1518 弄'
             }],
-            data: [{
-                id: 1,
-                label: '一级 1',
-                children: [{
-                    id: 4,
-                    label: '二级 1-1',
-                    children: [{
-                        id: 9,
-                        label: '三级 1-1-1'
-                    }, {
-                        id: 10,
-                        label: '三级 1-1-2'
-                    }]
-                }]
-            }, {
-                id: 2,
-                label: '一级 2',
-                children: [{
-                    id: 5,
-                    label: '二级 2-1'
-                }, {
-                    id: 6,
-                    label: '二级 2-2'
-                }]
-            }, {
-                id: 3,
-                label: '一级 3',
-                children: [{
-                    id: 7,
-                    label: '二级 3-1'
-                }, {
-                    id: 8,
-                    label: '二级 3-2'
-                }]
-            }]
+
         },
         mounted() {
-            this.tableList();
+            this.Group.GroupListData = this.searchTSGroupTree("");
         },
         methods: {
-
-            tableList(){
+            GroupDataFormDialog(data){
                 let self = this;
+                self.Group.GroupDataFormDialogVisible = true;
+                self.Group.TargetGroup = data;
+            },
+            GroupDataFormReset(){
+
+            },
+            GroupDataFormSave(){
+                let self = this;
+                this.$refs["GroupDataFormRef"].validate((valid) => {
+                    if(!valid) {
+                        throw "error";
+                    }
+                });
+                let GroupData = self.Group.TargetGroup;
+                self.Group.GroupDataForm.parentGroupId = GroupData.id;
                 common.ajax({
-                    url:"/THCodeController/searchTableList",
+                    url:"/TSGroupController/groupSave",
+                    data:self.Group.GroupDataForm,
                     success:function(result){
-                        self.tableData = result.object;
+                        common.showMessageS(result);
+                        object = result.object;
+                        if (!GroupData.children) {
+                            self.$set(GroupData, 'children', []);
+                        }
+                        GroupData.children.push({
+                            id: object.id,
+                            icon: 'el-icon-menu',
+                            groupName:object.groupName,
+                        });
+                        self.Group.GroupDataFormDialogVisible = false;
+                        self.Group.TargetGroup={};
                     }
                 });
             },
 
-            append(data) {
-                const newChild = { id: id++, label: 'testtest', children: [] };
-                if (!data.children) {
-                    this.$set(data, 'children', []);
-                }
-                data.children.push(newChild);
+            //================================================================
+            loadNode(){
+
             },
+            searchTSGroupTree(parentGroupId){
+                let list = [];
+                let self = this;
+                common.ajax({
+                    url:"/TSGroupController/searchTSGroupTree?parentGroupId=" + parentGroupId,
+                    async:false,
+                    success:function(result){
+                        list = result.object;
+                    }
+                });
+                return list;
+            },
+
+
 
             remove(node, data) {
                 const parent = node.parent;

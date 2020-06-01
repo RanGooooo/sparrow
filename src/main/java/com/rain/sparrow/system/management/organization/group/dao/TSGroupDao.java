@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
 public interface TSGroupDao {
 
@@ -13,4 +14,5 @@ public interface TSGroupDao {
     List<TSGroup> searchTSGroupList(TSGroupDto dto);
 
 
+    List<TSGroupDto> searchTSGroupTree(TSGroupDto dto);
 }

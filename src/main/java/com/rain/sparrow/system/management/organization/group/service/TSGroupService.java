@@ -11,8 +11,9 @@ public interface TSGroupService {
 
     void forwordTSGroupSave(HttpServletRequest request) throws Exception;
 
-    void groupSave(TSGroupDto dto) throws Exception;
+    RestResult groupSave(TSGroupDto dto) throws Exception;
 
     void groupDelete(HttpServletRequest request) throws Exception;
 
+    RestResult searchTSGroupTree(HttpServletRequest request);
 }

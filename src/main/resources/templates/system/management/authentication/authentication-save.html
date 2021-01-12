@@ -32,6 +32,7 @@
 
 <body>
 <div id="app" style="width: 3000px;background-color: #d9d9d9">
+    {{Group.GroupListData}}
     <el-dialog title="新增组"
             :visible.sync="Group.GroupDataFormDialogVisible"
             :width="dialog_width">
@@ -64,18 +65,22 @@
                     <el-button size="mini" type="info">删除节点</el-button>-->
                 </el-row>
                 <el-tree
-                        :load="loadNode"
+                        ref="GroupTree"
+                        :load="loadGroupList"
                         lazy
                         :data="Group.GroupListData" node-key="id" :expand-on-click-node="false">
                   <span class="custom-tree-node" slot-scope="{ node, data }">
                     <span><i :class="data.icon"></i>{{ data.groupName }}</span>
                     <span>
-                      <el-button type="text" size="mini" @click="GroupDataFormDialog(data)">
-                          新增子部门
-                      </el-button>
-                      <el-button type="text" size="mini" @click="() => remove(node, data)">
-                          删除部门
-                      </el-button>
+                        <el-button type="text" size="mini" @click="GroupDataFormDialog(data)">
+                        新增子部门
+                        </el-button>
+                        <el-button type="text" size="mini" @click="GroupDataFormDialog(data)">
+                        编辑部门
+                        </el-button>
+                        <el-button type="text" size="mini" @click="groupDelete(node, data)">
+                        删除部门
+                        </el-button>
                     </span>
                   </span>
                 </el-tree>
@@ -158,6 +163,13 @@
             this.Group.GroupListData = this.searchTSGroupTree("");
         },
         methods: {
+            loadGroupList(node, resolve){
+                let self = this;
+                let GroupData = node.data;
+                self.$set(GroupData, 'children', []);
+                GroupData.children = self.searchTSGroupTree(GroupData.id);
+                resolve(GroupData.children);
+            },
             GroupDataFormDialog(data){
                 let self = this;
                 self.Group.GroupDataFormDialogVisible = true;
@@ -196,9 +208,7 @@
             },
 
             //================================================================
-            loadNode(){
 
-            },
             searchTSGroupTree(parentGroupId){
                 let list = [];
                 let self = this;
@@ -211,17 +221,25 @@
                 });
                 return list;
             },
+            groupDelete(node, data){
+                common.confirm({
+                    message: "此操作将永久删除该数据, 是否继续？",
+                    type: common.messageType.ERROR
+                }).then(() => {
+                    let id = data.id;
+                    common.ajax({
+                        url:"/TSGroupController/groupDelete?id=" + id,
+                        success:function(result){
+                            common.showMessageS(result);
+                            if(result.type === common.messageType.SUCCESS){
+                                node.remove(data);
+                            }
+                        }
+                    });
+                }).catch(() => {
 
-
-
-            remove(node, data) {
-                const parent = node.parent;
-                const children = parent.data.children || parent.data;
-                const index = children.findIndex(d => d.id === data.id);
-                children.splice(index, 1);
-            },
-
-
+                });
+            }
         }
     });
 </script>

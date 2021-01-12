@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sparrow.system.management.application.dao.TSApplicationDao">
+
+    <select id="searchTSApplicationList" resultType="com.sparrow.system.management.application.entity.TSApplication">
+        SELECT * FROM t_s_application
+        <where>
+            <if test="parentApplicationId!=null and parentApplicationId!=''">
+              AND parent_application_id = #{parentApplicationId}
+            </if>
+            <if test="applicationName!=null and applicationName!=''">
+              AND application_name  like '%' #{applicationName} '%'
+            </if>
+            <if test="runningState!=null and runningState!=''">
+              AND running_state = #{runningState}
+            </if>
+        </where>
+    </select>
+
+</mapper>

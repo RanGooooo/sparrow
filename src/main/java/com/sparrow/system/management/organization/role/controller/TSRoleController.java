@@ -1,9 +1,9 @@
-package model.temp.xxxxxxxxx.controller;
+package com.sparrow.system.management.organization.role.controller;
 
 
 import com.sparrow.common.dto.RestResult;
-import model.temp.xxxxxxxxx.dto.XxxxxxxxxDto;
-import model.temp.xxxxxxxxx.service.XxxxxxxxxService;
+import com.sparrow.system.management.organization.role.dto.TSRoleDto;
+import com.sparrow.system.management.organization.role.service.TSRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,25 +12,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("XxxxxxxxxController")
-public class XxxxxxxxxController {
+@RequestMapping("TSRoleController")
+public class TSRoleController {
 
-    private static final String xxxxxxxxxPath = "system/xxxxxxxxx/";
+    private static final String rolePath = "system/role/";
 
     @Autowired
-    private XxxxxxxxxService xxxxxxxxxService;
+    private TSRoleService roleService;
 
-    @RequestMapping("forwordXxxxxxxxxList")
-    public String forwordXxxxxxxxxList(){
-        return xxxxxxxxxPath + "xxxxxxxxx-list";
+    @RequestMapping("forwordTSRoleList")
+    public String forwordTSRoleList(){
+        return rolePath + "role-list";
     }
 
-    @RequestMapping("searchXxxxxxxxxList")
+    @RequestMapping("searchTSRoleList")
     @ResponseBody
-    public RestResult searchXxxxxxxxxList(HttpServletRequest request) {
+    public RestResult searchTSRoleList(HttpServletRequest request) {
         RestResult result = new RestResult();
         try {
-            result = xxxxxxxxxService.searchXxxxxxxxxList(request);
+            result = roleService.searchTSRoleList(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);
@@ -39,22 +39,22 @@ public class XxxxxxxxxController {
         return result;
     }
 
-    @RequestMapping("forwordXxxxxxxxxSave")
-    public String forwordXxxxxxxxxSave(HttpServletRequest request){
+    @RequestMapping("forwordTSRoleSave")
+    public String forwordTSRoleSave(HttpServletRequest request){
         try {
-            xxxxxxxxxService.forwordXxxxxxxxxSave(request);
+            roleService.forwordTSRoleSave(request);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return xxxxxxxxxPath + "xxxxxxxxx-save";
+        return rolePath + "role-save";
     }
 
-    @RequestMapping("xxxxxxxxxSave")
+    @RequestMapping("roleSave")
     @ResponseBody
-    public RestResult xxxxxxxxxSave(XxxxxxxxxDto dto) {
+    public RestResult roleSave(TSRoleDto dto) {
         RestResult result = new RestResult();
         try {
-            xxxxxxxxxService.xxxxxxxxxSave(dto);
+            roleService.roleSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);
@@ -63,12 +63,12 @@ public class XxxxxxxxxController {
         return result;
     }
 
-    @RequestMapping("xxxxxxxxxDelete")
+    @RequestMapping("roleDelete")
     @ResponseBody
-    public RestResult xxxxxxxxxDelete(HttpServletRequest request) {
+    public RestResult roleDelete(HttpServletRequest request) {
         RestResult result = new RestResult();
         try {
-            xxxxxxxxxService.xxxxxxxxxDelete(request);
+            roleService.roleDelete(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);

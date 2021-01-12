@@ -1,6 +1,6 @@
 package model.temp.xxxxxxxxx.service;
 
-import com.rain.sparrow.common.dto.RestResult;
+import com.sparrow.common.dto.RestResult;
 import model.temp.xxxxxxxxx.dto.XxxxxxxxxDto;
 
 import javax.servlet.http.HttpServletRequest;

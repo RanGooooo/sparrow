@@ -1,6 +1,6 @@
 package model.temp.xxxxxxxxx.service.impl;
 
-import com.rain.sparrow.common.dto.RestResult;
+import com.sparrow.common.dto.RestResult;
 import model.temp.xxxxxxxxx.dao.XxxxxxxxxDao;
 import model.temp.xxxxxxxxx.dao.XxxxxxxxxRepository;
 import model.temp.xxxxxxxxx.dto.XxxxxxxxxDto;

@@ -1,9 +1,9 @@
-package model.temp.xxxxxxxxx.controller;
+package com.sparrow.system.management.organization.user.controller;
 
 
 import com.sparrow.common.dto.RestResult;
-import model.temp.xxxxxxxxx.dto.XxxxxxxxxDto;
-import model.temp.xxxxxxxxx.service.XxxxxxxxxService;
+import com.sparrow.system.management.organization.user.dto.TSUserDto;
+import com.sparrow.system.management.organization.user.service.TSUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,25 +12,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("XxxxxxxxxController")
-public class XxxxxxxxxController {
+@RequestMapping("TSUserController")
+public class TSUserController {
 
-    private static final String xxxxxxxxxPath = "system/xxxxxxxxx/";
+    private static final String userPath = "system/management/organization/user/";
 
     @Autowired
-    private XxxxxxxxxService xxxxxxxxxService;
+    private TSUserService userService;
 
-    @RequestMapping("forwordXxxxxxxxxList")
-    public String forwordXxxxxxxxxList(){
-        return xxxxxxxxxPath + "xxxxxxxxx-list";
+    @RequestMapping("forwordTSUserList")
+    public String forwordTSUserList(){
+        return userPath + "user-list";
     }
 
-    @RequestMapping("searchXxxxxxxxxList")
+
+    @RequestMapping("searchTSUserList")
     @ResponseBody
-    public RestResult searchXxxxxxxxxList(HttpServletRequest request) {
+    public RestResult searchTSUserList(HttpServletRequest request) {
         RestResult result = new RestResult();
         try {
-            result = xxxxxxxxxService.searchXxxxxxxxxList(request);
+            result = userService.searchTSUserList(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);
@@ -39,22 +40,22 @@ public class XxxxxxxxxController {
         return result;
     }
 
-    @RequestMapping("forwordXxxxxxxxxSave")
-    public String forwordXxxxxxxxxSave(HttpServletRequest request){
+    @RequestMapping("forwordTSUserSave")
+    public String forwordTSUserSave(HttpServletRequest request){
         try {
-            xxxxxxxxxService.forwordXxxxxxxxxSave(request);
+            userService.forwordTSUserSave(request);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return xxxxxxxxxPath + "xxxxxxxxx-save";
+        return userPath + "user-save";
     }
 
-    @RequestMapping("xxxxxxxxxSave")
+    @RequestMapping("userSave")
     @ResponseBody
-    public RestResult xxxxxxxxxSave(XxxxxxxxxDto dto) {
+    public RestResult userSave(TSUserDto dto) {
         RestResult result = new RestResult();
         try {
-            xxxxxxxxxService.xxxxxxxxxSave(dto);
+            userService.userSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);
@@ -63,12 +64,12 @@ public class XxxxxxxxxController {
         return result;
     }
 
-    @RequestMapping("xxxxxxxxxDelete")
+    @RequestMapping("userDelete")
     @ResponseBody
-    public RestResult xxxxxxxxxDelete(HttpServletRequest request) {
+    public RestResult userDelete(HttpServletRequest request) {
         RestResult result = new RestResult();
         try {
-            xxxxxxxxxService.xxxxxxxxxDelete(request);
+            userService.userDelete(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);

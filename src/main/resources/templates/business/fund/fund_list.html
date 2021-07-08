@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>基金管理</title>
+    <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
+    <common-resource-list th:replace="common/common-resource-list :: common-resource-list"></common-resource-list>
+    <style>
+        .popper-class{
+            top:15px!important;
+            bottom: 15px;
+            right: 15px;
+            overflow-y: auto;
+            position: fixed !important;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <common-drawer th:replace="common/common-drawer :: common-drawer"></common-drawer>
+    <el-collapse-transition>
+        <div v-show="showHeader">
+            <el-form :inline="true" :model="dataTableForm" ref="dataTableForm" class="demo-form-inline" :size="size_input">
+                <el-form-item label="应用名称" prop="applicationName">
+                    <el-input v-model="dataTableForm.applicationName"></el-input>
+                </el-form-item>
+                <el-form-item label="应用状态" prop="runningState">
+                    <el-select v-model="dataTableForm.runningState" clearable>
+                        <el-option label="正常使用" value="01"></el-option>
+                        <el-option label="禁止使用" value="00"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button :size="size_button" @click="dataTableSearch()" type="primary">查询</el-button>
+                    <el-button :size="size_button" @click="dataTableReset()">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+    </el-collapse-transition>
+
+    <el-table border :data="dataTableList">
+        <el-table-column
+                prop="fundCode"
+                label="基金编码"
+                sortable
+                width="180">
+        </el-table-column>
+        <el-table-column
+                prop="fundName"
+                label="基金名称"
+                :formatter="formatter">
+        </el-table-column>
+        <el-table-column label="操作">
+            <template slot="header">
+                <el-button :size="size_button" @click="showHeader = !showHeader">高级筛选</el-button>
+                <el-button :size="size_button" @click="forwordTBFundSave('')">新增菜单</el-button>
+            </template>
+            <template slot-scope="scope">
+                <el-button :size="size_button" @click="forwordTBFundSave(scope.row.id)" type="primary">编辑</el-button>
+                <el-button :size="size_button" @click="applicationDelete(scope.row)" type="danger">删除</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            gridData: [{
+                date: '2016-05-02',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+            }, {
+                date: '2016-05-04',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+            }, {
+                date: '2016-05-01',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+            }, {
+                date: '2016-05-03',
+                name: '王小虎',
+                address: '上海市普陀区金沙江路 1518 弄'
+            }],
+            size_button: top.window.windowVue.size_button,
+            size_input: top.window.windowVue.size_input,
+            dataTableList: [],
+            dataTableForm: {
+                parentApplicationId:"",
+                applicationName:"",
+                runningState:""
+            },
+            showHeader: true,
+            commonDrawer: {
+                frameId:common.uuid(),
+                frameUrl: "",
+                title: "",
+                open: false,
+                direction: "ttb",
+                withHeader:false,
+                size:"100%",
+                buttonList: [
+                    {
+                        name: "返回",
+                        click: "goBack",
+                    },
+                    {
+                        name: "保存",
+                        click: "applicationSave",
+                        type: "primary"
+                    }
+                ]
+            },
+        },
+        mounted() {
+            this.dataTableList = this.searchTBFundList();
+        },
+        methods: {
+            searchTBFundList(){
+                let self = this;
+                let objList = [];
+                common.ajax({
+                    url:"/TBFundController/searchTBFundList",
+                    async:false,
+                    data : self.dataTableForm,
+                    success:function(result){
+                        objList = result.object;
+                    }
+                });
+                return objList;
+            },
+            toggleRowExpansion(list){
+                list.forEach(row => {
+                    row.children=[];
+                    this.$refs.refTable.toggleRowExpansion(row,false);
+                });
+            },
+            dataTableSearch(){
+                this.toggleRowExpansion(this.dataTableList);
+                this.dataTableForm.parentApplicationId = "";
+                this.dataTableList = this.searchTSApplicationList();
+            },
+            dataTableReset() {
+                this.toggleRowExpansion(this.dataTableList);
+                this.dataTableForm.parentApplicationId = "";
+                this.dataTableForm.applicationName = "";
+                this.dataTableForm.runningState = "";
+                this.dataTableList = this.searchTSApplicationList();
+            },
+            exChange(row, ex) {
+                if(ex&&!row.open){
+                    row.open = true;
+                    this.dataTableForm.parentApplicationId = row.id;
+                    let resolveList = this.searchTSApplicationList();
+                    resolveList.forEach((obj, index) => {
+                        this.dataTableList = this.dataTableList.filter(dataTable => dataTable.id !== obj.id);
+                        this.$refs.refTable.toggleRowExpansion(obj,false);
+                    });
+                    row.children = resolveList;
+                }
+            },
+            forwordTBFundSave(id) {
+                if(id){
+                    this.commonDrawer.title = "编辑基金";
+                }else{
+                    this.commonDrawer.title = "新增基金";
+                }
+                this.commonDrawer.frameUrl = "/TBFundController/forwordTBFundSave?id=" + id;
+                this.commonDrawer.open = true;
+            },
+            clickCall(click) {
+                this[click]();
+            },
+            goBack() {
+                this.commonDrawer.frameUrl = "";
+                this.commonDrawer.open = false;
+            },
+            applicationSave() {
+                let newNode = common.frame(this.commonDrawer.frameId).app.applicationSave();
+                let id = newNode.id;
+                let oldNode = this.getNode(id,this.dataTableList);
+                if(common.notNull(oldNode)){
+                    newNode.children = oldNode.children;
+                    let oldNodePid = oldNode.parentApplicationId;
+                    if(oldNodePid === common.constant.TOPID){
+                        this.dataTableList = this.dataTableList.filter(obj => obj.id !== id);
+                    }else{
+                        let parentNode = this.getParentNode(oldNodePid,this.dataTableList);
+                        parentNode.children = parentNode.children.filter(obj => obj.id !== id);
+                    }
+                }
+                let newNodePid = newNode.parentApplicationId;
+                if(newNodePid === common.constant.TOPID){
+                   this.applicationPush(this.dataTableList,newNode);
+                }else{
+                    let parentNode = this.getParentNode(newNodePid,this.dataTableList);
+                    if(common.notNull(parentNode)){
+                        parentNode.position = true;
+                        this.applicationPush(parentNode.children,newNode);
+                    }
+                }
+                this.goBack();
+            },
+            applicationPush(list,object){
+                let target = list.filter(row => row.id === object.id);
+                if(target[0]){
+                    target[0].id = object.id;
+                    target[0].applicationName = object.applicationName;
+                    target[0].applicationUrl = object.applicationUrl;
+                    target[0].applicationLevel = object.applicationLevel;
+                    target[0].applicationOrder = object.applicationOrder;
+                    target[0].applicationIcon = object.applicationIcon;
+                    target[0].parentApplicationId = object.parentApplicationId;
+                    target[0].parentApplicationName = object.parentApplicationName;
+                    target[0].position = JSON.parse(object.position);
+                }else{
+                    list.push(object);
+                }
+            },
+            getNode(id,list){
+                let result = null;
+                try{
+                    if(list!==undefined){
+                        list.forEach((row, index) => {
+                            if(result !== null){
+                                throw new Error("ending");
+                            }
+                            if(row.id === id){
+                                result = row;
+                                throw new Error("ending");
+                            }else{
+                                result = this.getParentNode(id,row.children)
+                            }
+                        });
+                    }
+                }catch(e) {
+                }
+                return result;
+            },
+            getParentNode(parentApplicationId,list){
+                let result = null;
+                try{
+                    if(list!==undefined){
+                        list.forEach((row, index) => {
+                            if(result !== null){
+                                throw new Error("ending");
+                            }
+                            if(row.id === parentApplicationId){
+                                result = row;
+                                throw new Error("ending");
+                            }else{
+                                result = this.getParentNode(parentApplicationId,row.children)
+                            }
+                        });
+                    }
+                }catch(e) {
+                }
+                return result;
+            },
+            applicationDelete(row){
+                common.confirm({
+                    message: "此操作将永久删除该数据, 是否继续？",
+                    type: common.messageType.ERROR
+                }).then(() => {
+                    let self = this;
+                    let id = row.id;
+                    let parentApplicationId = row.parentApplicationId;
+                    common.ajax({
+                        url:"/TSApplicationController/applicationDelete?id=" + id,
+                        success:function(result){
+                            common.showMessageS(result);
+                            if(result.type === common.messageType.SUCCESS){
+                                if(parentApplicationId === common.constant.TOPID){
+                                    self.dataTableList = self.dataTableList.filter(obj => obj.id !== id);
+                                }else{
+                                    let parentNode = self.getParentNode(parentApplicationId,self.dataTableList);
+                                    parentNode.children = parentNode.children.filter(obj => obj.id !== id);
+                                }
+                            }
+                        }
+                    });
+                }).catch(() => {
+
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>

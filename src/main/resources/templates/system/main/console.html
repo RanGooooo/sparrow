@@ -116,8 +116,12 @@
             },
             /*重置iframe*/
             reloadIFrame(item){
-                item.visible = false;
-                common.frameReload(this.gernerateId(item.id));
+                if(item.id === this.consoleId){
+
+                }else{
+                    item.visible = false;
+                    common.frameReload(this.gernerateId(item.id));
+                }
             },
             pushApplicationTab(application,dataBreadcrumbs){
                 let id = application.id;

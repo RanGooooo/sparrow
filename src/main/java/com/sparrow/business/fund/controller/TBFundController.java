@@ -1,9 +1,9 @@
-package model.temp.xxxxxxxxx.controller;
+package com.sparrow.business.fund.controller;
 
 
 import com.sparrow.common.dto.RestResult;
-import model.temp.xxxxxxxxx.dto.XxxxxxxxxDto;
-import model.temp.xxxxxxxxx.service.XxxxxxxxxService;
+import com.sparrow.business.fund.dto.TBFundDto;
+import com.sparrow.business.fund.service.TBFundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,25 +12,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("XxxxxxxxxController")
-public class XxxxxxxxxController {
+@RequestMapping("TBFundController")
+public class TBFundController {
 
-    private static final String xxxxxxxxxPath = "system/xxxxxxxxx/";
+    private static final String fundPath = "business/fund/";
 
     @Autowired
-    private XxxxxxxxxService xxxxxxxxxService;
+    private TBFundService fundService;
 
-    @RequestMapping("forwordXxxxxxxxxList")
-    public String forwordXxxxxxxxxList(){
-        return xxxxxxxxxPath + "xxxxxxxxx_list";
+    @RequestMapping("forwordTBFundList")
+    public String forwordTBFundList(){
+        return fundPath + "fund_list";
     }
 
-    @RequestMapping("searchXxxxxxxxxList")
+    @RequestMapping("searchTBFundList")
     @ResponseBody
-    public RestResult searchXxxxxxxxxList(HttpServletRequest request) {
+    public RestResult searchTBFundList(HttpServletRequest request) {
         RestResult result = new RestResult();
         try {
-            result = xxxxxxxxxService.searchXxxxxxxxxList(request);
+            result = fundService.searchTBFundList(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);
@@ -39,22 +39,22 @@ public class XxxxxxxxxController {
         return result;
     }
 
-    @RequestMapping("forwordXxxxxxxxxSave")
-    public String forwordXxxxxxxxxSave(HttpServletRequest request){
+    @RequestMapping("forwordTBFundSave")
+    public String forwordTBFundSave(HttpServletRequest request){
         try {
-            xxxxxxxxxService.forwordXxxxxxxxxSave(request);
+            fundService.forwordTBFundSave(request);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return xxxxxxxxxPath + "xxxxxxxxx_save";
+        return fundPath + "fund_save";
     }
 
-    @RequestMapping("xxxxxxxxxSave")
+    @RequestMapping("fundSave")
     @ResponseBody
-    public RestResult xxxxxxxxxSave(XxxxxxxxxDto dto) {
+    public RestResult fundSave(TBFundDto dto) {
         RestResult result = new RestResult();
         try {
-            xxxxxxxxxService.xxxxxxxxxSave(dto);
+            fundService.fundSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);
@@ -63,12 +63,12 @@ public class XxxxxxxxxController {
         return result;
     }
 
-    @RequestMapping("xxxxxxxxxDelete")
+    @RequestMapping("fundDelete")
     @ResponseBody
-    public RestResult xxxxxxxxxDelete(HttpServletRequest request) {
+    public RestResult fundDelete(HttpServletRequest request) {
         RestResult result = new RestResult();
         try {
-            xxxxxxxxxService.xxxxxxxxxDelete(request);
+            fundService.fundDelete(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);

@@ -223,6 +223,9 @@
             },
             applicationSave() {
                 let newNode = common.frame(this.commonDrawer.frameId).app.applicationSave();
+                if(newNode===null){
+                    return;
+                }
                 let id = newNode.id;
                 let oldNode = this.getNode(id,this.dataTableList);
                 if(common.notNull(oldNode)){

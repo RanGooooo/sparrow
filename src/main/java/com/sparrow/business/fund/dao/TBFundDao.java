@@ -2,6 +2,7 @@ package com.sparrow.business.fund.dao;
 
 import com.sparrow.business.fund.dto.TBFundDto;
 import com.sparrow.business.fund.entity.TBFund;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface TBFundDao {
 
 
-    List<TBFund> searchTBFundList(TBFundDto dto);
+    List<TBFund> searchTBFundList(@Param("mem") TBFundDto dto);
 
 
 }

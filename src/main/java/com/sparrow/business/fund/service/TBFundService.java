@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface TBFundService {
 
-    RestResult searchTBFundList(HttpServletRequest request) throws Exception;
+    RestResult searchTBFundList(TBFundDto dto) throws Exception;
 
     void forwordTBFundSave(HttpServletRequest request) throws Exception;
 
-    void fundSave(TBFundDto dto) throws Exception;
+    RestResult fundSave(TBFundDto dto) throws Exception;
 
     void fundDelete(HttpServletRequest request) throws Exception;
 

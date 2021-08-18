@@ -2,8 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sparrow.business.fund.dao.TBFundDao">
 
-    <select id="searchTBFundList" resultType="com.sparrow.business.fund.entity.TBFund">
-        SELECT * FROM t_b_fund
+    <select id="searchTBFundList" parameterType="com.sparrow.business.fund.dto.TBFundDto" resultType="com.sparrow.business.fund.entity.TBFund">
+        SELECT f.* FROM t_b_fund f
+        <if test="mem.realName!=null and mem.realName!=''">
+            ,t_b_fund_user fu,t_s_user u
+        </if>
+        <where>
+            <if test="mem.realName!=null and mem.realName!=''">
+                u.id = fu.user_id
+                AND
+                f.id = fu.fund_id
+                AND
+                u.real_name LIKE CONCAT('%',#{mem.realName},'%')
+            </if>
+            <if test="mem.fundName!=null and mem.fundName!=''">
+                f.fund_name LIKE CONCAT('%',#{mem.fundName},'%')
+            </if>
+        </where>
     </select>
 
 </mapper>

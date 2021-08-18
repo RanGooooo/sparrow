@@ -1,9 +1,9 @@
 package com.sparrow.business.fund.controller;
 
 
-import com.sparrow.common.dto.RestResult;
 import com.sparrow.business.fund.dto.TBFundDto;
 import com.sparrow.business.fund.service.TBFundService;
+import com.sparrow.common.dto.RestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +27,10 @@ public class TBFundController {
 
     @RequestMapping("searchTBFundList")
     @ResponseBody
-    public RestResult searchTBFundList(HttpServletRequest request) {
+    public RestResult searchTBFundList(TBFundDto dto) {
         RestResult result = new RestResult();
         try {
-            result = fundService.searchTBFundList(request);
+            result = fundService.searchTBFundList(dto);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);
@@ -54,7 +54,7 @@ public class TBFundController {
     public RestResult fundSave(TBFundDto dto) {
         RestResult result = new RestResult();
         try {
-            fundService.fundSave(dto);
+            result = fundService.fundSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);

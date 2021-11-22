@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>基金新增</title>
+    <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
+</head>
+<body>
+    <div id="app">
+        <input id="TBFund" type="hidden" th:value="${TBFund}">
+        <el-form :label-position="labelPosition" :model="TBFundForm" :rules="rules" ref="TBFundForm" label-width="100px">
+            <el-form-item label="基金编号" prop="fundCode">
+                <el-input :size="size_input" v-model="TBFundForm.fundCode" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="基金名称" prop="fundName">
+                <el-input :size="size_input" v-model="TBFundForm.fundName" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="持有份额" prop="fundShare">
+                <el-input :size="size_input" v-model="TBFundForm.fundShare" clearable></el-input>
+            </el-form-item>
+        </el-form>
+    </div>
+<script>
+    window.app = new Vue({
+        el: "#app",
+        data: {
+            size_button: top.window.windowVue.size_button,
+            size_input: top.window.windowVue.size_input,
+            labelPosition: "left",
+                TBFundForm: {
+                    fundCode:"",
+                    fundName:"",
+                    fundShare:0
+            },
+            rules: {
+                fundCode: [
+                    { required: true, message: '请输入基金编码', trigger: 'blur' }
+                ],
+                fundName: [
+                    { required: true, message: '请输入基金名称', trigger: 'blur' }
+                ],
+            },
+        },
+        mounted() {
+            this.init();
+        },
+        methods: {
+            init(){
+                if($("#TBFund").val()){
+                    this.TBFundForm = JSON.parse($("#TBFund").val());
+                }
+            },
+            fundSave(){
+                let object = null;
+                let self = this;
+                this.$refs['TBFundForm'].validate((valid) => {
+                    if(!valid) {
+                        throw 'error';
+                    }
+                    common.ajax({
+                        url:"/TBFundMainController/saveTBFundMain",
+                        async:false,
+                        data:self.TBFundForm,
+                        success:function(result){
+                            common.showMessageS(result);
+                            object = result.object;
+                        }
+                    });
+                });
+                return object;
+            },
+        }
+    });
+</script>
+</body>
+</html>

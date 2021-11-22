@@ -1,6 +1,6 @@
 package model.temp.xxxxxxxxx.service;
 
-import com.sparrow.common.dto.RestResult;
+import com.xin.sparrow.common.dto.RestResult;
 import model.temp.xxxxxxxxx.dto.XxxxxxxxxDto;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +11,7 @@ public interface XxxxxxxxxService {
 
     void forwordXxxxxxxxxSave(HttpServletRequest request) throws Exception;
 
-    void xxxxxxxxxSave(XxxxxxxxxDto dto) throws Exception;
+    RestResult xxxxxxxxxSave(XxxxxxxxxDto dto) throws Exception;
 
     void xxxxxxxxxDelete(HttpServletRequest request) throws Exception;
 

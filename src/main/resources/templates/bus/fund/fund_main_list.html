@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>基金管理</title>
+    <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
+    <common-resource-list th:replace="common/common-resource-list :: common-resource-list"></common-resource-list>
+    <script src="/static/common/open-source/echarts/echarts.js"></script>
+    <style>
+        .popper-class{
+            position: fixed;
+            display: none;
+            border-radius: 4px;
+            left: 50%;
+            top: 50%;
+            margin-left: -620px;
+            margin-top: -308px;
+            z-index: 10001;
+            width: 1317px;
+            height: 590px;
+            background-color: white;
+            border: 1px solid #e4e7ed;
+            padding: 10px 0 10px 8px;
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+        }
+        .popper-class-close{
+            position: absolute;
+            right: 50px;
+            top: 20px;
+            cursor: pointer;
+            z-index: 10001;
+            font-size: 14px;
+            color: #F56C6C;
+        }
+        .popper-class-close:hover{
+            color: #F78989;
+        }
+        .panel{
+            padding: 15px 28px 15px 10px;
+        }
+        .panel-label{
+            font-size: 14px;
+        }
+        .panel-label-time{
+            font-size: 12px;
+            float: right;
+            margin-top: 2.5px;
+        }
+        .panel-value{
+            font-size: 13px;
+            opacity: .69;
+            line-height: 24px;
+            padding-top: 5px;
+        }
+
+        .mask-container{position: relative; top: 0%;left: 0%;width: 100%;height: 100%;-moz-opacity: 0.8;filter: alpha(opacity=80);}
+        .mask-container-parent{width:100%;height:100%;position:relative;}
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <div id="reportDiv" class="popper-class">
+        <span class="popper-class-close" @click="closeReportDiv()">关闭</span>
+        <el-row>
+            <el-col :span="20" style="padding-left: 0;">
+                <div id="report" style="height: 550px;width: 100%;"></div>
+                <div style="margin-top: 8px;text-align: center;">
+                    <el-radio-group v-model="timeRadio" size="small" @change="searchFundNetWorthRecordTime">
+                        <el-radio-button label="00">近1月</el-radio-button>
+                        <el-radio-button label="01">近3月</el-radio-button>
+                        <el-radio-button label="02">近1年</el-radio-button>
+                        <el-radio-button label="03">近3年</el-radio-button>
+                        <el-radio-button label="20">全部</el-radio-button>
+                    </el-radio-group>
+                </div>
+            </el-col>
+            <el-col :span="4" style="padding-left: 0;padding-right: 0;">
+                <el-card shadow="hover" :body-style="{ padding: '0px' }" style ="top: 59px;position: absolute;right: 28px;width: 235px;height: 490px;">
+                    <!--<img src="/static/image/0085f600e3a444a9b28490d31ac2abc7.jpg" style="width: 100%;height: 100%" class="image">-->
+                    <div class="mask-container" style="display: block;padding: 0;height: 320px;margin-top: 8px;">
+                        <div class="mask-container-parent" style="overflow-y: scroll;overflow-x: hidden;padding: 0;position: relative;width: 100%;right: -17px;">
+
+                            <div class="panel" style="padding-bottom: 5px;margin-top: 5px;">
+                                <div class="panel-label">
+                                    历史最高净值
+                                    <span class="panel-label-time">({{ panelData.maxFundNetWorthTime }})</span>
+                                </div>
+                                <div class="panel-value">
+                                    {{ panelData.maxFundNetWorth }}
+                                </div>
+                            </div>
+                            <div class="panel" style="padding-bottom: 5px;">
+                                <div class="panel-label">
+                                    最新净值
+                                    <span class="panel-label-time">({{ panelData.newFundNetWorthTime }})</span>
+                                </div>
+
+                                <div class="panel-value">
+                                    {{ panelData.newFundNetWorth }}
+                                </div>
+                            </div>
+                           <!-- <div class="panel" style="padding-bottom: 5px;">
+                                <div class="panel-label">净值浮动</div>
+                                <div class="panel-value">{{ panelData.fundNetWorthFloat }}</div>
+                            </div>
+                            <div class="panel" style="padding-bottom: 5px;">
+                                <div class="panel-label">净值浮动率</div>
+                                <div class="panel-value">{{ panelData.fundNetWorthFloatRate }}</div>
+                            </div>-->
+                            <div class="panel" style="padding-bottom: 5px;">
+                                <el-row>
+                                    <el-col :span="12">
+                                        <div class="panel-label">净值浮动</div>
+                                        <div class="panel-value">{{ panelData.fundNetWorthFloat }}</div>
+                                    </el-col>
+                                    <el-col :span="12">
+                                        <div class="panel-label">净值浮动率</div>
+                                        <div class="panel-value">{{ panelData.fundNetWorthFloatRate }}</div>
+                                    </el-col>
+                                </el-row>
+
+                            </div>
+                        </div>
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>
+    </div>
+    <common-drawer th:replace="common/common-drawer :: common-drawer"></common-drawer>
+    <el-collapse-transition>
+        <div v-show="showHeader">
+            <el-form :inline="true" :model="dataTableForm" ref="dataTableForm" class="demo-form-inline" :size="size_input">
+                <el-form-item label="基金名称" prop="fundName">
+                    <el-input v-model="dataTableForm.fundName"></el-input>
+                </el-form-item>
+                <el-form-item label="用户名称" prop="realName">
+                    <el-input v-model="dataTableForm.realName"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button :size="size_button" @click="dataTableSearch()" type="primary">查询</el-button>
+                    <el-button :size="size_button" @click="dataTableReset()">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+    </el-collapse-transition>
+    <el-table border  :data="dataTableList">
+        <el-table-column
+                prop="fundCode"
+                label="基金编码"
+                width="100"
+                align="center">
+            <template slot-scope="scope">
+                <el-button style="margin-right: 0px;" :size="size_button" type="info"  @click="searchFundNetWorthRecord(scope.row)" slot="reference">{{scope.row.fundCode}}</el-button>
+            </template>
+        </el-table-column>
+        <el-table-column
+                prop="fundName"
+                label="基金名称"
+                sortable
+                width="270">
+        </el-table-column>
+        <el-table-column
+                prop="estimateFundNetWorth"
+                label="预估净值"
+                sortable
+                align="right"
+                width="110">
+        </el-table-column>
+        <el-table-column
+                prop="estimateFundNetWorthFloatPercentage"
+                label="预估浮动"
+                sortable
+                width="110">
+            <template slot-scope="scope">
+                <i v-if="scope.row.estimateFundNetWorthFloatPercentage>0" style="font-size:15px;font-weight: bold;color: #F56C6C;vertical-align: middle;" class="el-icon-top"></i>
+                <i v-if="scope.row.estimateFundNetWorthFloatPercentage<0" style="font-size:15px;font-weight: bold;color: #67C23A;" class="el-icon-bottom"></i>
+                <i v-if="scope.row.estimateFundNetWorthFloatPercentage==0" style="font-size:15px;font-weight: bold;color: #afafaf;" class="el-icon-minus"></i>
+                {{scope.row.estimateFundNetWorthFloatPercentage}}
+            </template>
+        </el-table-column>
+        <el-table-column
+                prop="estimateTime"
+                label="估值时间"
+                width="135">
+        </el-table-column>
+        <el-table-column
+                prop="fundNetWorth"
+                label="基金净值"
+                sortable
+                align="right"
+                width="150">
+            <template slot-scope="scope">
+                {{scope.row.fundNetWorth}}
+                <span style="font-size: 10px;color: #afafaf;font-weight: bold;">({{scope.row.fundNetWorthTime}})</span>
+            </template>
+        </el-table-column>
+        <el-table-column
+                prop="fundShare"
+                label="持有份额"
+                width="135">
+        </el-table-column>
+        <el-table-column align="center" width="205" label="操作">
+            <template slot="header">
+                <el-button :size="size_button" @click="showHeader = !showHeader">高级筛选</el-button>
+                <el-button :size="size_button" @click="forwordTBFundSave('')" style="margin-right: 0px;">新增菜单</el-button>
+            </template>
+            <template slot-scope="scope">
+                <el-button :size="size_button" @click="forwordTBFundSave(scope.row.id)" type="primary">编辑</el-button>
+                <el-button :size="size_button" @click="deleteTBFundMain(scope.row)" type="danger" style="margin-right: 0px;">删除</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            size_button: top.window.windowVue.size_button,
+            size_input: top.window.windowVue.size_input,
+            dataTableList: [],
+            dataTableForm: {
+                fundName:"",
+                realName:""
+            },
+            showHeader: true,
+            commonDrawer: {
+                frameId:common.uuid(),
+                frameUrl: "",
+                title: "",
+                open: false,
+                direction: "ttb",
+                withHeader:false,
+                size:"100%",
+                buttonList: []
+            },
+            buttonList_1: [
+                {
+                    name: "返回",
+                    click: "goBack",
+                },
+                {
+                    name: "保存",
+                    click: "fundSave",
+                    type: "primary"
+                }
+            ],
+            buttonList_2: [
+                {
+                    name: "返回",
+                    click: "goBack",
+                },
+                {
+                    name: "保存1",
+                    click: "fundSave",
+                    type: "primary"
+                }
+            ],
+            currentFund: {},
+            timeRadio: "02",
+            panelData: {}
+        },
+        mounted() {
+            this.searchTBFundList();
+        },
+        methods: {
+            searchTBFundList(){
+                let self = this;
+                common.ajax({
+                    url:"/busFundMainController/searchTBFundMainList",
+                    async:true,
+                    data : self.dataTableForm,
+                    success:function(result){
+                        self.dataTableList = result.object;
+                    }
+                });
+            },
+            dataTableSearch(){
+                this.searchTBFundList();
+            },
+            dataTableReset() {
+                this.dataTableForm.fundName = "";
+                this.searchTBFundList();
+            },
+            forwordTBFundSave(id) {
+                this.commonDrawer.buttonList = this.buttonList_2;
+                if(id){
+                    this.commonDrawer.title = "编辑基金";
+                }else{
+                    this.commonDrawer.title = "新增基金";
+                }
+                this.commonDrawer.frameUrl = "/TBFundMainController/forwordTBFundMainSave?id=" + id;
+                this.commonDrawer.open = true;
+            },
+            clickCall(click) {
+                this[click]();
+            },
+            goBack() {
+                this.commonDrawer.frameUrl = "";
+                this.commonDrawer.open = false;
+            },
+            fundSave() {
+                let newNode = common.frame(this.commonDrawer.frameId).app.fundSave();
+                if(newNode===null){
+                    return;
+                }
+                this.fundPush(this.dataTableList,newNode);
+                this.goBack();
+            },
+            fundPush(list,object){
+                let target = list.filter(row => row.id === object.id);
+                if(target[0]){
+                    target[0].id = object.id;
+                    target[0].fundCode = object.fundCode;
+                    target[0].fundName = object.fundName;
+                }else{
+                    list.push(object);
+                }
+            },
+            deleteTBFundMain(row){
+                common.confirm({
+                    message: "此操作将永久删除该数据, 是否继续？",
+                    type: common.messageType.ERROR
+                }).then(() => {
+                    let self = this;
+                    let id = row.id;
+                    common.ajax({
+                        url:"/TBFundMainController/deleteTBFundMain?id=" + id,
+                        success:function(result){
+                            common.showMessageS(result);
+                            if(result.type === common.messageType.SUCCESS){
+                                self.dataTableList = self.dataTableList.filter(obj => obj.id !== id);
+                            }
+                        }
+                    });
+                }).catch(() => {
+
+                });
+            },
+            closeReportDiv() {
+                $("#reportDiv").hide();
+            },
+            searchFundNetWorthRecordTime(){
+                this.searchFundNetWorthRecord(this.currentFund);
+            },
+            searchFundNetWorthRecord(fund){
+                let self = this;
+                $("#reportDiv").show();
+                this.currentFund = fund;
+                common.ajax({
+                    url:"/busFundNetWorthController/searchFundNetWorthReport",
+                    data:JSON.stringify({'fundCode':fund.fundCode}),
+                    success : function(result) {
+                        option= {
+                            title: {
+                                text: fund.fundName,
+                                    top: 10,
+                                    left: 50,
+                                    textStyle: {
+                                    fontSize: 14
+                                }
+                            },
+                            legend: {
+                                top: 9,
+                                icon: 'rect'
+                            },
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross'
+                                }
+                            },
+                            grid: {
+                                left: '4%',
+                                    right: '7%',
+                                    bottom: '6%',
+                                    containLabel: true
+                            },
+                            toolbox: {
+                                top: 6,
+                                    right: 100,
+                                    showTitle: false,
+                                    feature: {
+                                    magicType: {
+                                        type: ['bar', 'line']
+                                    }
+                                }
+                            },
+                            xAxis: {
+                                type: 'category',
+                                    boundaryGap: false,
+                            },
+                            yAxis: {
+                                type: 'value'
+                            },
+                            dataZoom: [
+                                {
+                                    show: true,
+                                    bottom:0,
+                                }
+                            ],
+                            series: [
+                                {
+                                    markArea: {
+                                        itemStyle: {
+                                            color: 'rgba(255, 173, 177, 0.4)'
+                                        }
+                                    }
+                                }
+                            ]
+                        };
+                        $.extend(true,option,result.data.option);
+                        self.panelData = result.data.data;
+                        echarts.init(document.getElementById('report')).setOption(option);
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>

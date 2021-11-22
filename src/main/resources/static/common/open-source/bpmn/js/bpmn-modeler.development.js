@@ -778,7 +778,7 @@
 	 * @param {Element} el
 	 * @param {String} name
 	 * @param {String} [val]
-	 * @api public
+	 * @xin public
 	 */
 	function attr(el, name, val) {
 	  // get
@@ -830,7 +830,7 @@
 	 *
 	 * @param {Element} el
 	 * @return {ClassList}
-	 * @api public
+	 * @xin public
 	 */
 
 	function classes(el) {
@@ -841,7 +841,7 @@
 	 * Initialize a new ClassList for `el`.
 	 *
 	 * @param {Element} el
-	 * @api private
+	 * @xin private
 	 */
 
 	function ClassList(el) {
@@ -857,7 +857,7 @@
 	 *
 	 * @param {String} name
 	 * @return {ClassList}
-	 * @api public
+	 * @xin public
 	 */
 
 	ClassList.prototype.add = function (name) {
@@ -882,7 +882,7 @@
 	 *
 	 * @param {String|RegExp} name
 	 * @return {ClassList}
-	 * @api public
+	 * @xin public
 	 */
 
 	ClassList.prototype.remove = function (name) {
@@ -909,7 +909,7 @@
 	 *
 	 * @param {RegExp} re
 	 * @return {ClassList}
-	 * @api private
+	 * @xin private
 	 */
 
 	ClassList.prototype.removeMatching = function (re) {
@@ -931,7 +931,7 @@
 	 * @param {String} name
 	 * @param {Boolean} force
 	 * @return {ClassList}
-	 * @api public
+	 * @xin public
 	 */
 
 	ClassList.prototype.toggle = function (name, force) {
@@ -969,7 +969,7 @@
 	 * Return an array of classes.
 	 *
 	 * @return {Array}
-	 * @api public
+	 * @xin public
 	 */
 
 	ClassList.prototype.array = function () {
@@ -985,7 +985,7 @@
 	 *
 	 * @param {String} name
 	 * @return {ClassList}
-	 * @api public
+	 * @xin public
 	 */
 
 	ClassList.prototype.has = ClassList.prototype.contains = function (name) {
@@ -1035,7 +1035,7 @@
 	 * @param {Element} el
 	 * @param {String} selector
 	 * @return {Boolean}
-	 * @api public
+	 * @xin public
 	 */
 
 	function match(el, selector) {
@@ -1068,7 +1068,7 @@
 	 * @param {Function} fn
 	 * @param {Boolean} capture
 	 * @return {Function}
-	 * @api public
+	 * @xin public
 	 */
 
 	var bind_1 = function(el, type, fn, capture){
@@ -1084,7 +1084,7 @@
 	 * @param {Function} fn
 	 * @param {Boolean} capture
 	 * @return {Function}
-	 * @api public
+	 * @xin public
 	 */
 
 	var unbind_1 = function(el, type, fn, capture){
@@ -1114,7 +1114,7 @@
 	 * @param {Function} fn
 	 * @param {Boolean} capture
 	 * @return {Function}
-	 * @api public
+	 * @xin public
 	 */
 
 	// Some events don't bubble, so we want to bind to the capture phase instead
@@ -1138,7 +1138,7 @@
 	 * @param {String} type
 	 * @param {Function} fn
 	 * @param {Boolean} capture
-	 * @api public
+	 * @xin public
 	 */
 
 	var unbind$1 = function(el, type, fn, capture){
@@ -1217,7 +1217,7 @@
 	 * @param {String} html - HTML string to "domify"
 	 * @param {Document} doc - The `document` instance to create the Node for
 	 * @return {DOMNode} the TextNode, DOM Node, or DocumentFragment instance
-	 * @api private
+	 * @xin private
 	 */
 
 	function parse(html, doc) {
@@ -1280,7 +1280,7 @@
 	 * @param {Element} el
 	 * @param {String} selector
 	 * @return {Boolean}
-	 * @api public
+	 * @xin public
 	 */
 
 	function match$1(el, selector) {
@@ -1516,7 +1516,7 @@
 	 *
 	 * @param {Element} el
 	 * @return {ClassList}
-	 * @api public
+	 * @xin public
 	 */
 
 	function classes$1(el) {
@@ -1536,7 +1536,7 @@
 	 *
 	 * @param {String} name
 	 * @return {ClassList}
-	 * @api public
+	 * @xin public
 	 */
 
 	ClassList$1.prototype.add = function(name) {
@@ -1570,7 +1570,7 @@
 	 *
 	 * @param {String|RegExp} name
 	 * @return {ClassList}
-	 * @api public
+	 * @xin public
 	 */
 
 	ClassList$1.prototype.remove = function(name) {
@@ -1599,7 +1599,7 @@
 	 *
 	 * @param {RegExp} re
 	 * @return {ClassList}
-	 * @api private
+	 * @xin private
 	 */
 
 	ClassList$1.prototype.removeMatching = function(re) {
@@ -1621,7 +1621,7 @@
 	 * @param {String} name
 	 * @param {Boolean} force
 	 * @return {ClassList}
-	 * @api public
+	 * @xin public
 	 */
 
 	ClassList$1.prototype.toggle = function(name, force) {
@@ -1659,7 +1659,7 @@
 	 * Return an array of classes.
 	 *
 	 * @return {Array}
-	 * @api public
+	 * @xin public
 	 */
 
 	ClassList$1.prototype.array = function() {
@@ -1677,7 +1677,7 @@
 	 *
 	 * @param {String} name
 	 * @return {ClassList}
-	 * @api public
+	 * @xin public
 	 */
 
 	ClassList$1.prototype.has =
@@ -19138,7 +19138,7 @@
 
 	/**
 	 * A service that offers the current selection in a diagram.
-	 * Offers the api to control the selection, too.
+	 * Offers the xin to control the selection, too.
 	 *
 	 * @class
 	 *
@@ -42841,7 +42841,7 @@
 	AppendShapeHandler.$inject = [ 'modeling' ];
 
 
-	// api //////////////////////
+	// xin //////////////////////
 
 
 	/**
@@ -42905,7 +42905,7 @@
 	CreateShapeHandler.$inject = [ 'canvas' ];
 
 
-	// api //////////////////////
+	// xin //////////////////////
 
 
 	/**
@@ -43429,7 +43429,7 @@
 	ReplaceShapeHandler.$inject = [ 'modeling', 'rules' ];
 
 
-	// api //////////////////////
+	// xin //////////////////////
 
 
 	/**
@@ -43699,7 +43699,7 @@
 	CreateLabelHandler.$inject = [ 'canvas' ];
 
 
-	// api //////////////////////
+	// xin //////////////////////
 
 
 	var originalExecute = CreateShapeHandler.prototype.execute;
@@ -43756,7 +43756,7 @@
 	CreateConnectionHandler.$inject = [ 'canvas', 'layouter' ];
 
 
-	// api //////////////////////
+	// xin //////////////////////
 
 
 	/**
@@ -44434,7 +44434,7 @@
 	];
 
 
-	// api //////////////////////
+	// xin //////////////////////
 
 	/**
 	 * Creates a new shape
@@ -45182,7 +45182,7 @@
 	];
 
 
-	// api //////////////////////
+	// xin //////////////////////
 
 	/**
 	 * Updates a BPMN element with a list of new properties

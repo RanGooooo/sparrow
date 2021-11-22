@@ -66,9 +66,7 @@
 }
 
 .console-header-navbar-menu-item{
-    height: 30px;
-    padding: 5px 10px 5px 10px;
-    margin-right: 5px;
+    height: 45px;width: 45px;line-height: 45px;text-align: center;color: #fff;cursor: pointer;
 }
 /**/
 .console-tab-popover{

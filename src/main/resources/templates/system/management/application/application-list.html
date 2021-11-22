@@ -152,6 +152,7 @@
         },
         mounted() {
             this.dataTableList = this.searchTSApplicationList();
+            console.log(this.dataTableList);
         },
         methods: {
             searchTSApplicationList(){
@@ -160,7 +161,7 @@
                 common.ajax({
                     url:"/TSApplicationController/searchTSApplicationList",
                     async:false,
-                    data : self.dataTableForm,
+                    data : JSON.stringify(self.dataTableForm),
                     success:function(result){
                         applicationList = result.object;
                     }
@@ -194,6 +195,7 @@
                 this.dataTableList = this.searchTSApplicationList();
             },
             exChange(row, ex) {
+                debugger;
                 if(ex&&!row.open){
                     row.open = true;
                     this.dataTableForm.parentApplicationId = row.id;
@@ -238,6 +240,7 @@
                         parentNode.children = parentNode.children.filter(obj => obj.id !== id);
                     }
                 }
+                debugger;
                 let newNodePid = newNode.parentApplicationId;
                 if(newNodePid === common.constant.TOPID){
                    this.applicationPush(this.dataTableList,newNode);
@@ -245,9 +248,13 @@
                     let parentNode = this.getParentNode(newNodePid,this.dataTableList);
                     if(common.notNull(parentNode)){
                         parentNode.position = true;
+                        if(!common.notNull(parentNode.children)){
+                            parentNode.children = [];
+                        }
                         this.applicationPush(parentNode.children,newNode);
                     }
                 }
+                console.log(this.dataTableList);
                 this.goBack();
             },
             applicationPush(list,object){

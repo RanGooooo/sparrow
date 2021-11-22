@@ -1,7 +1,7 @@
 package model.temp.xxxxxxxxx.controller;
 
 
-import com.sparrow.common.dto.RestResult;
+import com.xin.sparrow.common.dto.RestResult;
 import model.temp.xxxxxxxxx.dto.XxxxxxxxxDto;
 import model.temp.xxxxxxxxx.service.XxxxxxxxxService;
 import org.springframework.beans.factory.annotation.Autowired;

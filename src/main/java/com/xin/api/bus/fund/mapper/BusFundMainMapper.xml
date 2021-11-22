@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xin.api.bus.fund.dao.BusFundMainMapper">
+
+    <select id="searchTBFundMainList"
+            parameterType="com.xin.api.bus.fund.dto.BusFundMainDto"
+            resultType="com.xin.api.bus.fund.entity.BusFundMain">
+        SELECT f.* FROM bus_fund_main f
+        <if test="mem.realName!=null and mem.realName!=''">
+            ,bus_fund_user fu,t_s_user u
+        </if>
+        <where>
+            <if test="mem.realName!=null and mem.realName!=''">
+                u.id = fu.user_id
+                AND
+                f.id = fu.fund_id
+                AND
+                u.real_name LIKE CONCAT('%',#{mem.realName},'%')
+            </if>
+            <if test="mem.fundName!=null and mem.fundName!=''">
+                f.fund_name LIKE CONCAT('%',#{mem.fundName},'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,6 +1,6 @@
 package model.temp.xxxxxxxxx.service.impl;
 
-import com.sparrow.common.dto.RestResult;
+import com.xin.sparrow.common.dto.RestResult;
 import model.temp.xxxxxxxxx.dao.XxxxxxxxxDao;
 import model.temp.xxxxxxxxx.dao.XxxxxxxxxRepository;
 import model.temp.xxxxxxxxx.dto.XxxxxxxxxDto;
@@ -42,8 +42,8 @@ public class XxxxxxxxxServiceImpl implements XxxxxxxxxService {
     }
 
     @Override
-    public void xxxxxxxxxSave(XxxxxxxxxDto dto) throws Exception{
-        //TODO 判空代码 稍后添加
+    public RestResult xxxxxxxxxSave(XxxxxxxxxDto dto) throws Exception{
+        RestResult result = new RestResult();
         String id = "";//dto.getId();
         Xxxxxxxxx entity = new Xxxxxxxxx();
         if(!StringUtils.isEmpty(id)){
@@ -51,6 +51,9 @@ public class XxxxxxxxxServiceImpl implements XxxxxxxxxService {
         }
         BeanUtils.copyProperties(dto,entity);
         xxxxxxxxxRepository.save(entity);
+        //dto.setId(entity.getId());
+        result.setObject(dto);
+        return result;
     }
 
     @Override

@@ -20,9 +20,12 @@
                 </el-breadcrumb>
             </div>
             <div class="console-header-navbar-menu">
-                <div class="common-container console-header-navbar-menu-item">
+                <el-card shadow="hover" class="console-header-navbar-menu-item application-card-blue">
                     <i class="fa fa-cog application-title-icon"></i>
-                </div>
+                </el-card>
+                <!--<div class="common-container  application-card-orange">
+                    &lt;!&ndash;<i class="fa fa-cog application-title-icon"></i>&ndash;&gt;
+                </div>-->
                 <div class="console-header-navbar-menu-img">
                     <el-avatar shape="square" :size="50" :src="squareUrl"></el-avatar>
                 </div>
@@ -141,7 +144,7 @@
                 common.ajax({
                     url:"/TSApplicationController/searchMyTSApplicationList",
                     success:function(result){
-                        self.applicationList = result.object;
+                        self.applicationList = result.data;
                         self.$set(self.applicationActiveCollapseIds,0,self.applicationList[0].id);
                     }
                 });

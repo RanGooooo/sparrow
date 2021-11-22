@@ -2059,7 +2059,7 @@
                 "Property \"" + key + "\" must be accessed with \"$data." + key + "\" because " +
                 'properties starting with "$" or "_" are not proxied in the Vue instance to ' +
                 'prevent conflicts with Vue internals. ' +
-                'See: https://vuejs.org/v2/api/#data',
+                'See: https://vuejs.org/v2/xin/#data',
                 target
             );
         };
@@ -4414,7 +4414,7 @@
     /**
      * A watcher parses an expression, collects dependencies,
      * and fires callback when the expression value changes.
-     * This is used for both the $watch() api and directives.
+     * This is used for both the $watch() xin and directives.
      */
     var Watcher = function Watcher (
         vm,
@@ -6287,7 +6287,7 @@
             // reuse element for static trees.
             // note we only do this if the vnode is cloned -
             // if the new node is not cloned it means the render functions have been
-            // reset by the hot-reload-api and we need to do a proper re-render.
+            // reset by the hot-reload-xin and we need to do a proper re-render.
             if (isTrue(vnode.isStatic) &&
                 isTrue(oldVnode.isStatic) &&
                 vnode.key === oldVnode.key &&

@@ -74,15 +74,22 @@ common.openFullScreenClose = function(){
 common.ajax = function(param) {
     common.openFullScreen();
     let mergeParam = $.extend({
-        type : 'POST',
-        async:true,
-        timeout : 30000
+        type: 'POST',
+        async: true,
+        timeout: 30000,
+        contentType: "application/json",
     } , param , {
         error:function(e){
+            console.error(JSON.stringify(e));
             common.showMessage(common.messageType.ERROR,null);
             common.openFullScreenClose();
         },
         complete : function(response) {
+            try {
+                if(response.responseJSON.type === common.messageType.WARNING){
+                    common.showMessage(response.responseJSON.type,response.responseJSON.message);
+                }
+            } catch(err) {}
             common.openFullScreenClose();
             //再覆盖外部的complete方法之前并且不是session超时状态的情况，这个complete方法帮助运行外部complete方法
             if(param.complete && typeof param.complete === "function") {

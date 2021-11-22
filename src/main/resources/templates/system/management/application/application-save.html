@@ -161,7 +161,7 @@
                     common.ajax({
                         url:"/TSApplicationController/applicationSave",
                         async:false,
-                        data:self.TSApplicationForm,
+                        data:JSON.stringify(self.TSApplicationForm),
                         success:function(result){
                             common.showMessageS(result);
                             object = result.object;

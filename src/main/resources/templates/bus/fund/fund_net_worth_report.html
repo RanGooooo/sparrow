@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>基金管理</title>
+    <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
+    <common-resource-list th:replace="common/common-resource-list :: common-resource-list"></common-resource-list>
+    <script src="/static/common/open-source/echarts/echarts.common.min.js"></script>
+    <style>
+        .popper-class{
+            top:15px!important;
+            bottom: 15px;
+            right: 15px;
+            overflow-y: auto;
+            position: fixed !important;
+        }
+    </style>
+</head>
+<body>
+<div id="report" style="height:500px;border:1px solid #ccc;padding:10px;"></div>
+<div id="app">
+
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+
+        },
+        mounted() {
+            this.searchFundNetWorthRecord("004224");
+        },
+        methods: {
+            searchFundNetWorthRecord(fundCode){
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('report'));
+                // 指定图表的配置项和数据
+                common.ajax({
+                    url:"/busFundNetWorthController/searchFundNetWorthRecord",
+                    data:JSON.stringify({'fundCode':fundCode}),
+                    success : function(result) {
+                        option = {
+                            title: {
+                                text: '商户类别订单统计图'
+                            },
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            grid: {
+                                left: '3%',
+                                right: '4%',
+                                bottom: '3%',
+                                containLabel: true
+                            },
+                            toolbox: {
+                                feature: {
+                                    saveAsImage: {}
+                                }
+                            },
+                            xAxis: {
+                                type: 'category',
+                                boundaryGap: false,
+                            },
+                            yAxis: {
+                                type: 'value'
+                            }
+                        };
+                        $.extend(true,option,result.data);
+                        // 使用刚指定的配置项和数据显示图表。
+                        myChart.setOption(option);
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>

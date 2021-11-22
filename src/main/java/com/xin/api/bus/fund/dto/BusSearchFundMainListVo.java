@@ -1,11 +1,11 @@
-package com.xin.api.bus.fund.vo;
+package com.xin.api.bus.fund.dto;
 
 /**
  * @Description
  * @Author 赵宏宇
- * @date 2021.07.13 17:06
+ * @date 2021.11.22 14:06
  */
-public class TBFundVo {
+public class BusSearchFundMainListVo {
 
     /**
      * 主键
@@ -26,24 +26,23 @@ public class TBFundVo {
     private String fundNetWorth;
 
     /**
-     * 预估净值
+     * 净值日期
      */
     private String fundNetWorthTime;
 
     /**
+     * 净值估算时间
+     */
+    private String estimateFundNetWorthTime;
+    /**
      * 预估净值
      */
     private String estimateFundNetWorth;
-
     /**
-     * 预估净值浮动百分比
+     * 预估净值浮动率
      */
-    private String estimateFundNetWorthFloatPercentage;
+    private String estimateFundNetWorthFloatRate;
 
-    /**
-     * 估值时间
-     */
-    private String estimateTime;
 
     private String fundShare;
 
@@ -55,20 +54,20 @@ public class TBFundVo {
         this.estimateFundNetWorth = estimateFundNetWorth;
     }
 
-    public String getEstimateFundNetWorthFloatPercentage() {
-        return estimateFundNetWorthFloatPercentage;
+    public String getEstimateFundNetWorthTime() {
+        return estimateFundNetWorthTime;
     }
 
-    public void setEstimateFundNetWorthFloatPercentage(String estimateFundNetWorthFloatPercentage) {
-        this.estimateFundNetWorthFloatPercentage = estimateFundNetWorthFloatPercentage;
+    public void setEstimateFundNetWorthTime(String estimateFundNetWorthTime) {
+        this.estimateFundNetWorthTime = estimateFundNetWorthTime;
     }
 
-    public String getEstimateTime() {
-        return estimateTime;
+    public String getEstimateFundNetWorthFloatRate() {
+        return estimateFundNetWorthFloatRate;
     }
 
-    public void setEstimateTime(String estimateTime) {
-        this.estimateTime = estimateTime;
+    public void setEstimateFundNetWorthFloatRate(String estimateFundNetWorthFloatRate) {
+        this.estimateFundNetWorthFloatRate = estimateFundNetWorthFloatRate;
     }
 
     public String getFundNetWorthTime() {
@@ -118,4 +117,5 @@ public class TBFundVo {
     public void setFundShare(String fundShare) {
         this.fundShare = fundShare;
     }
+
 }

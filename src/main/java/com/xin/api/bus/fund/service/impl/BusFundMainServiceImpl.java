@@ -4,11 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.xin.api.bus.fund.dao.BusFundMainMapper;
 import com.xin.api.bus.fund.dao.BusFundMainRepository;
 import com.xin.api.bus.fund.dto.BusFundMainDto;
+import com.xin.api.bus.fund.dto.BusSearchFundMainListDto;
+import com.xin.api.bus.fund.dto.BusSearchFundMainListVo;
 import com.xin.api.bus.fund.dto.EveryDayFundMainVo;
 import com.xin.api.bus.fund.entity.BusFundMain;
 import com.xin.api.bus.fund.service.BusFundMainService;
-import com.xin.api.bus.fund.vo.TBFundVo;
+import com.xin.sparrow.common.dto.DxResult;
 import com.xin.sparrow.common.dto.RestResult;
+import com.xin.sparrow.common.exception.ExceptionMessageException;
 import com.xin.sparrow.common.util.DecimalThreadLocalUtil;
 import com.xin.sparrow.common.util.DxStringUtil;
 import com.xin.sparrow.common.util.HttpClient4Utils;
@@ -40,31 +43,33 @@ public class BusFundMainServiceImpl implements BusFundMainService {
     private BusFundMainRepository fundRepository;
 
     @Override
-    public RestResult searchTBFundMainList(BusFundMainDto dto) throws Exception {
-        RestResult result = new RestResult();
-        List<BusFundMain> list = busFundMainMapper.searchTBFundMainList(dto);
-        List<TBFundVo> fundVoList = new ArrayList<>();
-        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
-        for (BusFundMain fund: list) {
-            String fundCode = fund.getFundCode();
-            BigDecimal fundShare = fund.getFundShare();
-            TBFundVo fundVo = new TBFundVo();
-            BeanUtils.copyProperties(fund,fundVo);
-            String url = SystemBizLogUtil.setTemplateData(SystemBizLogUtil.put(fundCode),fundInfoUrl);
-            String JSONP = HttpClient4Utils.httpGet(url, null,"UTF-8", 5);
-            EveryDayFundMainVo everyDayFundMainVo = DxStringUtil.JSONPtoJSON(JSONP, EveryDayFundMainVo.class);
+    public DxResult<List<BusSearchFundMainListVo>> searchFundMainList(BusSearchFundMainListDto dto) throws Exception {
+        List<BusFundMain> fundMainList = busFundMainMapper.searchTBFundMainList(dto);
+        List<BusSearchFundMainListVo> resultList = new ArrayList<>();
+        for (BusFundMain fundMain: fundMainList) {
+            String fundCode = fundMain.getFundCode();
+            BigDecimal fundShare = fundMain.getFundShare();
+            BusSearchFundMainListVo result = new BusSearchFundMainListVo();
+            BeanUtils.copyProperties(fundMain,result);
+            EveryDayFundMainVo everyDayFundMainVo = getEveryDayFundMainVo(fundCode);
             if(everyDayFundMainVo!=null){
-                fundVo.setFundNetWorth(everyDayFundMainVo.getDwjz());
-                fundVo.setEstimateFundNetWorth(everyDayFundMainVo.getGsz());
-                fundVo.setEstimateFundNetWorthFloatPercentage(everyDayFundMainVo.getGszzl());
-                fundVo.setEstimateTime(everyDayFundMainVo.getGztime());
-                fundVo.setFundNetWorthTime(everyDayFundMainVo.getJzrq());
+                result.setFundNetWorth(everyDayFundMainVo.getDwjz());
+                result.setEstimateFundNetWorth(everyDayFundMainVo.getGsz());
+                result.setEstimateFundNetWorthFloatRate(everyDayFundMainVo.getGszzl());
+                result.setEstimateFundNetWorthTime(everyDayFundMainVo.getGztime());
+                result.setFundNetWorthTime(everyDayFundMainVo.getJzrq());
             }
-            fundVo.setFundShare(DecimalThreadLocalUtil.format_JING(fundShare));
-            fundVoList.add(fundVo);
+            result.setFundShare(DecimalThreadLocalUtil.format_JING(fundShare));
+            resultList.add(result);
         }
-        result.setObject(fundVoList);
-        return result;
+        return DxResult.success(resultList);
+    }
+
+    @Override
+    public EveryDayFundMainVo getEveryDayFundMainVo(String fundCode) throws ExceptionMessageException {
+        String url = SystemBizLogUtil.setTemplateData(SystemBizLogUtil.put(fundCode),fundInfoUrl);
+        String Jsonp = HttpClient4Utils.httpGet(url, null,"UTF-8", 5);
+        return DxStringUtil.JsonpToJson(Jsonp, EveryDayFundMainVo.class);
     }
 
     @Override

@@ -3,20 +3,17 @@ package com.xin.api.bus.fund.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.xin.api.bus.fund.dao.BusFundMainRepository;
 import com.xin.api.bus.fund.dao.BusFundNetWorthMapper;
 import com.xin.api.bus.fund.dto.*;
 import com.xin.api.bus.fund.dto.echarts.MarkArea;
 import com.xin.api.bus.fund.dto.echarts.MarkAreaData;
 import com.xin.api.bus.fund.dto.echarts.Option;
 import com.xin.api.bus.fund.dto.echarts.Serie;
-import com.xin.api.bus.fund.entity.BusFundMain;
 import com.xin.api.bus.fund.entity.BusFundNetWorth;
+import com.xin.api.bus.fund.service.BusFundMainService;
 import com.xin.api.bus.fund.service.BusFundNetWorthService;
 import com.xin.sparrow.common.dto.DxResult;
-import com.xin.sparrow.common.dto.RestResult;
 import com.xin.sparrow.common.util.HttpClient4Utils;
-import com.xin.sparrow.common.util.RestResultUtil;
 import com.xin.sparrow.common.util.SystemBizLogUtil;
 import com.xin.util.DxDecimalThreadLocalUtil;
 import com.xin.util.DxTimeThreadLocalUtil;
@@ -41,20 +38,12 @@ public class BusFundNetWorthServiceImpl implements BusFundNetWorthService {
     @Value("${sparrow.ttjj.fundNetWorthRecordUrl}")
     private String fundNetWorthRecordUrl;
 
-
     @Autowired
-    private BusFundMainRepository tbFundMainRepository;
-
+    private BusFundMainService busFundMainService;
 
     @Autowired
     private BusFundNetWorthMapper busFundNetWorthMapper;
 
-    @Override
-    public RestResult pullFundNetWorthRecord(String fundCode) {
-        BusFundMain busFundMain = tbFundMainRepository.findTBFundMainByFundCode(fundCode);
-        System.out.println(busFundMain.getId());
-        return RestResultUtil.error("失败");
-    }
 
     @Override
     public DxResult<BusSearchFundNetWorthReportVo> searchFundNetWorthReport(String fundCode) throws Exception {
@@ -167,6 +156,10 @@ public class BusFundNetWorthServiceImpl implements BusFundNetWorthService {
         resultData.setMaxFundNetWorthTime(maxFundNetWorthTime);
         resultData.setNewFundNetWorth(DxDecimalThreadLocalUtil.replaceTailZero(newFundNetWorth));
         resultData.setNewFundNetWorthTime(newFundNetWorthTime);
+        EveryDayFundMainVo everyDayFundMainVo = busFundMainService.getEveryDayFundMainVo(fundCode);
+        resultData.setEstimateFundNetWorth(everyDayFundMainVo.getGsz());
+        resultData.setEstimateFundNetWorthFloatRate(everyDayFundMainVo.getGszzl() + "%");
+        resultData.setEstimateFundNetWorthTime(everyDayFundMainVo.getGztime());
         return result;
     }
 

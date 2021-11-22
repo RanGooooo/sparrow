@@ -35,7 +35,7 @@
             color: #F78989;
         }
         .panel{
-            padding: 15px 28px 15px 10px;
+            padding: 15px 28px 5px 10px;
         }
         .panel-label{
             font-size: 14px;
@@ -52,7 +52,7 @@
             padding-top: 5px;
         }
 
-        .mask-container{position: relative; top: 0%;left: 0%;width: 100%;height: 100%;-moz-opacity: 0.8;filter: alpha(opacity=80);}
+        .mask-container{position: relative; top: 0;left: 0;width: 100%;height: 490px;-moz-opacity: 0.8;filter: alpha(opacity=80);}
         .mask-container-parent{width:100%;height:100%;position:relative;}
     </style>
 </head>
@@ -77,10 +77,9 @@
             <el-col :span="4" style="padding-left: 0;padding-right: 0;">
                 <el-card shadow="hover" :body-style="{ padding: '0px' }" style ="top: 59px;position: absolute;right: 28px;width: 235px;height: 490px;">
                     <!--<img src="/static/image/0085f600e3a444a9b28490d31ac2abc7.jpg" style="width: 100%;height: 100%" class="image">-->
-                    <div class="mask-container" style="display: block;padding: 0;height: 320px;margin-top: 8px;">
+                    <div class="mask-container" style="display: block;padding: 0;margin-top: 8px;">
                         <div class="mask-container-parent" style="overflow-y: scroll;overflow-x: hidden;padding: 0;position: relative;width: 100%;right: -17px;">
-
-                            <div class="panel" style="padding-bottom: 5px;margin-top: 5px;">
+                            <div class="panel">
                                 <div class="panel-label">
                                     历史最高净值
                                     <span class="panel-label-time">({{ panelData.maxFundNetWorthTime }})</span>
@@ -89,7 +88,7 @@
                                     {{ panelData.maxFundNetWorth }}
                                 </div>
                             </div>
-                            <div class="panel" style="padding-bottom: 5px;">
+                            <div class="panel">
                                 <div class="panel-label">
                                     最新净值
                                     <span class="panel-label-time">({{ panelData.newFundNetWorthTime }})</span>
@@ -99,15 +98,7 @@
                                     {{ panelData.newFundNetWorth }}
                                 </div>
                             </div>
-                           <!-- <div class="panel" style="padding-bottom: 5px;">
-                                <div class="panel-label">净值浮动</div>
-                                <div class="panel-value">{{ panelData.fundNetWorthFloat }}</div>
-                            </div>
-                            <div class="panel" style="padding-bottom: 5px;">
-                                <div class="panel-label">净值浮动率</div>
-                                <div class="panel-value">{{ panelData.fundNetWorthFloatRate }}</div>
-                            </div>-->
-                            <div class="panel" style="padding-bottom: 5px;">
+                            <div class="panel">
                                 <el-row>
                                     <el-col :span="12">
                                         <div class="panel-label">净值浮动</div>
@@ -118,7 +109,24 @@
                                         <div class="panel-value">{{ panelData.fundNetWorthFloatRate }}</div>
                                     </el-col>
                                 </el-row>
-
+                            </div>
+                            <div style="position: absolute;left: -15px;background-color: #DCDFE6;display: block;height: 1px;width: 100%;margin: 10px 0;"></div>
+                            <div class="panel" style="padding-top: 26px;">
+                                <div class="panel-label">
+                                    预估净值
+                                    <span class="panel-label-time">({{ panelData.estimateFundNetWorthTime }})</span>
+                                </div>
+                                <div class="panel-value">
+                                    {{ panelData.estimateFundNetWorth }}
+                                </div>
+                            </div>
+                            <div class="panel">
+                                <el-row>
+                                    <el-col :span="24">
+                                        <div class="panel-label">预估净值浮动率</div>
+                                        <div class="panel-value">{{ panelData.estimateFundNetWorthFloatRate }}</div>
+                                    </el-col>
+                                </el-row>
                             </div>
                         </div>
                     </div>
@@ -167,19 +175,19 @@
                 width="110">
         </el-table-column>
         <el-table-column
-                prop="estimateFundNetWorthFloatPercentage"
+                prop="estimateFundNetWorthFloatRate"
                 label="预估浮动"
                 sortable
                 width="110">
             <template slot-scope="scope">
-                <i v-if="scope.row.estimateFundNetWorthFloatPercentage>0" style="font-size:15px;font-weight: bold;color: #F56C6C;vertical-align: middle;" class="el-icon-top"></i>
-                <i v-if="scope.row.estimateFundNetWorthFloatPercentage<0" style="font-size:15px;font-weight: bold;color: #67C23A;" class="el-icon-bottom"></i>
-                <i v-if="scope.row.estimateFundNetWorthFloatPercentage==0" style="font-size:15px;font-weight: bold;color: #afafaf;" class="el-icon-minus"></i>
-                {{scope.row.estimateFundNetWorthFloatPercentage}}
+                <i v-if="scope.row.estimateFundNetWorthFloatRate>0" style="font-size:15px;font-weight: bold;color: #F56C6C;vertical-align: middle;" class="el-icon-top"></i>
+                <i v-if="scope.row.estimateFundNetWorthFloatRate<0" style="font-size:15px;font-weight: bold;color: #67C23A;" class="el-icon-bottom"></i>
+                <i v-if="scope.row.estimateFundNetWorthFloatRate==0" style="font-size:15px;font-weight: bold;color: #afafaf;" class="el-icon-minus"></i>
+                {{scope.row.estimateFundNetWorthFloatRate}}
             </template>
         </el-table-column>
         <el-table-column
-                prop="estimateTime"
+                prop="estimateFundNetWorthTime"
                 label="估值时间"
                 width="135">
         </el-table-column>
@@ -266,11 +274,11 @@
             searchTBFundList(){
                 let self = this;
                 common.ajax({
-                    url:"/busFundMainController/searchTBFundMainList",
+                    url:"/busFundMainController/searchFundMainList",
                     async:true,
-                    data : self.dataTableForm,
+                    data : JSON.stringify((self.dataTableForm)),
                     success:function(result){
-                        self.dataTableList = result.object;
+                        self.dataTableList = result.data;
                     }
                 });
             },

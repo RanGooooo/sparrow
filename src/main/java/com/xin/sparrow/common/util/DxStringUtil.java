@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
 public class DxStringUtil {
 
 
-    public static final <T> T JSONPtoJSON(String value,Class<T> clazz) {
+    public static final <T> T JsonpToJson(String value,Class<T> clazz) {
         if(StringUtils.isEmpty(value)){
             return null;
         }

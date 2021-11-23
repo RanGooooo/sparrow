@@ -1,5 +1,6 @@
 package com.xin.api.bus.fund.service;
 
+import com.xin.api.bus.fund.dto.BusSearchFundNetWorthReportDto;
 import com.xin.api.bus.fund.dto.BusSearchFundNetWorthReportVo;
 import com.xin.sparrow.common.dto.DxResult;
 
@@ -14,5 +15,5 @@ public interface BusFundNetWorthService {
     * 作者:  zhaohongyu
     * 创建时间:  2021-11-22 13:56
     */
-    DxResult<BusSearchFundNetWorthReportVo> searchFundNetWorthReport(String fundCode) throws Exception;
+    DxResult<BusSearchFundNetWorthReportVo> searchFundNetWorthReport(BusSearchFundNetWorthReportDto dto) throws Exception;
 }

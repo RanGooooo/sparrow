@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登录 [北京老酒管理系统]</title>
+    <!--https://www.zhangxinxu.com/sp/svg/-->
+    <link rel="stylesheet" href="/static/common/open-source/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/common/open-source/element-ui/element-ui.css">
+    <style>
+        .simple-page {
+            text-align: center;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: center;
+            -moz-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            -moz-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            min-height: 90vh;
+        }
+        .simple-page .logo {
+            background-image: url('/static/system/login/sparrow.svg');
+            background-repeat: no-repeat;
+            background-position: 50% 0;
+            height: 130px;
+        }
+        .simple-page h1 {
+            font-size: 24px;
+        }
+        .simple-page form {
+            min-width: 300px;
+            max-width: 300px;
+            width: 300px;
+        }
+        .simple-page .formRow {
+            margin-top: 27px;
+        }
+        .login-btn{
+            width: 100%;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body style="background: url(/system/login/login.svg),#ffffff;">
+    <div id="app" class="simple-page">
+        <div>
+            <div id="loginIntroDefault">
+                <div class="logo">
+            </div>
+                <h1>麻雀虽小，五脏俱全！</h1>
+            </div>
+            <form id="loginForm">
+                <div class="formRow">
+                    <el-input id="username" name="username" placeholder="用户名" v-model="l_username" clearable></el-input>
+                </div>
+                <div class="formRow">
+                    <el-input id="password" name="password" placeholder="请输入密码" v-model="l_password" show-password></el-input>
+                </div>
+                <div class="formRow">
+                    <el-button @click="validate" :loading="visible" class="login-btn">登　录</el-button>
+                </div>
+                <div class="formRow">
+                    <el-checkbox v-model="checked">保持登录状态</el-checkbox>
+                </div>
+            </form>
+            <div class="footer"></div>
+        </div>
+    </div>
+    <script src="/static/common/open-source/jquery/jquery.min.js"></script>
+    <script src="/static/common/open-source/jquery/jquery.md5.js"></script>
+    <script src="/static/common/open-source/element-ui/vue.js"></script>
+    <script src="/static/common/open-source/element-ui/element-ui.js"></script>
+    <script src="/static/common/self/common.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                visible: false,
+                l_username: "",
+                l_password: "",
+                checked: true
+            },
+            methods: {
+                validate: function () {
+                    var self = this;
+                    self.visible = true;
+                    common.ajax({
+                        url:"/TSLoginController/validate",
+                        type:"POST",
+                        async:false,
+                        data:{
+                            "username" : self.l_username,
+                            "password" : $.md5(self.l_password)
+                        },
+                        success:function(result){
+                            if(!result.success){
+                                //self.$notify({title: "警告",message: result.message,type: "warning"});
+                                commonVue.showWarningMessage(result.message);
+                                setTimeout(function(){
+                                    self.visible = false;
+                                },1000);
+                                throw 'error';
+                            }
+                            //self.$notify({title: "成功",message: "登录成功",type: "success"});
+                            commonVue.showSuccessMessage("登录成功");
+                            setTimeout(function(){
+                                window.location.href = "/TSMainController/main";
+                            },1000);
+                        },
+                        error:function(e){
+                            //self.$notify.error({title: "错误",message: "系统错误"});
+                            commonVue.showErrorMessage();
+                            self.visible = false;
+                        }
+                    });
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

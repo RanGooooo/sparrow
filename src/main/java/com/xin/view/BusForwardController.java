@@ -20,8 +20,8 @@ public class BusForwardController {
     */
     @RequestMapping(value="/{systemcode}")
     public String fundNetWorthReport(@PathVariable("systemcode")String systemcode) {
-        BusViewEnum busViewEnum = BusViewEnum.getEnumBySystemcode(systemcode);
-        return busViewEnum.systempath;
+        BusViewEnum viewEnum = BusViewEnum.getEnumBySystemcode(systemcode);
+        return viewEnum.systempath;
     }
 
 

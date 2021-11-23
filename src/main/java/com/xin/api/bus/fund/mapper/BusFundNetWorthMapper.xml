@@ -17,6 +17,9 @@
             <if test="mem.fundCode!=null and mem.fundCode!=''">
                 fw.fund_code = #{mem.fundCode}
             </if>
+            <if test="mem.fundNetWorthTimeBegin!=null and mem.fundNetWorthTimeBegin!=''">
+                AND date_format(fw.fund_net_worth_time,'%Y-%m-%d') <![CDATA[>= ]]> trim(#{mem.fundNetWorthTimeBegin})
+            </if>
         </where>
         ORDER BY fund_net_worth_time ASC
     </select>

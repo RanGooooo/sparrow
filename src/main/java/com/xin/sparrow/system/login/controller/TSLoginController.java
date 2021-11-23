@@ -14,16 +14,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("TSLoginController")
 public class TSLoginController {
 
-    private static final String loginPath = "system/login/";
-
     @Autowired
     private TSLoginService tsLoginService;
 
-    @RequestMapping("login")
-    public String login(){
-
-        return loginPath + "login";
-    }
 
     @RequestMapping(value="validate")
     @ResponseBody

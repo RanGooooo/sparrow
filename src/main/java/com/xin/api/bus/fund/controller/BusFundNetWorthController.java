@@ -29,7 +29,7 @@ public class BusFundNetWorthController {
     @RequestMapping("searchFundNetWorthReport")
     public DxResult<BusSearchFundNetWorthReportVo> searchFundNetWorthReport(@RequestBody BusSearchFundNetWorthReportDto dto) {
         try {
-            return tbFundNetWorthRecordService.searchFundNetWorthReport(dto.getFundCode());
+            return tbFundNetWorthRecordService.searchFundNetWorthReport(dto);
         } catch (Exception e) {
             return DxResult.warning(e);
         }

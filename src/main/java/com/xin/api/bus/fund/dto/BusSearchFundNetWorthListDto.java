@@ -9,6 +9,7 @@ public class BusSearchFundNetWorthListDto {
 
     private String fundCode;
 
+    private String fundNetWorthTimeBegin;
 
     public String getFundCode() {
         return fundCode;
@@ -16,5 +17,13 @@ public class BusSearchFundNetWorthListDto {
 
     public void setFundCode(String fundCode) {
         this.fundCode = fundCode;
+    }
+
+    public String getFundNetWorthTimeBegin() {
+        return fundNetWorthTimeBegin;
+    }
+
+    public void setFundNetWorthTimeBegin(String fundNetWorthTimeBegin) {
+        this.fundNetWorthTimeBegin = fundNetWorthTimeBegin;
     }
 }

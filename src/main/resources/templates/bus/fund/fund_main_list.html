@@ -65,12 +65,12 @@
             <el-col :span="20" style="padding-left: 0;">
                 <div id="report" style="height: 550px;width: 100%;"></div>
                 <div style="margin-top: 8px;text-align: center;">
-                    <el-radio-group v-model="timeRadio" size="small" @change="searchFundNetWorthRecordTime">
-                        <el-radio-button label="00">近1月</el-radio-button>
-                        <el-radio-button label="01">近3月</el-radio-button>
-                        <el-radio-button label="02">近1年</el-radio-button>
-                        <el-radio-button label="03">近3年</el-radio-button>
-                        <el-radio-button label="20">全部</el-radio-button>
+                    <el-radio-group v-model="dayNumber" size="small" @change="searchFundNetWorthRecordTime">
+                        <el-radio-button label="30">近1月</el-radio-button>
+                        <el-radio-button label="90">近3月</el-radio-button>
+                        <el-radio-button label="365">近1年</el-radio-button>
+                        <el-radio-button label="1095">近3年</el-radio-button>
+                        <el-radio-button label="null">全部</el-radio-button>
                     </el-radio-group>
                 </div>
             </el-col>
@@ -264,7 +264,7 @@
                 }
             ],
             currentFund: {},
-            timeRadio: "02",
+            dayNumber: "365",
             panelData: {}
         },
         mounted() {
@@ -356,7 +356,10 @@
                 this.currentFund = fund;
                 common.ajax({
                     url:"/busFundNetWorthController/searchFundNetWorthReport",
-                    data:JSON.stringify({'fundCode':fund.fundCode}),
+                    data:JSON.stringify({
+                        'fundCode': fund.fundCode,
+                        'dayNumber': self.dayNumber
+                    }),
                     success : function(result) {
                         option= {
                             title: {

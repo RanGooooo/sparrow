@@ -9,11 +9,21 @@ public class BusSearchFundNetWorthReportDto {
 
     private String fundCode;
 
+    private Integer dayNumber;
+
     public String getFundCode() {
         return fundCode;
     }
 
     public void setFundCode(String fundCode) {
         this.fundCode = fundCode;
+    }
+
+    public Integer getDayNumber() {
+        return dayNumber;
+    }
+
+    public void setDayNumber(Integer dayNumber) {
+        this.dayNumber = dayNumber;
     }
 }

@@ -17,6 +17,7 @@ import com.xin.sparrow.common.util.HttpClient4Utils;
 import com.xin.sparrow.common.util.SystemBizLogUtil;
 import com.xin.util.DxDecimalThreadLocalUtil;
 import com.xin.util.DxTimeThreadLocalUtil;
+import com.xin.util.DxTimeUtil;
 import com.xin.util.DxUuidUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,16 +47,19 @@ public class BusFundNetWorthServiceImpl implements BusFundNetWorthService {
 
 
     @Override
-    public DxResult<BusSearchFundNetWorthReportVo> searchFundNetWorthReport(String fundCode) throws Exception {
+    public DxResult<BusSearchFundNetWorthReportVo> searchFundNetWorthReport(BusSearchFundNetWorthReportDto dto) throws Exception {
+        String fundCode = dto.getFundCode();
+        Integer dayNumber = dto.getDayNumber();
         this.pullEveryDayInsertFundNetWorthList(fundCode);
-        return DxResult.success(this.assembleFundNetWorthRecordEchartsOption(fundCode,selectBusFundNetWorthList(fundCode)));
-    }
 
-    private List<BusSearchFundNetWorthListVo> selectBusFundNetWorthList(String fundCode) {
         BusSearchFundNetWorthListDto mem = new BusSearchFundNetWorthListDto();
         mem.setFundCode(fundCode);
-        return busFundNetWorthMapper.searchFundNetWorthList(mem);
+        mem.setFundNetWorthTimeBegin(DxTimeUtil.subtractAppointDate(dayNumber));
+        List<BusSearchFundNetWorthListVo> fundNetWorthList = busFundNetWorthMapper.searchFundNetWorthList(mem);
+
+        return DxResult.success(this.assembleFundNetWorthRecordEchartsOption(fundCode,fundNetWorthList));
     }
+
 
     private void insertFundNetWorth(String fundCode, String fsrq, String ljjz) throws Exception {
         BusFundNetWorth busFundNetWorth = new BusFundNetWorth();

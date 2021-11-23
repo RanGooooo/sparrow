@@ -77,7 +77,7 @@ common.ajax = function(param) {
         type: 'POST',
         async: true,
         timeout: 30000,
-        contentType: "application/json",
+        contentType: "menu/json",
     } , param , {
         error:function(e){
             console.error(JSON.stringify(e));

@@ -95,7 +95,7 @@
       },
       async: {
         enable: false,
-        contentType: "application/x-www-form-urlencoded",
+        contentType: "menu/x-www-form-urlencoded",
         type: "post",
         dataType: "text",
         headers: {},
@@ -1075,7 +1075,7 @@
           cache: false,
           type: setting.async.type,
           url: tools.apply(setting.async.url, [setting.treeId, node], setting.async.url),
-          data: setting.async.contentType.indexOf('application/json') > -1 ? JSON.stringify(tmpParam) : tmpParam,
+          data: setting.async.contentType.indexOf('menu/json') > -1 ? JSON.stringify(tmpParam) : tmpParam,
           dataType: setting.async.dataType,
           headers: setting.async.headers,
           xhrFields: setting.async.xhrFields,

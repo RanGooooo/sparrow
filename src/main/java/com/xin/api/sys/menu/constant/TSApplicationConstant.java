@@ -1,4 +1,4 @@
-package com.xin.sparrow.system.management.application.constant;
+package com.xin.api.sys.menu.constant;
 
 public interface TSApplicationConstant {
 

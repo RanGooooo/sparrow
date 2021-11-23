@@ -75,7 +75,7 @@ public class HttpClient4Utils {
 			try {
 				httpPost = new HttpPost(url);
 				httpPost.setConfig(requestConfig);
-				httpPost.setHeader("Content-Type", "application/json");
+				httpPost.setHeader("Content-Type", "menu/json");
 				httpPost.setHeader("X-AUTH-TOKEN", "DEFAULT_USER_001_eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkdGZ6c3VwcGVybWFuIiwic3ViIjoiZHRmenN1cHBlcm1hbiIsImlhdCI6MTYyNTYyMDg5N30.aNi7Ot4Q1IVsql_DJ3WEAuNPygG6b1v11hMwmImrly4");
 				httpPost.setEntity(new StringEntity(regJson,"UTF-8"));
 				response = httpClient.execute(httpPost);
@@ -135,7 +135,7 @@ public class HttpClient4Utils {
 		try {
 			httpPost = new HttpPost(url);
 			httpPost.setConfig(requestConfig);
-			httpPost.setHeader("Content-Type", "application/json");
+			httpPost.setHeader("Content-Type", "menu/json");
 			httpPost.setEntity(new UrlEncodedFormEntity(pairs));
 			response = httpClient.execute(httpPost);
 			

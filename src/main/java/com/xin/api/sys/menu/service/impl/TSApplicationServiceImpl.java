@@ -1,17 +1,17 @@
-package com.xin.sparrow.system.management.application.service.impl;
+package com.xin.api.sys.menu.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.xin.api.sys.menu.entity.SysMenuMain;
 import com.xin.sparrow.common.annotation.check.CheckData;
 import com.xin.sparrow.common.constant.status.RunningStateConstant;
 import com.xin.sparrow.common.dto.DxResult;
 import com.xin.sparrow.common.dto.RestResult;
 import com.xin.sparrow.common.dto.TreeDto;
-import com.xin.sparrow.system.management.application.constant.TSApplicationConstant;
-import com.xin.sparrow.system.management.application.dao.TSApplicationDao;
-import com.xin.sparrow.system.management.application.dao.TSApplicationRepository;
-import com.xin.sparrow.system.management.application.dto.TSApplicationDto;
-import com.xin.sparrow.system.management.application.entity.TSApplication;
-import com.xin.sparrow.system.management.application.service.TSApplicationService;
+import com.xin.api.sys.menu.constant.TSApplicationConstant;
+import com.xin.api.sys.menu.dao.TSApplicationDao;
+import com.xin.api.sys.menu.dao.TSApplicationRepository;
+import com.xin.api.sys.menu.dto.TSApplicationDto;
+import com.xin.api.sys.menu.service.TSApplicationService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class TSApplicationServiceImpl implements TSApplicationService {
     private TSApplicationRepository applicationRepository;
 
     @Override
-    public DxResult<List<TSApplication>> searchMyTSApplicationList(TSApplicationDto dto) throws Exception {
+    public DxResult<List<SysMenuMain>> searchMyTSApplicationList(TSApplicationDto dto) throws Exception {
         return DxResult.success(applicationDao.searchTSApplicationList(dto));
     }
 
@@ -48,7 +48,7 @@ public class TSApplicationServiceImpl implements TSApplicationService {
             StringUtils.isEmpty(applicationName)){
             dto.setParentApplicationId(TSApplicationConstant.PARENT_APPLICATION_ID_TOP);
         }
-        List<TSApplication> list = applicationDao.searchTSApplicationList(dto);
+        List<SysMenuMain> list = applicationDao.searchTSApplicationList(dto);
         result.setObject(list);
         return result;
     }
@@ -57,15 +57,15 @@ public class TSApplicationServiceImpl implements TSApplicationService {
     public void forwordTSApplicationSave(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
         if(!StringUtils.isEmpty(id)){
-            TSApplication entity = applicationRepository.findTSApplicationById(id);
+            SysMenuMain entity = applicationRepository.findTSApplicationById(id);
             TSApplicationDto dto = new TSApplicationDto();
             BeanUtils.copyProperties(entity,dto);
             String parentApplicationId = entity.getParentApplicationId();
-            TSApplication parentTSApplication = applicationRepository.findTSApplicationById(parentApplicationId);
+            SysMenuMain parentTSApplication = applicationRepository.findTSApplicationById(parentApplicationId);
             if(!StringUtils.isEmpty(parentTSApplication)){
                 dto.setParentApplicationName(parentTSApplication.getApplicationName());
             }
-            request.setAttribute("TSApplication", JSON.toJSONString(dto));
+            request.setAttribute("SysMenuMain", JSON.toJSONString(dto));
         }
     }
 
@@ -73,12 +73,12 @@ public class TSApplicationServiceImpl implements TSApplicationService {
     public RestResult applicationSave(@CheckData TSApplicationDto dto) throws Exception{
         RestResult result = new RestResult();
         String id = dto.getId();
-        TSApplication entity = new TSApplication();
+        SysMenuMain entity = new SysMenuMain();
         String parentApplicationId = dto.getParentApplicationId();
         if(StringUtils.isEmpty(parentApplicationId)){
             dto.setParentApplicationId(TSApplicationConstant.PARENT_APPLICATION_ID_TOP);
         }else{
-            TSApplication parentApplication = applicationRepository.findTSApplicationById(parentApplicationId);
+            SysMenuMain parentApplication = applicationRepository.findTSApplicationById(parentApplicationId);
             if(parentApplication!=null){
                 parentApplication.setPosition(TSApplicationConstant.POSITION_TRUE);
                 applicationRepository.save(parentApplication);
@@ -102,15 +102,15 @@ public class TSApplicationServiceImpl implements TSApplicationService {
         if(StringUtils.isEmpty(id)){
             throw new Exception("删除失败，主键为空");
         }
-        TSApplication entity = applicationRepository.findTSApplicationById(id);
-        List<TSApplication> applicationList1 = applicationRepository.findTSApplicationByParentApplicationId(id);
+        SysMenuMain entity = applicationRepository.findTSApplicationById(id);
+        List<SysMenuMain> applicationList1 = applicationRepository.findTSApplicationByParentApplicationId(id);
         if(applicationList1.size()>0){
             throw new Exception("存在子应用");
         }
         String parentApplicationId = entity.getParentApplicationId();
-        List<TSApplication> applicationList = applicationRepository.findTSApplicationByParentApplicationId(parentApplicationId);
+        List<SysMenuMain> applicationList = applicationRepository.findTSApplicationByParentApplicationId(parentApplicationId);
         if(applicationList.size()==1){
-            TSApplication parent = applicationRepository.findTSApplicationById(parentApplicationId);
+            SysMenuMain parent = applicationRepository.findTSApplicationById(parentApplicationId);
             parent.setPosition(TSApplicationConstant.POSITION_FALSE);
             applicationRepository.save(parent);
         }
@@ -121,9 +121,9 @@ public class TSApplicationServiceImpl implements TSApplicationService {
     public RestResult searchTSApplicationTree(HttpServletRequest request) throws Exception {
         RestResult result = new RestResult();
         TSApplicationDto dto = new TSApplicationDto();
-        List<TSApplication> list = applicationDao.searchTSApplicationList(dto);
+        List<SysMenuMain> list = applicationDao.searchTSApplicationList(dto);
         List<TreeDto> treeList = new ArrayList<>();
-        for (TSApplication application:list){
+        for (SysMenuMain application:list){
             TreeDto treeDto = new TreeDto();
             treeList.add(treeDto);
             treeDto.setId(application.getId());

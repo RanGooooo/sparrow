@@ -1,9 +1,9 @@
-package com.xin.sparrow.system.login.controller;
+package com.xin.api.sys.login.controller;
 
 
 import com.xin.sparrow.common.dto.RestResult;
-import com.xin.sparrow.system.login.dto.LoginUserDto;
-import com.xin.sparrow.system.login.service.TSLoginService;
+import com.xin.api.sys.login.dto.LoginUserDto;
+import com.xin.api.sys.login.service.SysLoginMainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("TSLoginController")
-public class TSLoginController {
+@RequestMapping("sysLoginMainController")
+public class SysLoginMainController {
 
     @Autowired
-    private TSLoginService tsLoginService;
+    private SysLoginMainService tsLoginService;
 
 
     @RequestMapping(value="validate")

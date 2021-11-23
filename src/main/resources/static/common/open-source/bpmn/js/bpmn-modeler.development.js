@@ -42797,7 +42797,7 @@
 
 	/**
 	 * Apply attributes from a map to the given element,
-	 * remove attribute from the map on application.
+	 * remove attribute from the map on menu.
 	 *
 	 * @param {Base} element
 	 * @param {Object} attrs (in/out map of attributes)

@@ -1,4 +1,4 @@
-package com.xin.sparrow.system.login.dto;
+package com.xin.api.sys.login.dto;
 
 import com.xin.sparrow.common.annotation.check.NotNull;
 

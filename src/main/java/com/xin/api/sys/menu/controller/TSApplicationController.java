@@ -1,13 +1,13 @@
-package com.xin.sparrow.system.management.application.controller;
+package com.xin.api.sys.menu.controller;
 
 
+import com.xin.api.sys.menu.entity.SysMenuMain;
 import com.xin.sparrow.common.dto.DxResult;
 import com.xin.sparrow.common.dto.RestResult;
 import com.xin.sparrow.control.inter.annotation.Api;
 import com.xin.sparrow.control.inter.annotation.ApiGroup;
-import com.xin.sparrow.system.management.application.dto.TSApplicationDto;
-import com.xin.sparrow.system.management.application.entity.TSApplication;
-import com.xin.sparrow.system.management.application.service.TSApplicationService;
+import com.xin.api.sys.menu.dto.TSApplicationDto;
+import com.xin.api.sys.menu.service.TSApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("TSApplicationController")
 public class TSApplicationController {
 
-    private static final String applicationPath = "system/management/application/";
+    private static final String applicationPath = "system/management/menu/";
 
     @Autowired
     private TSApplicationService applicationService;
@@ -33,7 +33,7 @@ public class TSApplicationController {
     @Api(description  = "跳转应用列表")
     @RequestMapping("forwordTSApplicationList")
     public String forwordTSApplicationList(){
-        return applicationPath + "application-list";
+        return applicationPath + "menu-list";
     }
 
     @Api(description  = "搜索应用列表")
@@ -54,7 +54,7 @@ public class TSApplicationController {
     @Api(description  = "搜索我的列表")
     @RequestMapping("searchMyTSApplicationList")
     @ResponseBody
-    public DxResult<List<TSApplication>> searchMyTSApplicationList() {
+    public DxResult<List<SysMenuMain>> searchMyTSApplicationList() {
         try {
             return applicationService.searchMyTSApplicationList(null);
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class TSApplicationController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return applicationPath + "application-save";
+        return applicationPath + "menu-save";
     }
     @Api(description  = "应用保存")
     @RequestMapping("applicationSave")

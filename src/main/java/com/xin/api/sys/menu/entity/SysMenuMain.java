@@ -1,17 +1,13 @@
-package com.xin.sparrow.system.management.application.entity;
+package com.xin.api.sys.menu.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.xin.sparrow.common.annotation.check.NotNull;
-import org.apache.ibatis.type.Alias;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
+import lombok.Data;
 
 
-
-@Entity
-@Table(name = "t_s_application")
-@Alias(value = "TSApplication")
-public class TSApplication {
+@Data
+@TableName("sys_menu_main")
+public class SysMenuMain {
     /**主键*/
     private String id;
     /**应用名称*/
@@ -22,10 +18,10 @@ public class TSApplication {
     private String applicationUrl;
     /**应用等级*/
     @NotNull
-    private String applicationLevel;
+    private Integer applicationLevel;
     /**应用排序*/
     @NotNull
-    private String applicationOrder;
+    private Integer applicationOrder;
     /**应用图标*/
     @NotNull
     private String applicationIcon;
@@ -35,7 +31,7 @@ public class TSApplication {
     private String position;
     /*RunningStateConstant*/
     private String runningState;
-    @Id
+   /* @Id
     @GeneratedValue(generator = "paymentableGenerator")
     @GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
     @Column(name ="ID",nullable=false,length=36)
@@ -60,17 +56,17 @@ public class TSApplication {
     this.applicationUrl = applicationUrl;
     }
     @Column(name ="application_level")
-    public String getApplicationLevel() {
+    public Integer getApplicationLevel() {
     return applicationLevel;
     }
-    public void setApplicationLevel(String applicationLevel) {
+    public void setApplicationLevel(Integer applicationLevel) {
     this.applicationLevel = applicationLevel;
     }
     @Column(name ="application_order")
-    public String getApplicationOrder() {
+    public Integer getApplicationOrder() {
     return applicationOrder;
     }
-    public void setApplicationOrder(String applicationOrder) {
+    public void setApplicationOrder(Integer applicationOrder) {
     this.applicationOrder = applicationOrder;
     }
     @Column(name ="application_icon")
@@ -102,5 +98,5 @@ public class TSApplication {
 
     public void setRunningState(String runningState) {
         this.runningState = runningState;
-    }
+    }*/
 }

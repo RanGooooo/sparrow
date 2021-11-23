@@ -1,9 +1,9 @@
-package com.xin.sparrow.system.login.service.impl;
+package com.xin.api.sys.login.service.impl;
 
 import com.xin.sparrow.common.annotation.check.CheckData;
 import com.xin.sparrow.common.constant.AuthenticationConstant;
-import com.xin.sparrow.system.login.dto.LoginUserDto;
-import com.xin.sparrow.system.login.service.TSLoginService;
+import com.xin.api.sys.login.dto.LoginUserDto;
+import com.xin.api.sys.login.service.SysLoginMainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  */
 @Service
 @Transactional
-public class TSLoginServiceImpl implements TSLoginService {
+public class SysLoginMainServiceImpl implements SysLoginMainService {
 
     @Autowired
     private HttpSession session;

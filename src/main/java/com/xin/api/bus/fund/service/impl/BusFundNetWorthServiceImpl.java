@@ -12,13 +12,11 @@ import com.xin.api.bus.fund.dto.echarts.Serie;
 import com.xin.api.bus.fund.entity.BusFundNetWorth;
 import com.xin.api.bus.fund.service.BusFundMainService;
 import com.xin.api.bus.fund.service.BusFundNetWorthService;
+import com.xin.api.sys.inter.mail.service.SysMailMainService;
 import com.xin.sparrow.common.dto.DxResult;
 import com.xin.sparrow.common.util.HttpClient4Utils;
 import com.xin.sparrow.common.util.SystemBizLogUtil;
-import com.xin.util.DxDecimalThreadLocalUtil;
-import com.xin.util.DxTimeThreadLocalUtil;
-import com.xin.util.DxTimeUtil;
-import com.xin.util.DxUuidUtil;
+import com.xin.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -45,6 +43,9 @@ public class BusFundNetWorthServiceImpl implements BusFundNetWorthService {
     @Autowired
     private BusFundNetWorthMapper busFundNetWorthMapper;
 
+    @Autowired
+    private SysMailMainService mailService;
+
 
     @Override
     public DxResult<BusSearchFundNetWorthReportVo> searchFundNetWorthReport(BusSearchFundNetWorthReportDto dto) throws Exception {
@@ -56,7 +57,7 @@ public class BusFundNetWorthServiceImpl implements BusFundNetWorthService {
         mem.setFundCode(fundCode);
         mem.setFundNetWorthTimeBegin(DxTimeUtil.subtractAppointDate(dayNumber));
         List<BusSearchFundNetWorthListVo> fundNetWorthList = busFundNetWorthMapper.searchFundNetWorthList(mem);
-
+        mailService.sendSimpleMail("395994875@qq.com","1","1");
         return DxResult.success(this.assembleFundNetWorthRecordEchartsOption(fundCode,fundNetWorthList));
     }
 

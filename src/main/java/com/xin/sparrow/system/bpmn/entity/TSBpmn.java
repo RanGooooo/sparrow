@@ -1,15 +1,15 @@
 package com.xin.sparrow.system.bpmn.entity;
 
 
-import org.apache.ibatis.type.Alias;
+import com.baomidou.mybatisplus.annotation.TableName;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Date;
 
-@Entity
-@Table(name = "t_s_bpmn")
-@Alias(value = "TSBpmn")
+@TableName("t_s_bpmn")
 public class TSBpmn {
 
     /**主键*/

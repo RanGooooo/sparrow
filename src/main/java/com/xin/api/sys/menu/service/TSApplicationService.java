@@ -1,9 +1,9 @@
-package com.xin.sparrow.system.management.application.service;
+package com.xin.api.sys.menu.service;
 
 import com.xin.sparrow.common.dto.DxResult;
 import com.xin.sparrow.common.dto.RestResult;
-import com.xin.sparrow.system.management.application.dto.TSApplicationDto;
-import com.xin.sparrow.system.management.application.entity.TSApplication;
+import com.xin.api.sys.menu.dto.TSApplicationDto;
+import com.xin.api.sys.menu.entity.SysMenuMain;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -18,7 +18,7 @@ public interface TSApplicationService {
 
     void applicationDelete(HttpServletRequest request) throws Exception;
 
-    DxResult<List<TSApplication>> searchMyTSApplicationList(TSApplicationDto dto) throws Exception;
+    DxResult<List<SysMenuMain>> searchMyTSApplicationList(TSApplicationDto dto) throws Exception;
 
     RestResult searchTSApplicationTree(HttpServletRequest request) throws Exception;
 }

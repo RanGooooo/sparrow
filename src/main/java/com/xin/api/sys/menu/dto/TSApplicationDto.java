@@ -1,8 +1,8 @@
-package com.xin.sparrow.system.management.application.dto;
+package com.xin.api.sys.menu.dto;
 
-import com.xin.sparrow.system.management.application.entity.TSApplication;
+import com.xin.api.sys.menu.entity.SysMenuMain;
 
-public class TSApplicationDto extends TSApplication {
+public class TSApplicationDto extends SysMenuMain {
 
     /**父应用id*/
     private String parentApplicationName;

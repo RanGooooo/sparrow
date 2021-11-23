@@ -2,7 +2,6 @@ package com.xin.sparrow.system.bpmn.service.impl;
 
 import com.xin.sparrow.common.dto.RestResult;
 import com.xin.sparrow.system.bpmn.dao.TSBpmnDao;
-import com.xin.sparrow.system.bpmn.dao.TSBpmnRepository;
 import com.xin.sparrow.system.bpmn.dto.TSBpmnDto;
 import com.xin.sparrow.system.bpmn.entity.TSBpmn;
 import com.xin.sparrow.system.bpmn.service.TSBpmnService;
@@ -21,13 +20,10 @@ public class TSBpmnServiceImpl implements TSBpmnService {
     @Autowired
     private TSBpmnDao tsBpmnDao;
 
-    @Autowired
-    private TSBpmnRepository tsBpmnRepository;
-
     @Override
     public RestResult searchBpmnList(HttpServletRequest request) {
         RestResult result = new RestResult();
-        List<TSBpmn> list = tsBpmnRepository.findAll();
+        List<TSBpmn> list = null;
         result.setObject(list);
         return result;
     }
@@ -36,6 +32,5 @@ public class TSBpmnServiceImpl implements TSBpmnService {
     public void bpmnSave(TSBpmnDto dto) throws Exception {
         TSBpmn bpmn = new TSBpmn();
         BeanUtils.copyProperties(dto,bpmn);
-        tsBpmnRepository.saveAndFlush(bpmn);
     }
 }

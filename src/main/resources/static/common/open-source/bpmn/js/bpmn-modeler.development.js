@@ -6734,7 +6734,7 @@
 	/**
 	 * Tiny stack for browser or server
 	 *
-	 * @author Jason Mulligan <jason.mulligan@avoidwork.com>
+	 * @author Jason Mulligan <jason.mulligan@avoidwork.common>
 	 * @copyright 2018
 	 * @license BSD-3-Clause
 	 * @link http://avoidwork.github.io/tiny-stack

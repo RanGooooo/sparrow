@@ -13,10 +13,13 @@ import com.xin.api.bus.fund.entity.BusFundNetWorth;
 import com.xin.api.bus.fund.service.BusFundMainService;
 import com.xin.api.bus.fund.service.BusFundNetWorthService;
 import com.xin.api.sys.inter.mail.service.SysMailMainService;
+import com.xin.common.util.DxDecimalThreadLocalUtil;
+import com.xin.common.util.DxTimeThreadLocalUtil;
+import com.xin.common.util.DxTimeUtil;
+import com.xin.common.util.DxUuidUtil;
 import com.xin.sparrow.common.dto.DxResult;
 import com.xin.sparrow.common.util.HttpClient4Utils;
 import com.xin.sparrow.common.util.SystemBizLogUtil;
-import com.xin.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -57,7 +60,7 @@ public class BusFundNetWorthServiceImpl implements BusFundNetWorthService {
         mem.setFundCode(fundCode);
         mem.setFundNetWorthTimeBegin(DxTimeUtil.subtractAppointDate(dayNumber));
         List<BusSearchFundNetWorthListVo> fundNetWorthList = busFundNetWorthMapper.searchFundNetWorthList(mem);
-        mailService.sendSimpleMail("395994875@qq.com","1","1");
+        mailService.sendSimpleMail("395994875@qq.common","1","1");
         return DxResult.success(this.assembleFundNetWorthRecordEchartsOption(fundCode,fundNetWorthList));
     }
 
@@ -75,7 +78,7 @@ public class BusFundNetWorthServiceImpl implements BusFundNetWorthService {
     private void pullEveryDayInsertFundNetWorthList(String fundCode) throws Exception {
         String url = SystemBizLogUtil.setTemplateData(SystemBizLogUtil.put(fundCode, String.valueOf(1),String.valueOf(10000)),fundNetWorthRecordUrl);
         Map<String, String> headers = new HashMap<>();
-        headers.put("Referer","http://fundf10.eastmoney.com/");
+        headers.put("Referer","http://fundf10.eastmoney.common/");
         String json = HttpClient4Utils.httpGet(url, null, headers, "UTF-8", 5);
         JSONObject jsonObject = JSON.parseObject(json);
         JSONObject Data = jsonObject.getJSONObject("Data");

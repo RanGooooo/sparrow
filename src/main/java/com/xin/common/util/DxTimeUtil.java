@@ -1,4 +1,4 @@
-package com.xin.util;
+package com.xin.common.util;
 
 import java.util.Calendar;
 import java.util.Date;

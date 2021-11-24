@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 
 @SpringBootApplication(scanBasePackages = {"com.xin.*"},exclude = SecurityAutoConfiguration.class)
-@MapperScan(basePackages = "com.xin.*",annotationClass = Repository.class)
+@MapperScan(basePackages = "common.xin.*",annotationClass = Repository.class)
 public class SparrowApplication {
 
 	public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.xin.model.enums;
+package com.xin.common.model.enums;
 
 /**
 * @Author:  zhaohongyu

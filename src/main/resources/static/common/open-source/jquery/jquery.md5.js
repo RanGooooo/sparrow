@@ -23,7 +23,7 @@
 	 * 			"b8c901d0f02223f9761016cfff9d68df"
 	 * 		</code>
 	 * 
-	 * @alias Muhammad Hussein Fattahizadeh < muhammad [AT] semnanweb [DOT] com >
+	 * @alias Muhammad Hussein Fattahizadeh < muhammad [AT] semnanweb [DOT] common >
 	 * @link http://www.semnanweb.com/jquery-plugin/md5.html
 	 * @see http://www.webtoolkit.info/
 	 * @license http://www.gnu.org/licenses/gpl.html [GNU General Public License]

@@ -35,7 +35,7 @@ ec9a1eb5120c431bb0bcab308035bfc7
 public class HttpClient4Utils {
 	
 	public static void main(String[] args) throws InterruptedException {
-        String url = "http://fundgz.1234567.com.cn/js/004224.js?rt=1626166260458";//结果公告
+        String url = "http://fundgz.1234567.common.cn/js/004224.js?rt=1626166260458";//结果公告
         String sendHttpRequest = HttpClient4Utils.httpGet(url, null,"UTF-8", 5);
         System.out.println(sendHttpRequest);
         System.out.println(System.currentTimeMillis());

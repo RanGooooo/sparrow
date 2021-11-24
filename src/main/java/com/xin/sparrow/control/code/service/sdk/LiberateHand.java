@@ -195,7 +195,7 @@ public class LiberateHand {
 		.setModel("purchase")
 		.setEntity("TBPrePurchaseApply")
 		.setTable("t_b_pre_purchase_apply")
-		.setPackagePath("com.gxcx.")
+		.setPackagePath("common.gxcx.")
 		.setField(field)
 		.build();
 	}

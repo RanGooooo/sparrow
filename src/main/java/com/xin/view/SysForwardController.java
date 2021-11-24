@@ -1,7 +1,7 @@
 package com.xin.view;
 
 
-import com.xin.model.enums.SysViewEnum;
+import com.xin.common.model.enums.SysViewEnum;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

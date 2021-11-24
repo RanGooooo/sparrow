@@ -1440,7 +1440,7 @@
           }
           return;
         }
-        // CC-BY jocki84@googlemail.com, https://gist.github.com/jocki84/6ffafd003387179a988e
+        // CC-BY jocki84@googlemail.common, https://gist.github.com/jocki84/6ffafd003387179a988e
         if (!Element.prototype.scrollIntoViewIfNeeded) {
           Element.prototype.scrollIntoViewIfNeeded = function (centerIfNeeded) {
             "use strict";

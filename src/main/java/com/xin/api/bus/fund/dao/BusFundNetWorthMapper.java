@@ -12,25 +12,25 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Description
- * @Author 赵宏宇
- * @date 2021.11.18 11:00
+ * 功能:
+ * 作者: zhaohongyu
+ * 创建时间: 2021-11-24 15:25
  */
 @Repository
 public interface BusFundNetWorthMapper extends BaseMapper<BusFundNetWorth> {
 
 
     /**
-    * 作者:  zhaohongyu
-    * 创建时间:  2021-11-22 11:43
-    */
+     * 作者:  zhaohongyu
+     * 创建时间:  2021-11-22 11:43
+     */
     @Select("searchMaxFundNetWorthTime")
     Date searchMaxFundNetWorthTime(@Param("fundCode") String fundCode);
 
     /**
-    * 作者:  zhaohongyu
-    * 创建时间:  2021-11-22 11:43
-    */
+     * 作者:  zhaohongyu
+     * 创建时间:  2021-11-22 11:43
+     */
     @Select("searchFundNetWorthList")
     List<BusSearchFundNetWorthListVo> searchFundNetWorthList(@Param("mem") BusSearchFundNetWorthListDto mem);
 

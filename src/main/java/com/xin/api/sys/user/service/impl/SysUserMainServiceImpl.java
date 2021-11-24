@@ -1,12 +1,12 @@
 package com.xin.api.sys.user.service.impl;
 
-import com.xin.sparrow.common.annotation.check.CheckData;
-import com.xin.sparrow.common.dto.RestResult;
-import com.xin.api.sys.user.constant.TSUserConstant;
 import com.xin.api.sys.user.dao.SysUserMainMapper;
 import com.xin.api.sys.user.dto.SysUserMainDto;
 import com.xin.api.sys.user.entity.SysUserMain;
 import com.xin.api.sys.user.service.SysUserMainService;
+import com.xin.common.model.enums.SysUserMainAccountStateEnum;
+import com.xin.sparrow.common.annotation.check.CheckData;
+import com.xin.sparrow.common.dto.RestResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class SysUserMainServiceImpl implements SysUserMainService {
             entity  = sysUserMainMapper.selectById(id);
         }
         BeanUtils.copyProperties(dto,entity);
-        entity.setAccountState(TSUserConstant.ACCOUNT_STATE_01);
+        entity.setAccountState(SysUserMainAccountStateEnum.NORMAL.systemcode);
         sysUserMainMapper.insert(entity);
     }
 

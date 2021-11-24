@@ -40,9 +40,9 @@ public class HttpClient4Utils {
         System.out.println(sendHttpRequest);
         System.out.println(System.currentTimeMillis());
     }
-	
 
-	
+
+
 	//设置默认超时时间为60s
 	public static final int DEFAULT_TIME_OUT	= 60*1000;
 	
@@ -176,9 +176,7 @@ public class HttpClient4Utils {
 		if(url == null || url.equals("")) {
 			return null;
 		}
-		String result = null;
 		CloseableHttpClient httpClient 	= HttpClients.createDefault();
-		HttpGet httpGet 				= null;
 		String responseBody 			= null;
 		CloseableHttpResponse response	= null;
 		try {
@@ -191,7 +189,7 @@ public class HttpClient4Utils {
 				}
 				url = url + "?" + EntityUtils.toString(new UrlEncodedFormEntity(pairs, charset));
 			}
-			httpGet		= new HttpGet(url);
+            HttpGet httpGet = new HttpGet(url);
             if(headers != null && !headers.isEmpty()) {
                 for(Entry<String, String> entry : headers.entrySet()) {
                     String key		= entry.getKey();
@@ -199,6 +197,10 @@ public class HttpClient4Utils {
                     httpGet.setHeader(key,value);
                 }
             }
+            RequestConfig requestConfig = RequestConfig.custom()
+                    .setConnectTimeout(timeout).setConnectionRequestTimeout(timeout)
+                    .setSocketTimeout(timeout).build();
+            httpGet.setConfig(requestConfig);
             response	= httpClient.execute(httpGet);
 			int statusCode = response.getStatusLine().getStatusCode();
 			if (statusCode != 200) {
@@ -207,7 +209,6 @@ public class HttpClient4Utils {
 			}
 			HttpEntity entity 	= response.getEntity();
 			responseBody 		= EntityUtils.toString(entity, charset);
-			result				= responseBody; 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -216,18 +217,22 @@ public class HttpClient4Utils {
 				if (response != null) {
 					response.close();
 				}
-				if (httpClient != null) {
-					httpClient.close();
-				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+            try {
+                if (httpClient != null) {
+                    httpClient.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 		}
 		
-		return result;
+		return responseBody;
 	}
 	
-	public static String formatStr(String text) {
+    private static String formatStr(String text) {
 		return (text == null ? "" : text.trim());
 	}
 	

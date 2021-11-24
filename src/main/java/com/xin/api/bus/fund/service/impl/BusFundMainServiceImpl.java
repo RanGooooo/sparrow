@@ -34,7 +34,6 @@ public class BusFundMainServiceImpl implements BusFundMainService {
     @Value("${sparrow.ttjj.fundInfoUrl}")
     private String fundInfoUrl;
 
-
     @Autowired
     private BusFundMainMapper busFundMainMapper;
 
@@ -64,7 +63,7 @@ public class BusFundMainServiceImpl implements BusFundMainService {
     @Override
     public EveryDayFundMainVo getEveryDayFundMainVo(String fundCode) throws ExceptionMessageException {
         String url = SystemBizLogUtil.setTemplateData(SystemBizLogUtil.put(fundCode),fundInfoUrl);
-        String Jsonp = HttpClient4Utils.httpGet(url, null,"UTF-8", 5);
+        String Jsonp = HttpClient4Utils.httpGet(url, null,"UTF-8", 5000);
         return DxStringUtil.JsonpToJson(Jsonp, EveryDayFundMainVo.class);
     }
 

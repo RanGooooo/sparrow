@@ -8,12 +8,24 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Repository;
 
 
+//@SpringBootApplication(scanBasePackages = {"com.xin.*"},exclude = SecurityAutoConfiguration.class)
+//@MapperScan(basePackages = "common.xin.*",annotationClass = Repository.class)
+//@SpringBootApplication(scanBasePackages = {"com.xin.*"},exclude = SecurityAutoConfiguration.class)
+//@MapperScan(basePackages = "com.xin.api.bus.*.dao",annotationClass = Repository.class)
+//public class SparrowApplication {
+//
+//	public static void main(String[] args) {
+//        SpringApplication.run(SparrowApplication.class, args);
+//	}
+//
+//}
+
 @SpringBootApplication(scanBasePackages = {"com.xin.*"},exclude = SecurityAutoConfiguration.class)
-@MapperScan(basePackages = "common.xin.*",annotationClass = Repository.class)
+@MapperScan(basePackages = "com.xin.*",annotationClass = Repository.class)
 public class SparrowApplication {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
         SpringApplication.run(SparrowApplication.class, args);
-	}
+    }
 
 }

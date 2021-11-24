@@ -47,7 +47,7 @@ public class BusFundNetWorthServiceImpl implements BusFundNetWorthService {
     private BusFundNetWorthMapper busFundNetWorthMapper;
 
     @Autowired
-    private SysMailMainService mailService;
+    private SysMailMainService sysMailMainService;
 
 
     @Override
@@ -60,7 +60,7 @@ public class BusFundNetWorthServiceImpl implements BusFundNetWorthService {
         mem.setFundCode(fundCode);
         mem.setFundNetWorthTimeBegin(DxTimeUtil.subtractAppointDate(dayNumber));
         List<BusSearchFundNetWorthListVo> fundNetWorthList = busFundNetWorthMapper.searchFundNetWorthList(mem);
-        mailService.sendSimpleMail("395994875@qq.common","1","1");
+        sysMailMainService.sendSimpleMail("395994875@qq.common","1","1");
         return DxResult.success(this.assembleFundNetWorthRecordEchartsOption(fundCode,fundNetWorthList));
     }
 
@@ -75,11 +75,19 @@ public class BusFundNetWorthServiceImpl implements BusFundNetWorthService {
         busFundNetWorthMapper.insert(busFundNetWorth);
     }
 
+    public static void main(String[] args) {
+        String url = "http://api.fund.eastmoney.com/f10/lsjz?fundCode=004224&pageIndex=1&pageSize=10000";
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Referer","http://fundf10.eastmoney.com/");
+        String json = HttpClient4Utils.httpGet(url, null, headers, "UTF-8",5000);
+        System.out.println(json);
+    }
+
     private void pullEveryDayInsertFundNetWorthList(String fundCode) throws Exception {
         String url = SystemBizLogUtil.setTemplateData(SystemBizLogUtil.put(fundCode, String.valueOf(1),String.valueOf(10000)),fundNetWorthRecordUrl);
         Map<String, String> headers = new HashMap<>();
-        headers.put("Referer","http://fundf10.eastmoney.common/");
-        String json = HttpClient4Utils.httpGet(url, null, headers, "UTF-8", 5);
+        headers.put("Referer","http://fundf10.eastmoney.com/");
+        String json = HttpClient4Utils.httpGet(url, null, headers, "UTF-8",5000);
         JSONObject jsonObject = JSON.parseObject(json);
         JSONObject Data = jsonObject.getJSONObject("Data");
         JSONArray LSJZList = Data.getJSONArray("LSJZList");

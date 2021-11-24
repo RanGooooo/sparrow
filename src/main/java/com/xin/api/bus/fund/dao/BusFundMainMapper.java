@@ -9,11 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
-* 作者:  zhaohongyu
-* 创建时间:  2021-11-22 14:05
-*/
+ * 功能: 
+ * 作者: zhaohongyu
+ * 创建时间: 2021-11-24 15:27
+ */
 @Repository
-public interface BusFundMainMapper extends BaseMapper<BusFundMain>{
+public interface BusFundMainMapper extends BaseMapper<BusFundMain> {
 
     /**
     * 作者:  zhaohongyu

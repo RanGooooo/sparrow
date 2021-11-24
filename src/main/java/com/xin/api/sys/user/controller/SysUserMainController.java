@@ -15,16 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("TSUserController")
 public class SysUserMainController {
 
-    private static final String userPath = "system/management/organization/user/";
 
     @Autowired
     private SysUserMainService userService;
-
-    @RequestMapping("forwordTSUserList")
-    public String forwordTSUserList(){
-        return userPath + "user-list";
-    }
-
 
     @RequestMapping("searchTSUserList")
     @ResponseBody
@@ -47,7 +40,7 @@ public class SysUserMainController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return userPath + "user-save";
+        return  "user-save";
     }
 
     @RequestMapping("userSave")

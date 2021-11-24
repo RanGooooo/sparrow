@@ -1,17 +1,17 @@
-package com.xin.sparrow.system.management.organization.group.dao;
+package com.xin.api.sys.user.dao;
 
+import com.xin.api.sys.user.entity.SysUserOrg;
 import com.xin.sparrow.system.management.organization.group.dto.TSGroupDto;
-import com.xin.api.sys.user.entity.TSGroup;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 
 @Repository
-public interface TSGroupDao {
+public interface SysUserOrgMapper {
 
 
-    List<TSGroup> searchTSGroupList(TSGroupDto dto);
+    List<SysUserOrg> searchTSGroupList(TSGroupDto dto);
 
 
     List<TSGroupDto> searchTSGroupTree(TSGroupDto dto);

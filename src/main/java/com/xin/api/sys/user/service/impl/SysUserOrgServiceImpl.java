@@ -1,12 +1,12 @@
-package com.xin.sparrow.system.management.organization.group.service.impl;
+package com.xin.api.sys.user.service.impl;
 
+import com.xin.api.sys.user.entity.SysUserOrg;
 import com.xin.sparrow.common.annotation.check.CheckData;
 import com.xin.sparrow.common.dto.RestResult;
-import com.xin.sparrow.system.management.organization.group.dao.TSGroupDao;
-import com.xin.sparrow.system.management.organization.group.dao.TSGroupRepository;
+import com.xin.api.sys.user.dao.SysUserOrgMapper;
+import com.xin.api.sys.user.dao.TSGroupRepository;
 import com.xin.sparrow.system.management.organization.group.dto.TSGroupDto;
-import com.xin.api.sys.user.entity.TSGroup;
-import com.xin.sparrow.system.management.organization.group.service.TSGroupService;
+import com.xin.api.sys.user.service.SysUserOrgService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,10 +23,10 @@ import java.util.List;
 */
 @Service
 @Transactional
-public class TSGroupServiceImpl implements TSGroupService {
+public class SysUserOrgServiceImpl implements SysUserOrgService {
 
     @Autowired
-    private TSGroupDao groupDao;
+    private SysUserOrgMapper groupDao;
 
     @Autowired
     private TSGroupRepository groupRepository;
@@ -35,7 +35,7 @@ public class TSGroupServiceImpl implements TSGroupService {
     public RestResult searchTSGroupList(HttpServletRequest request) throws Exception {
         RestResult result = new RestResult();
         TSGroupDto dto = new TSGroupDto();
-        List<TSGroup> list = groupDao.searchTSGroupList(dto);
+        List<SysUserOrg> list = groupDao.searchTSGroupList(dto);
         result.setObject(list);
         return result;
     }
@@ -43,7 +43,7 @@ public class TSGroupServiceImpl implements TSGroupService {
     @Override
     public void forwordTSGroupSave(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
-        TSGroup entity = groupRepository.findTSGroupById(id);
+        SysUserOrg entity = groupRepository.findTSGroupById(id);
         request.setAttribute("group",entity);
     }
 
@@ -51,7 +51,7 @@ public class TSGroupServiceImpl implements TSGroupService {
     public RestResult groupSave(@CheckData TSGroupDto dto) throws Exception{
         RestResult result = new RestResult();
         String id = dto.getId();
-        TSGroup entity = new TSGroup();
+        SysUserOrg entity = new SysUserOrg();
         if(!StringUtils.isEmpty(id)){
             entity  = groupRepository.findTSGroupById(id);
         }

@@ -1,11 +1,11 @@
-package com.xin.sparrow.system.management.organization.role.service;
+package com.xin.api.sys.user.service;
 
 import com.xin.sparrow.common.dto.RestResult;
 import com.xin.sparrow.system.management.organization.role.dto.TSRoleDto;
 
 import javax.servlet.http.HttpServletRequest;
 
-public interface TSRoleService {
+public interface SysUserRoleService {
 
     RestResult searchTSRoleList(HttpServletRequest request) throws Exception;
 

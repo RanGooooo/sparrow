@@ -1,11 +1,11 @@
-package com.xin.sparrow.system.management.organization.group.service;
+package com.xin.api.sys.user.service;
 
 import com.xin.sparrow.common.dto.RestResult;
 import com.xin.sparrow.system.management.organization.group.dto.TSGroupDto;
 
 import javax.servlet.http.HttpServletRequest;
 
-public interface TSGroupService {
+public interface SysUserOrgService {
 
     RestResult searchTSGroupList(HttpServletRequest request) throws Exception;
 

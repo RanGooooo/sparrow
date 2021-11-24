@@ -3,7 +3,7 @@ package com.xin.api.sys.user.controller;
 
 import com.xin.sparrow.common.dto.RestResult;
 import com.xin.sparrow.system.management.organization.role.dto.TSRoleDto;
-import com.xin.sparrow.system.management.organization.role.service.TSRoleService;
+import com.xin.api.sys.user.service.SysUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ public class SysUserRoleController {
     private static final String rolePath = "system/role/";
 
     @Autowired
-    private TSRoleService roleService;
+    private SysUserRoleService roleService;
 
     @RequestMapping("forwordTSRoleList")
     public String forwordTSRoleList(){

@@ -10,8 +10,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "t_s_user")
-@Alias(value = "TSUser")
-public class TSUser {
+@Alias(value = "SysUserMain")
+public class SysUserMain {
 
     /**主键*/
     private String id;

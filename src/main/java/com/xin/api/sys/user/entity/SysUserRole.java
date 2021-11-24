@@ -9,8 +9,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "role_db")
-@Alias(value = "TSRole")
-public class TSRole {
+@Alias(value = "SysUserRole")
+public class SysUserRole {
 /**角色code*/
 private String code;
 /**主键*/

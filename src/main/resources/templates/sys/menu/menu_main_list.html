@@ -20,8 +20,8 @@
     <el-collapse-transition>
         <div v-show="showHeader">
             <el-form :inline="true" :model="dataTableForm" ref="dataTableForm" class="demo-form-inline" :size="size_input">
-                <el-form-item label="应用名称" prop="applicationName">
-                    <el-input v-model="dataTableForm.applicationName"></el-input>
+                <el-form-item label="应用名称" prop="menuName">
+                    <el-input v-model="dataTableForm.menuName"></el-input>
                 </el-form-item>
                 <el-form-item label="应用状态" prop="runningState">
                     <el-select v-model="dataTableForm.runningState" clearable>
@@ -44,12 +44,12 @@
             @expand-change="exChange"
             :tree-props="{children: 'children'}">
         <el-table-column
-                prop="applicationName"
+                prop="menuName"
                 label="应用名称"
                 width="200">
         </el-table-column>
         <el-table-column
-                prop="applicationUrl"
+                prop="menuUrl"
                 label="应用地址"
                 width="500">
             <template slot-scope="scope">
@@ -64,16 +64,16 @@
                     </el-table>
                     <el-button :size="size_button" type="info" slot="reference">接口</el-button>
                 </el-popover>
-                {{scope.row.applicationUrl}}
+                {{scope.row.menuUrl}}
             </template>
         </el-table-column>
         <el-table-column
-                prop="applicationIcon"
+                prop="menuIcon"
                 label="应用图标"
                 width="80"
                 align="center">
             <template slot-scope="scope">
-                <span v-html = 'scope.row.applicationIcon'></span>
+                <span v-html = 'scope.row.menuIcon'></span>
             </template>
         </el-table-column>
         <el-table-column label="禁止使用/正常使用" width="180" prop="runningState" align="center">
@@ -94,7 +94,7 @@
             </template>
             <template slot-scope="scope">
                 <el-button :size="size_button" @click="forwordTSMenuNameSave(scope.row.id)" type="primary">编辑</el-button>
-                <el-button :size="size_button" @click="applicationDelete(scope.row)" type="danger">删除</el-button>
+                <el-button :size="size_button" @click="menuDelete(scope.row)" type="danger">删除</el-button>
             </template>
         </el-table-column>
     </el-table>
@@ -125,7 +125,7 @@
             dataTableList: [],
             dataTableForm: {
                 parentMenuNameId:"",
-                applicationName:"",
+                menuName:"",
                 runningState:""
             },
             showHeader: true,
@@ -144,7 +144,7 @@
                     },
                     {
                         name: "保存",
-                        click: "applicationSave",
+                        click: "menuSave",
                         type: "primary"
                     }
                 ]
@@ -157,16 +157,16 @@
         methods: {
             searchTSMenuNameList(){
                 let self = this;
-                let applicationList = [];
+                let menuList = [];
                 common.ajax({
                     url:"/TSMenuNameController/searchTSMenuNameList",
                     async:false,
                     data : JSON.stringify(self.dataTableForm),
                     success:function(result){
-                        applicationList = result.object;
+                        menuList = result.object;
                     }
                 });
-                applicationList.forEach((obj, index) => {
+                menuList.forEach((obj, index) => {
                     obj.position = JSON.parse(obj.position);
                     if(obj.position){
                         obj.children = [{id: common.uuid()}];
@@ -174,7 +174,7 @@
                         obj.children = [];
                     }
                 });
-                return applicationList;
+                return menuList;
             },
             toggleRowExpansion(list){
                 list.forEach(row => {
@@ -190,7 +190,7 @@
             dataTableReset() {
                 this.toggleRowExpansion(this.dataTableList);
                 this.dataTableForm.parentMenuNameId = "";
-                this.dataTableForm.applicationName = "";
+                this.dataTableForm.menuName = "";
                 this.dataTableForm.runningState = "";
                 this.dataTableList = this.searchTSMenuNameList();
             },
@@ -223,8 +223,8 @@
                 this.commonDrawer.frameUrl = "";
                 this.commonDrawer.open = false;
             },
-            applicationSave() {
-                let newNode = common.frame(this.commonDrawer.frameId).app.applicationSave();
+            menuSave() {
+                let newNode = common.frame(this.commonDrawer.frameId).app.menuSave();
                 if(newNode===null){
                     return;
                 }
@@ -243,7 +243,7 @@
                 debugger;
                 let newNodePid = newNode.parentMenuNameId;
                 if(newNodePid === common.constant.TOPID){
-                   this.applicationPush(this.dataTableList,newNode);
+                   this.menuPush(this.dataTableList,newNode);
                 }else{
                     let parentNode = this.getParentNode(newNodePid,this.dataTableList);
                     if(common.notNull(parentNode)){
@@ -251,21 +251,21 @@
                         if(!common.notNull(parentNode.children)){
                             parentNode.children = [];
                         }
-                        this.applicationPush(parentNode.children,newNode);
+                        this.menuPush(parentNode.children,newNode);
                     }
                 }
                 console.log(this.dataTableList);
                 this.goBack();
             },
-            applicationPush(list,object){
+            menuPush(list,object){
                 let target = list.filter(row => row.id === object.id);
                 if(target[0]){
                     target[0].id = object.id;
-                    target[0].applicationName = object.applicationName;
-                    target[0].applicationUrl = object.applicationUrl;
-                    target[0].applicationLevel = object.applicationLevel;
-                    target[0].applicationOrder = object.applicationOrder;
-                    target[0].applicationIcon = object.applicationIcon;
+                    target[0].menuName = object.menuName;
+                    target[0].menuUrl = object.menuUrl;
+                    target[0].menuLevel = object.menuLevel;
+                    target[0].menuOrder = object.menuOrder;
+                    target[0].menuIcon = object.menuIcon;
                     target[0].parentMenuNameId = object.parentMenuNameId;
                     target[0].parentMenuNameName = object.parentMenuNameName;
                     target[0].position = JSON.parse(object.position);
@@ -313,7 +313,7 @@
                 }
                 return result;
             },
-            applicationDelete(row){
+            menuDelete(row){
                 common.confirm({
                     message: "此操作将永久删除该数据, 是否继续？",
                     type: common.messageType.ERROR
@@ -322,7 +322,7 @@
                     let id = row.id;
                     let parentMenuNameId = row.parentMenuNameId;
                     common.ajax({
-                        url:"/TSMenuNameController/applicationDelete?id=" + id,
+                        url:"/TSMenuNameController/menuDelete?id=" + id,
                         success:function(result){
                             common.showMessageS(result);
                             if(result.type === common.messageType.SUCCESS){

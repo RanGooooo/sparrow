@@ -3,7 +3,7 @@ package com.xin.api.sys.user.controller;
 
 import com.xin.sparrow.common.dto.RestResult;
 import com.xin.sparrow.system.management.organization.group.dto.TSGroupDto;
-import com.xin.sparrow.system.management.organization.group.service.TSGroupService;
+import com.xin.api.sys.user.service.SysUserOrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ public class SysUserOrgController {
     private static final String groupPath = "system/group/";
 
     @Autowired
-    private TSGroupService groupService;
+    private SysUserOrgService groupService;
 
     @RequestMapping("forwordTSGroupList")
     public String forwordTSGroupList(){

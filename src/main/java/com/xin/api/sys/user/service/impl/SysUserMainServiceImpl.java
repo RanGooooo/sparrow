@@ -6,8 +6,8 @@ import com.xin.api.sys.user.constant.TSUserConstant;
 import com.xin.api.sys.user.dao.SysUserMainMapper;
 import com.xin.api.sys.user.dao.TSUserRepository;
 import com.xin.api.sys.user.dto.TSUserDto;
-import com.xin.api.sys.user.entity.TSUser;
-import com.xin.api.sys.user.service.TSUserService;
+import com.xin.api.sys.user.entity.SysUserMain;
+import com.xin.api.sys.user.service.SysUserMainService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class TSUserServiceImpl implements TSUserService {
+public class SysUserMainServiceImpl implements SysUserMainService {
 
     @Autowired
     private SysUserMainMapper userDao;
@@ -31,7 +31,7 @@ public class TSUserServiceImpl implements TSUserService {
     public RestResult searchTSUserList(HttpServletRequest request) throws Exception {
         RestResult result = new RestResult();
         TSUserDto dto = new TSUserDto();
-        List<TSUser> list = userDao.searchTSUserList(dto);
+        List<SysUserMain> list = userDao.searchTSUserList(dto);
         result.setObject(list);
         return result;
     }
@@ -39,14 +39,14 @@ public class TSUserServiceImpl implements TSUserService {
     @Override
     public void forwordTSUserSave(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
-        TSUser entity = userRepository.findTSUserById(id);
+        SysUserMain entity = userRepository.findTSUserById(id);
         request.setAttribute("user",entity);
     }
 
     @Override
     public void userSave(@CheckData  TSUserDto dto) throws Exception{
         String id = dto.getId();
-        TSUser entity = new TSUser();
+        SysUserMain entity = new SysUserMain();
         if(!StringUtils.isEmpty(id)){
             entity  = userRepository.findTSUserById(id);
         }

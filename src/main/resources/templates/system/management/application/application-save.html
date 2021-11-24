@@ -25,11 +25,11 @@
     <div id="app">
         <input id="TSMenuName" type="hidden" th:value="${TSMenuName}">
         <el-form :label-position="labelPosition" :model="TSMenuNameForm" :rules="rules" ref="TSMenuNameForm" label-width="100px">
-            <el-form-item label="应用名称" prop="applicationName">
-                <el-input :size="size_input" v-model="TSMenuNameForm.applicationName" clearable></el-input>
+            <el-form-item label="应用名称" prop="menuName">
+                <el-input :size="size_input" v-model="TSMenuNameForm.menuName" clearable></el-input>
             </el-form-item>
-            <el-form-item label="应用地址" prop="applicationUrl">
-                <el-input :size="size_input" v-model="TSMenuNameForm.applicationUrl" clearable></el-input>
+            <el-form-item label="应用地址" prop="menuUrl">
+                <el-input :size="size_input" v-model="TSMenuNameForm.menuUrl" clearable></el-input>
             </el-form-item>
             <el-form-item label="节点位置" prop="position">
                 <template>
@@ -37,18 +37,18 @@
                     <el-radio v-model="TSMenuNameForm.position" label="false">叶子</el-radio>
                 </template>
             </el-form-item>
-            <el-form-item label="应用等级" prop="applicationLevel">
+            <el-form-item label="应用等级" prop="menuLevel">
                 <template>
-                    <el-radio v-model="TSMenuNameForm.applicationLevel" label="1">Ⅰ级</el-radio>
-                    <el-radio v-model="TSMenuNameForm.applicationLevel" label="2">Ⅱ级</el-radio>
-                    <el-radio v-model="TSMenuNameForm.applicationLevel" label="3">Ⅲ级</el-radio>
+                    <el-radio v-model="TSMenuNameForm.menuLevel" label="1">Ⅰ级</el-radio>
+                    <el-radio v-model="TSMenuNameForm.menuLevel" label="2">Ⅱ级</el-radio>
+                    <el-radio v-model="TSMenuNameForm.menuLevel" label="3">Ⅲ级</el-radio>
                 </template>
             </el-form-item>
-            <el-form-item label="应用排序" prop="applicationOrder">
-                <el-input-number :size="size_input" v-model="TSMenuNameForm.applicationOrder" :min="1" :max="99"></el-input-number>
+            <el-form-item label="应用排序" prop="menuOrder">
+                <el-input-number :size="size_input" v-model="TSMenuNameForm.menuOrder" :min="1" :max="99"></el-input-number>
             </el-form-item>
-            <el-form-item label="应用图标" prop="applicationIcon">
-                <el-input :size="size_input" v-model="TSMenuNameForm.applicationIcon" clearable></el-input>
+            <el-form-item label="应用图标" prop="menuIcon">
+                <el-input :size="size_input" v-model="TSMenuNameForm.menuIcon" clearable></el-input>
             </el-form-item>
             <el-form-item label="父应用" prop="parentMenuNameId">
                 <el-input v-model="TSMenuNameForm.parentMenuNameId" v-show="false"></el-input>
@@ -60,13 +60,13 @@
                         popper-class="popper-class">
                     <el-form :inline="true" :model="treeForm" class="demo-form-inline">
                         <el-form-item>
-                            <el-input :size="size_input" v-model="treeForm.applicationName" placeholder="应用名称" @keyup.native="search"></el-input>
+                            <el-input :size="size_input" v-model="treeForm.menuName" placeholder="应用名称" @keyup.native="search"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button :size="size_button" type="danger" @click="empty" plain>取消</el-button>
                         </el-form-item>
                     </el-form>
-                    <ul id="applicationTree" class="ztree" style="padding-bottom: 20px;"></ul>
+                    <ul id="menuTree" class="ztree" style="padding-bottom: 20px;"></ul>
                     <el-input slot="reference" :size="size_input" v-model="TSMenuNameForm.parentMenuNameName" :readonly="true"></el-input>
                 </el-popover>
             </el-form-item>
@@ -80,29 +80,29 @@
             size_input: top.window.windowVue.size_input,
             labelPosition: "left",
                 TSMenuNameForm: {
-                    applicationName:"",
-                    applicationUrl:"",
-                    applicationLevel:"3",
-                    applicationOrder:"",
-                    applicationIcon:"",
+                    menuName:"",
+                    menuUrl:"",
+                    menuLevel:"3",
+                    menuOrder:"",
+                    menuIcon:"",
                     parentMenuNameId:"",
                     parentMenuNameName:"",
                     position:"false",
             },
             rules: {
-                applicationName: [
+                menuName: [
                     { required: true, message: '请输入应用名称', trigger: 'blur' }
                 ],
-                    applicationUrl: [
+                    menuUrl: [
                     { required: true, message: '请输入应用地址', trigger: 'blur' }
                 ],
-                    applicationLevel: [
+                    menuLevel: [
                     { required: true, message: '请输入应用等级', trigger: 'blur' }
                 ],
-                    applicationOrder: [
+                    menuOrder: [
                     { required: true, message: '请输入应用排序', trigger: 'blur' }
                 ],
-                    applicationIcon: [
+                    menuIcon: [
                     { required: true, message: '请输入应用图标', trigger: 'blur' }
                 ],
                     parentMenuNameId: [
@@ -113,7 +113,7 @@
                 ],
             },
             treeForm:{
-                applicationName:""
+                menuName:""
             },
             treeList:[],
             setting: {
@@ -147,11 +147,11 @@
                     url:"/TSMenuNameController/searchTSMenuNameTree",
                     success:function(result){
                         self.treeList = result.object;
-                        $.fn.zTree.init($("#applicationTree"), self.setting, result.object);
+                        $.fn.zTree.init($("#menuTree"), self.setting, result.object);
                     }
                 });
             },
-            applicationSave(){
+            menuSave(){
                 let object = null;
                 let self = this;
                 this.$refs['TSMenuNameForm'].validate((valid) => {
@@ -159,7 +159,7 @@
                         throw 'error';
                     }
                     common.ajax({
-                        url:"/TSMenuNameController/applicationSave",
+                        url:"/TSMenuNameController/menuSave",
                         async:false,
                         data:JSON.stringify(self.TSMenuNameForm),
                         success:function(result){
@@ -184,8 +184,8 @@
                 }
             },
             search(){
-                let list = this.treeList.filter(tree => tree.name.indexOf(this.treeForm.applicationName) !== -1);
-                $.fn.zTree.init($("#applicationTree"), this.setting, list);
+                let list = this.treeList.filter(tree => tree.name.indexOf(this.treeForm.menuName) !== -1);
+                $.fn.zTree.init($("#menuTree"), this.setting, list);
             },
             empty(){
                 getTree().checkAllNodes(false);		//取消全部勾选
@@ -193,7 +193,7 @@
         }
     });
     function getTree() {
-        return $.fn.zTree.getZTreeObj('applicationTree');
+        return $.fn.zTree.getZTreeObj('menuTree');
     }
     function onClick(event, treeId, treeNode) {
         app.empty();

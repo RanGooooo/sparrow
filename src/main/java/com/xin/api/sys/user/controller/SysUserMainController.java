@@ -3,7 +3,7 @@ package com.xin.api.sys.user.controller;
 
 import com.xin.sparrow.common.dto.RestResult;
 import com.xin.api.sys.user.dto.TSUserDto;
-import com.xin.api.sys.user.service.TSUserService;
+import com.xin.api.sys.user.service.SysUserMainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ public class SysUserMainController {
     private static final String userPath = "system/management/organization/user/";
 
     @Autowired
-    private TSUserService userService;
+    private SysUserMainService userService;
 
     @RequestMapping("forwordTSUserList")
     public String forwordTSUserList(){

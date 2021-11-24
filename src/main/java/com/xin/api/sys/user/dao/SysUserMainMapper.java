@@ -1,7 +1,7 @@
 package com.xin.api.sys.user.dao;
 
 import com.xin.api.sys.user.dto.TSUserDto;
-import com.xin.api.sys.user.entity.TSUser;
+import com.xin.api.sys.user.entity.SysUserMain;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 public interface SysUserMainMapper {
 
 
-    List<TSUser> searchTSUserList(TSUserDto dto);
+    List<SysUserMain> searchTSUserList(TSUserDto dto);
 
 
 }

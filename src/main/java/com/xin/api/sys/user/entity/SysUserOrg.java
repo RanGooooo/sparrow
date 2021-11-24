@@ -10,8 +10,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "t_s_group")
-@Alias(value = "TSGroup")
-public class TSGroup {
+@Alias(value = "SysUserOrg")
+public class SysUserOrg {
 /**组名*/
 @NotNull
 private String groupName;

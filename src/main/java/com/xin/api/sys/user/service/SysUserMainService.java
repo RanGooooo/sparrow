@@ -5,7 +5,7 @@ import com.xin.api.sys.user.dto.TSUserDto;
 
 import javax.servlet.http.HttpServletRequest;
 
-public interface TSUserService {
+public interface SysUserMainService {
 
     RestResult searchTSUserList(HttpServletRequest request) throws Exception;
 

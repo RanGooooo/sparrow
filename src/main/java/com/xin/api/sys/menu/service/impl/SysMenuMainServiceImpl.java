@@ -43,7 +43,7 @@ public class SysMenuMainServiceImpl implements SysMenuMainService {
         if(StringUtils.isEmpty(parentMenuNameId)&&
             StringUtils.isEmpty(runningState)&&
             StringUtils.isEmpty(menuName)){
-            dto.setParentMenuId(SysMenuMainConstant.PARENT_APPLICATION_ID_TOP);
+            dto.setParentMenuId(SysMenuMainConstant.PARENT_MENU_ID_TOP);
         }
         List<SysMenuMain> list = sysMenuMainMapper.searchTSMenuNameList(dto);
         result.setObject(list);
@@ -73,7 +73,7 @@ public class SysMenuMainServiceImpl implements SysMenuMainService {
         SysMenuMain entity = new SysMenuMain();
         String parentMenuNameId = dto.getParentMenuId();
         if(StringUtils.isEmpty(parentMenuNameId)){
-            dto.setParentMenuId(SysMenuMainConstant.PARENT_APPLICATION_ID_TOP);
+            dto.setParentMenuId(SysMenuMainConstant.PARENT_MENU_ID_TOP);
         }else{
             SysMenuMain parentMenuName = sysMenuMainMapper.selectById(parentMenuNameId);
             if(parentMenuName!=null){

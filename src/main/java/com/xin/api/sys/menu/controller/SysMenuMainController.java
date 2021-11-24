@@ -45,9 +45,9 @@ public class SysMenuMainController {
     }
 
     @Api(description  = "搜索我的列表")
-    @RequestMapping("searchMyTSMenuNameList")
+    @RequestMapping("searchMyMenuMainList")
     @ResponseBody
-    public DxResult<List<SysMenuMain>> searchMyTSMenuNameList() {
+    public DxResult<List<SysMenuMain>> searchMyMenuMainList() {
         try {
             return menuService.searchMyTSMenuNameList(null);
         } catch (Exception e) {

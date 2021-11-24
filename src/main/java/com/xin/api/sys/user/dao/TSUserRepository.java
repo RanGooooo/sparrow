@@ -1,6 +1,6 @@
-package com.xin.sparrow.system.management.organization.user.dao;
+package com.xin.api.sys.user.dao;
 
-import com.xin.sparrow.system.management.organization.user.entity.TSUser;
+import com.xin.api.sys.user.entity.TSUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

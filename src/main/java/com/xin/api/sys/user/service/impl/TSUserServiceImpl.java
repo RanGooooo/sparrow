@@ -1,13 +1,13 @@
-package com.xin.sparrow.system.management.organization.user.service.impl;
+package com.xin.api.sys.user.service.impl;
 
 import com.xin.sparrow.common.annotation.check.CheckData;
 import com.xin.sparrow.common.dto.RestResult;
-import com.xin.sparrow.system.management.organization.user.constant.TSUserConstant;
-import com.xin.sparrow.system.management.organization.user.dao.TSUserDao;
-import com.xin.sparrow.system.management.organization.user.dao.TSUserRepository;
-import com.xin.sparrow.system.management.organization.user.dto.TSUserDto;
-import com.xin.sparrow.system.management.organization.user.entity.TSUser;
-import com.xin.sparrow.system.management.organization.user.service.TSUserService;
+import com.xin.api.sys.user.constant.TSUserConstant;
+import com.xin.api.sys.user.dao.TSUserDao;
+import com.xin.api.sys.user.dao.TSUserRepository;
+import com.xin.api.sys.user.dto.TSUserDto;
+import com.xin.api.sys.user.entity.TSUser;
+import com.xin.api.sys.user.service.TSUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

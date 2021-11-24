@@ -1,7 +1,7 @@
-package com.xin.sparrow.system.management.organization.user.service;
+package com.xin.api.sys.user.service;
 
 import com.xin.sparrow.common.dto.RestResult;
-import com.xin.sparrow.system.management.organization.user.dto.TSUserDto;
+import com.xin.api.sys.user.dto.TSUserDto;
 
 import javax.servlet.http.HttpServletRequest;
 

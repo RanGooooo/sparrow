@@ -1,9 +1,9 @@
-package com.xin.sparrow.system.management.organization.user.controller;
+package com.xin.api.sys.user.controller;
 
 
 import com.xin.sparrow.common.dto.RestResult;
-import com.xin.sparrow.system.management.organization.user.dto.TSUserDto;
-import com.xin.sparrow.system.management.organization.user.service.TSUserService;
+import com.xin.api.sys.user.dto.TSUserDto;
+import com.xin.api.sys.user.service.TSUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

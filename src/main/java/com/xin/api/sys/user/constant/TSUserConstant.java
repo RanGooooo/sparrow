@@ -1,4 +1,4 @@
-package com.xin.sparrow.system.management.organization.user.constant;
+package com.xin.api.sys.user.constant;
 
 public interface TSUserConstant {
 

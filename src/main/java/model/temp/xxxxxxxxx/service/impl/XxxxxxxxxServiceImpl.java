@@ -1,8 +1,7 @@
 package model.temp.xxxxxxxxx.service.impl;
 
 import com.xin.sparrow.common.dto.RestResult;
-import model.temp.xxxxxxxxx.dao.XxxxxxxxxDao;
-import model.temp.xxxxxxxxx.dao.XxxxxxxxxRepository;
+import model.temp.xxxxxxxxx.dao.XxxxxxxxxMapper;
 import model.temp.xxxxxxxxx.dto.XxxxxxxxxDto;
 import model.temp.xxxxxxxxx.entity.Xxxxxxxxx;
 import model.temp.xxxxxxxxx.service.XxxxxxxxxService;
@@ -20,16 +19,13 @@ import java.util.List;
 public class XxxxxxxxxServiceImpl implements XxxxxxxxxService {
 
     @Autowired
-    private XxxxxxxxxDao xxxxxxxxxDao;
-
-    @Autowired
-    private XxxxxxxxxRepository xxxxxxxxxRepository;
+    private XxxxxxxxxMapper xxxxxxxxxMapper;
 
     @Override
     public RestResult searchXxxxxxxxxList(HttpServletRequest request) throws Exception {
         RestResult result = new RestResult();
         XxxxxxxxxDto dto = new XxxxxxxxxDto();
-        List<Xxxxxxxxx> list = xxxxxxxxxDao.searchXxxxxxxxxList(dto);
+        List<Xxxxxxxxx> list = xxxxxxxxxMapper.searchXxxxxxxxxList(dto);
         result.setObject(list);
         return result;
     }
@@ -37,7 +33,7 @@ public class XxxxxxxxxServiceImpl implements XxxxxxxxxService {
     @Override
     public void forwordXxxxxxxxxSave(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
-        Xxxxxxxxx entity = xxxxxxxxxRepository.findXxxxxxxxxById(id);
+        Xxxxxxxxx entity = xxxxxxxxxMapper.selectById(id);
         request.setAttribute("xxxxxxxxx",entity);
     }
 
@@ -47,10 +43,10 @@ public class XxxxxxxxxServiceImpl implements XxxxxxxxxService {
         String id = "";//dto.getId();
         Xxxxxxxxx entity = new Xxxxxxxxx();
         if(!StringUtils.isEmpty(id)){
-            entity  = xxxxxxxxxRepository.findXxxxxxxxxById(id);
+            entity  = xxxxxxxxxMapper.selectById(id);
         }
         BeanUtils.copyProperties(dto,entity);
-        xxxxxxxxxRepository.save(entity);
+        xxxxxxxxxMapper.insert(entity);
         //dto.setId(entity.getId());
         result.setObject(dto);
         return result;
@@ -62,7 +58,7 @@ public class XxxxxxxxxServiceImpl implements XxxxxxxxxService {
         if(StringUtils.isEmpty(id)){
             throw new Exception("删除Xxxxxxxxx_ZH失败，主键为空");
         }
-        xxxxxxxxxRepository.deleteById(id);
+        xxxxxxxxxMapper.deleteById(id);
     }
 
 

@@ -1,14 +1,11 @@
 package model.temp.xxxxxxxxx.entity;
 
-import org.apache.ibatis.type.Alias;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 
 
-@Entity
-@Table(name = "xxxxdbxxxx")
-@Alias(value = "Xxxxxxxxx")
+@Data
+@TableName("xxxxdbxxxx")
 public class Xxxxxxxxx {
 }

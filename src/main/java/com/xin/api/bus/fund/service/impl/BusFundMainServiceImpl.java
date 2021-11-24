@@ -2,7 +2,6 @@ package com.xin.api.bus.fund.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.xin.api.bus.fund.dao.BusFundMainMapper;
-import com.xin.api.bus.fund.dao.BusFundMainRepository;
 import com.xin.api.bus.fund.dto.BusFundMainDto;
 import com.xin.api.bus.fund.dto.BusSearchFundMainListDto;
 import com.xin.api.bus.fund.dto.BusSearchFundMainListVo;
@@ -39,9 +38,6 @@ public class BusFundMainServiceImpl implements BusFundMainService {
     @Autowired
     private BusFundMainMapper busFundMainMapper;
 
-    @Autowired
-    private BusFundMainRepository fundRepository;
-
     @Override
     public DxResult<List<BusSearchFundMainListVo>> searchFundMainList(BusSearchFundMainListDto dto) throws Exception {
         List<BusFundMain> fundMainList = busFundMainMapper.searchTBFundMainList(dto);
@@ -76,7 +72,7 @@ public class BusFundMainServiceImpl implements BusFundMainService {
     public void forwordTBFundSave(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
         if(!StringUtils.isEmpty(id)) {
-            BusFundMain entity = fundRepository.findTBFundMainById(id);
+            BusFundMain entity = busFundMainMapper.selectById(id);
             BusFundMainDto dto = new BusFundMainDto();
             BeanUtils.copyProperties(entity, dto);
             request.setAttribute("BusFundMain", JSON.toJSONString(dto));
@@ -92,7 +88,7 @@ public class BusFundMainServiceImpl implements BusFundMainService {
 //            entity  = fundRepository.findTBFundMainById(id);
 //        }
         BeanUtils.copyProperties(dto,entity);
-        fundRepository.save(entity);
+        busFundMainMapper.insert(entity);
 //        dto.setId(entity.getId());
         result.setObject(dto);
         return result;
@@ -104,7 +100,7 @@ public class BusFundMainServiceImpl implements BusFundMainService {
         if(StringUtils.isEmpty(id)){
             throw new Exception("删除TBFund_ZH失败，主键为空");
         }
-        fundRepository.deleteById(id);
+        busFundMainMapper.deleteById(id);
     }
 
 

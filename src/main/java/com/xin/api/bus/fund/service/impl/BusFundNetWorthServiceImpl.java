@@ -60,7 +60,7 @@ public class BusFundNetWorthServiceImpl implements BusFundNetWorthService {
         mem.setFundCode(fundCode);
         mem.setFundNetWorthTimeBegin(DxTimeUtil.subtractAppointDate(dayNumber));
         List<BusSearchFundNetWorthListVo> fundNetWorthList = busFundNetWorthMapper.searchFundNetWorthList(mem);
-        sysMailMainService.sendSimpleMail("395994875@qq.common","1","1");
+//        sysMailMainService.sendSimpleMail("395994875@qq.common","1","1");
         return DxResult.success(this.assembleFundNetWorthRecordEchartsOption(fundCode,fundNetWorthList));
     }
 

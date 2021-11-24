@@ -275,7 +275,6 @@
                 let self = this;
                 common.ajax({
                     url:"/busFundMainController/searchFundMainList",
-                    async:true,
                     data : JSON.stringify((self.dataTableForm)),
                     success:function(result){
                         self.dataTableList = result.data;

@@ -152,10 +152,7 @@
             menuContainerArrayView(twoLevelMenu,oneLevelIndex,dataBreadcrumbs) {
                 this.breadcrumbsPush(dataBreadcrumbs);
                 let id = twoLevelMenu.id;
-                let position = twoLevelMenu.position;
-                if(position !== "01"){
-                    this.$set(this.menuContainerArrayShowIds,oneLevelIndex,id);
-                }
+                this.$set(this.menuContainerArrayShowIds,oneLevelIndex,id);
             },
             addTab(menu,dataBreadcrumbs) {
                 this.breadcrumbsPush(dataBreadcrumbs);

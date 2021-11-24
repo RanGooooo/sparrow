@@ -28,8 +28,6 @@ public class SysMenuMain {
     private String menuIcon;
     /**父应用id*/
     private String parentMenuId;
-    /**[true 树枝]，[false 叶子]*/
-    private String position;
     /*RunningStateConstant*/
     private String runningState;
 

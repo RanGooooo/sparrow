@@ -74,12 +74,6 @@ public class SysMenuMainServiceImpl implements SysMenuMainService {
         String parentMenuNameId = dto.getParentMenuId();
         if(StringUtils.isEmpty(parentMenuNameId)){
             dto.setParentMenuId(SysMenuMainConstant.PARENT_MENU_ID_TOP);
-        }else{
-            SysMenuMain parentMenuName = sysMenuMainMapper.selectById(parentMenuNameId);
-            if(parentMenuName!=null){
-                parentMenuName.setPosition(SysMenuMainConstant.POSITION_TRUE);
-                sysMenuMainMapper.insert(parentMenuName);
-            }
         }
         if(!StringUtils.isEmpty(id)){
             entity  = sysMenuMainMapper.selectById(id);
@@ -104,14 +98,6 @@ public class SysMenuMainServiceImpl implements SysMenuMainService {
                 new QueryWrapper<SysMenuMain>().eq("parent_menu_id",id));
         if(menuList1.size()>0){
             throw new Exception("存在子应用");
-        }
-        String parentMenuNameId = entity.getParentMenuId();
-        List<SysMenuMain> menuList = sysMenuMainMapper.selectList(
-                new QueryWrapper<SysMenuMain>().eq("parent_menu_id",parentMenuNameId));
-        if(menuList.size()==1){
-            SysMenuMain parent = sysMenuMainMapper.selectById(parentMenuNameId);
-            parent.setPosition(SysMenuMainConstant.POSITION_FALSE);
-            sysMenuMainMapper.insert(parent);
         }
         sysMenuMainMapper.deleteById(id);
     }

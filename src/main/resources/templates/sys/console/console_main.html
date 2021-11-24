@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>控制台</title>
     <common-resource th:replace="common/common-resource :: common-resource"></common-resource>
-    <link rel="stylesheet" href="/static/system/main/console.css">
+    <link rel="stylesheet" href="/static/sys/console/console.css">
     <script src="/static/common/window/windowVue.js"></script>
 </head>
 <body style="background: url(/system/login/login.svg),#3360ff;min-height: 100vh">
@@ -47,34 +47,34 @@
     </div>
     <div class="console-main">
         <el-collapse style="padding: 0 20px;background: #fff;" v-model="applicationActiveCollapseIds" v-show="applicationActiveTabId===consoleId" @change="handleChange">
-            <el-collapse-item v-for="(oneLevelApplication,oneLevelIndex) in applicationList"
-                              v-if="applicationTopId===oneLevelApplication.parentApplicationId"
-                              v-bind:name="oneLevelApplication.id"
+            <el-collapse-item v-for="(oneLevelMenuName,oneLevelIndex) in applicationList"
+                              v-if="applicationTopId===oneLevelMenuName.parentMenuNameId"
+                              v-bind:name="oneLevelMenuName.id"
             ><!--一级菜单-->
                 <template slot="title">
-                    <div class="application-title-div" @click="applicationTitleClick(oneLevelApplication.applicationName)">
-                        <i class="application-title-icon" v-html='oneLevelApplication.applicationIcon'></i>
-                        <h3 class="application-title-text">{{oneLevelApplication.applicationName}}</h3>
+                    <div class="application-title-div" @click="applicationTitleClick(oneLevelMenuName.applicationName)">
+                        <i class="application-title-icon" v-html='oneLevelMenuName.applicationIcon'></i>
+                        <h3 class="application-title-text">{{oneLevelMenuName.applicationName}}</h3>
                     </div>
                 </template>
-                <template v-for="twoLevelApplication in applicationList" v-if="oneLevelApplication.id===twoLevelApplication.parentApplicationId"><!--二级菜单-->
+                <template v-for="twoLevelMenuName in applicationList" v-if="oneLevelMenuName.id===twoLevelMenuName.parentMenuNameId"><!--二级菜单-->
                     <div class="application-container">
                         <el-card shadow="hover" class="application-card application-card-blue"
-                                 @click.native="applicationContainerArrayView(twoLevelApplication,oneLevelIndex,oneLevelApplication.applicationName + ',' + twoLevelApplication.applicationName)">
-                            <i v-html='twoLevelApplication.applicationIcon'></i>
+                                 @click.native="applicationContainerArrayView(twoLevelMenuName,oneLevelIndex,oneLevelMenuName.applicationName + ',' + twoLevelMenuName.applicationName)">
+                            <i v-html='twoLevelMenuName.applicationIcon'></i>
                         </el-card>
-                        <span>{{twoLevelApplication.applicationName}}</span>
+                        <span>{{twoLevelMenuName.applicationName}}</span>
                     </div>
                 </template>
                 <transition name="el-fade-in-linear">
-                    <template v-for="twoLevelApplication in applicationList" v-if="oneLevelApplication.id===twoLevelApplication.parentApplicationId"><!--三级菜单-->
-                        <div class="common-container application-container-array" v-if="applicationContainerArrayShowIds[oneLevelIndex]===twoLevelApplication.id">
-                            <div class="application-container small" v-for="threeLevelApplication in applicationList" v-if="twoLevelApplication.id===threeLevelApplication.parentApplicationId">
+                    <template v-for="twoLevelMenuName in applicationList" v-if="oneLevelMenuName.id===twoLevelMenuName.parentMenuNameId"><!--三级菜单-->
+                        <div class="common-container application-container-array" v-if="applicationContainerArrayShowIds[oneLevelIndex]===twoLevelMenuName.id">
+                            <div class="application-container small" v-for="threeLevelMenuName in applicationList" v-if="twoLevelMenuName.id===threeLevelMenuName.parentMenuNameId">
                                 <el-card shadow="hover" class="application-card small application-card-green"
-                                         @click.native="addTab(threeLevelApplication,oneLevelApplication.applicationName + ',' + twoLevelApplication.applicationName + ',' + threeLevelApplication.applicationName)">
-                                    <i v-html='threeLevelApplication.applicationIcon'></i>
+                                         @click.native="addTab(threeLevelMenuName,oneLevelMenuName.applicationName + ',' + twoLevelMenuName.applicationName + ',' + threeLevelMenuName.applicationName)">
+                                    <i v-html='threeLevelMenuName.applicationIcon'></i>
                                 </el-card>
-                                <span>{{threeLevelApplication.applicationName}}</span>
+                                <span>{{threeLevelMenuName.applicationName}}</span>
                             </div>
                         </div>
                     </template>
@@ -105,13 +105,13 @@
         },
         mounted () {
             this.applicationActiveTabId = this.consoleId;
-            this.pushApplicationTab({
+            this.pushMenuNameTab({
                 id:this.consoleId,
                 applicationName:this.consoleName,
                 applicationIcon:this.consoleIcon
             },this.consoleName);
             this.breadcrumbsPush(this.consoleName);
-            this.searchTSApplicationList();
+            this.searchTSMenuNameList();
         },
         methods: {
             gernerateId: function (id){
@@ -126,7 +126,7 @@
                     common.frameReload(this.gernerateId(item.id));
                 }
             },
-            pushApplicationTab(application,dataBreadcrumbs){
+            pushMenuNameTab(application,dataBreadcrumbs){
                 let id = application.id;
                 let title = application.applicationName;
                 let icon = application.applicationIcon;
@@ -139,20 +139,20 @@
                 });
             },
             /*获取用户菜单*/
-            searchTSApplicationList(){
+            searchTSMenuNameList(){
                 const self = this;
                 common.ajax({
-                    url:"/sysMenuMainController/searchMyTSApplicationList",
+                    url:"/sysMenuMainController/searchMyTSMenuNameList",
                     success:function(result){
                         self.applicationList = result.data;
                         self.$set(self.applicationActiveCollapseIds,0,self.applicationList[0].id);
                     }
                 });
             },
-            applicationContainerArrayView(twoLevelApplication,oneLevelIndex,dataBreadcrumbs) {
+            applicationContainerArrayView(twoLevelMenuName,oneLevelIndex,dataBreadcrumbs) {
                 this.breadcrumbsPush(dataBreadcrumbs);
-                let id = twoLevelApplication.id;
-                let position = twoLevelApplication.position;
+                let id = twoLevelMenuName.id;
+                let position = twoLevelMenuName.position;
                 if(position !== "01"){
                     this.$set(this.applicationContainerArrayShowIds,oneLevelIndex,id);
                 }
@@ -167,7 +167,7 @@
                         throw 'error';
                     }
                 });
-                this.pushApplicationTab(application,dataBreadcrumbs);
+                this.pushMenuNameTab(application,dataBreadcrumbs);
                 this.applicationIFrames.push({
                     id: id,
                     url: applicationUrl

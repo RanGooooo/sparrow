@@ -90,7 +90,7 @@
     border: none;
 }
 
-.application-title-div{
+.menu-title-div{
     display: inherit;
     width: 100%;
     position: absolute;
@@ -98,32 +98,32 @@
 }
 
 
-.application-title-icon{
+.menu-title-icon{
     font-size: 18px;
 }
 
-.application-title-text{
+.menu-title-text{
     font-weight: 400;
     font-size: 18px;
     color: #1f2f3d;
     margin-left: 10px;
 }
 
-.application-container-array{
+.menu-container-array{
     padding: 10px 10px 10px 10px;
 }
 
-.application-container{
+.menu-container{
     display: inline-block;
     text-align: center;
     margin-right: 30px;
 }
 
-.application-container.small{
+.menu-container.small{
     margin: 0 10px;
 }
 
-.application-card{
+.menu-card{
     color: #fff;
     cursor: pointer;
     height: 80px;
@@ -131,31 +131,31 @@
     width: 80px;
     font-size: 35px;
 }
-.application-card.small{
+.menu-card.small{
     height: 60px;
     line-height: 60px;
     width: 60px;
     font-size: 25px;
 }
 
-.application-card-blue{
+.menu-card-blue{
     background-color: #0066FF;
 }
-.application-card-blue:hover {
+.menu-card-blue:hover {
     background-color: #ffffff;
     color: #0066FF;
 }
-.application-card-orange{
+.menu-card-orange{
     background-color: #FF9900;
 }
-.application-card-orange:hover {
+.menu-card-orange:hover {
     background-color: #ffffff;
     color: #FF9900;
 }
-.application-card-green{
+.menu-card-green{
     background-color: #009966;
 }
-.application-card-green:hover {
+.menu-card-green:hover {
     background-color: #ffffff;
     color: #009966;
 }

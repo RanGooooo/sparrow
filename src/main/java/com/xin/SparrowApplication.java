@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public class SparrowApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SparrowApplication.class, args);
+        SpringApplication.run(SparrowApplication.class, args);
 	}
 
 }

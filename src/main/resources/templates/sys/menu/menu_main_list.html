@@ -90,10 +90,10 @@
         <el-table-column label="操作">
             <template slot="header">
                 <el-button :size="size_button" @click="showHeader = !showHeader">高级筛选</el-button>
-                <el-button :size="size_button" @click="forwordTSApplicationSave('')">新增菜单</el-button>
+                <el-button :size="size_button" @click="forwordTSMenuNameSave('')">新增菜单</el-button>
             </template>
             <template slot-scope="scope">
-                <el-button :size="size_button" @click="forwordTSApplicationSave(scope.row.id)" type="primary">编辑</el-button>
+                <el-button :size="size_button" @click="forwordTSMenuNameSave(scope.row.id)" type="primary">编辑</el-button>
                 <el-button :size="size_button" @click="applicationDelete(scope.row)" type="danger">删除</el-button>
             </template>
         </el-table-column>
@@ -124,7 +124,7 @@
             size_input: top.window.windowVue.size_input,
             dataTableList: [],
             dataTableForm: {
-                parentApplicationId:"",
+                parentMenuNameId:"",
                 applicationName:"",
                 runningState:""
             },
@@ -151,15 +151,15 @@
             },
         },
         mounted() {
-            this.dataTableList = this.searchTSApplicationList();
+            this.dataTableList = this.searchTSMenuNameList();
             console.log(this.dataTableList);
         },
         methods: {
-            searchTSApplicationList(){
+            searchTSMenuNameList(){
                 let self = this;
                 let applicationList = [];
                 common.ajax({
-                    url:"/TSApplicationController/searchTSApplicationList",
+                    url:"/TSMenuNameController/searchTSMenuNameList",
                     async:false,
                     data : JSON.stringify(self.dataTableForm),
                     success:function(result){
@@ -184,22 +184,22 @@
             },
             dataTableSearch(){
                 this.toggleRowExpansion(this.dataTableList);
-                this.dataTableForm.parentApplicationId = "";
-                this.dataTableList = this.searchTSApplicationList();
+                this.dataTableForm.parentMenuNameId = "";
+                this.dataTableList = this.searchTSMenuNameList();
             },
             dataTableReset() {
                 this.toggleRowExpansion(this.dataTableList);
-                this.dataTableForm.parentApplicationId = "";
+                this.dataTableForm.parentMenuNameId = "";
                 this.dataTableForm.applicationName = "";
                 this.dataTableForm.runningState = "";
-                this.dataTableList = this.searchTSApplicationList();
+                this.dataTableList = this.searchTSMenuNameList();
             },
             exChange(row, ex) {
                 debugger;
                 if(ex&&!row.open){
                     row.open = true;
-                    this.dataTableForm.parentApplicationId = row.id;
-                    let resolveList = this.searchTSApplicationList();
+                    this.dataTableForm.parentMenuNameId = row.id;
+                    let resolveList = this.searchTSMenuNameList();
                     resolveList.forEach((obj, index) => {
                         this.dataTableList = this.dataTableList.filter(dataTable => dataTable.id !== obj.id);
                         this.$refs.refTable.toggleRowExpansion(obj,false);
@@ -207,13 +207,13 @@
                     row.children = resolveList;
                 }
             },
-            forwordTSApplicationSave(id) {
+            forwordTSMenuNameSave(id) {
                 if(id){
                     this.commonDrawer.title = "编辑应用";
                 }else{
                     this.commonDrawer.title = "新增应用";
                 }
-                this.commonDrawer.frameUrl = "/TSApplicationController/forwordTSApplicationSave?id=" + id;
+                this.commonDrawer.frameUrl = "/TSMenuNameController/forwordTSMenuNameSave?id=" + id;
                 this.commonDrawer.open = true;
             },
             clickCall(click) {
@@ -232,7 +232,7 @@
                 let oldNode = this.getNode(id,this.dataTableList);
                 if(common.notNull(oldNode)){
                     newNode.children = oldNode.children;
-                    let oldNodePid = oldNode.parentApplicationId;
+                    let oldNodePid = oldNode.parentMenuNameId;
                     if(oldNodePid === common.constant.TOPID){
                         this.dataTableList = this.dataTableList.filter(obj => obj.id !== id);
                     }else{
@@ -241,7 +241,7 @@
                     }
                 }
                 debugger;
-                let newNodePid = newNode.parentApplicationId;
+                let newNodePid = newNode.parentMenuNameId;
                 if(newNodePid === common.constant.TOPID){
                    this.applicationPush(this.dataTableList,newNode);
                 }else{
@@ -266,8 +266,8 @@
                     target[0].applicationLevel = object.applicationLevel;
                     target[0].applicationOrder = object.applicationOrder;
                     target[0].applicationIcon = object.applicationIcon;
-                    target[0].parentApplicationId = object.parentApplicationId;
-                    target[0].parentApplicationName = object.parentApplicationName;
+                    target[0].parentMenuNameId = object.parentMenuNameId;
+                    target[0].parentMenuNameName = object.parentMenuNameName;
                     target[0].position = JSON.parse(object.position);
                 }else{
                     list.push(object);
@@ -293,7 +293,7 @@
                 }
                 return result;
             },
-            getParentNode(parentApplicationId,list){
+            getParentNode(parentMenuNameId,list){
                 let result = null;
                 try{
                     if(list!==undefined){
@@ -301,11 +301,11 @@
                             if(result !== null){
                                 throw new Error("ending");
                             }
-                            if(row.id === parentApplicationId){
+                            if(row.id === parentMenuNameId){
                                 result = row;
                                 throw new Error("ending");
                             }else{
-                                result = this.getParentNode(parentApplicationId,row.children)
+                                result = this.getParentNode(parentMenuNameId,row.children)
                             }
                         });
                     }
@@ -320,16 +320,16 @@
                 }).then(() => {
                     let self = this;
                     let id = row.id;
-                    let parentApplicationId = row.parentApplicationId;
+                    let parentMenuNameId = row.parentMenuNameId;
                     common.ajax({
-                        url:"/TSApplicationController/applicationDelete?id=" + id,
+                        url:"/TSMenuNameController/applicationDelete?id=" + id,
                         success:function(result){
                             common.showMessageS(result);
                             if(result.type === common.messageType.SUCCESS){
-                                if(parentApplicationId === common.constant.TOPID){
+                                if(parentMenuNameId === common.constant.TOPID){
                                     self.dataTableList = self.dataTableList.filter(obj => obj.id !== id);
                                 }else{
-                                    let parentNode = self.getParentNode(parentApplicationId,self.dataTableList);
+                                    let parentNode = self.getParentNode(parentMenuNameId,self.dataTableList);
                                     parentNode.children = parentNode.children.filter(obj => obj.id !== id);
                                 }
                             }

@@ -13,21 +13,21 @@ public class SysMenuMain {
     private String id;
     /**应用名称*/
     @NotNull
-    private String applicationName;
+    private String menuName;
     /**应用地址*/
     @NotNull
-    private String applicationUrl;
+    private String menuUrl;
     /**应用等级*/
     @NotNull
-    private Integer applicationLevel;
+    private Integer menuLevel;
     /**应用排序*/
     @NotNull
-    private Integer applicationOrder;
+    private Integer menuOrder;
     /**应用图标*/
     @NotNull
-    private String applicationIcon;
+    private String menuIcon;
     /**父应用id*/
-    private String parentApplicationId;
+    private String parentMenuId;
     /**[true 树枝]，[false 叶子]*/
     private String position;
     /*RunningStateConstant*/

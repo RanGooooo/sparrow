@@ -6,8 +6,8 @@ import com.xin.sparrow.common.dto.DxResult;
 import com.xin.sparrow.common.dto.RestResult;
 import com.xin.sparrow.control.inter.annotation.Api;
 import com.xin.sparrow.control.inter.annotation.ApiGroup;
-import com.xin.api.sys.menu.dto.TSApplicationDto;
-import com.xin.api.sys.menu.service.TSApplicationService;
+import com.xin.api.sys.menu.dto.SysMenuMainDto;
+import com.xin.api.sys.menu.service.SysMenuMainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,18 +24,18 @@ import java.util.List;
 @RequestMapping("sysMenuMainController")
 public class SysMenuMainController {
 
-    private static final String applicationPath = "system/management/menu/";
+    private static final String menuPath = "system/management/menu/";
 
     @Autowired
-    private TSApplicationService applicationService;
+    private SysMenuMainService menuService;
 
     @Api(description  = "搜索应用列表")
-    @RequestMapping(value = "searchTSApplicationList",method = {RequestMethod.GET,RequestMethod.POST})
+    @RequestMapping(value = "searchTSMenuNameList",method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody
-    public RestResult searchTSApplicationList(@RequestBody TSApplicationDto dto) {
+    public RestResult searchTSMenuNameList(@RequestBody SysMenuMainDto dto) {
         RestResult result = new RestResult();
         try {
-            result = applicationService.searchTSApplicationList(dto);
+            result = menuService.searchTSMenuNameList(dto);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);
@@ -45,33 +45,33 @@ public class SysMenuMainController {
     }
 
     @Api(description  = "搜索我的列表")
-    @RequestMapping("searchMyTSApplicationList")
+    @RequestMapping("searchMyTSMenuNameList")
     @ResponseBody
-    public DxResult<List<SysMenuMain>> searchMyTSApplicationList() {
+    public DxResult<List<SysMenuMain>> searchMyTSMenuNameList() {
         try {
-            return applicationService.searchMyTSApplicationList(null);
+            return menuService.searchMyTSMenuNameList(null);
         } catch (Exception e) {
             e.printStackTrace();
             return DxResult.warning(e);
         }
     }
     @Api(description  = "跳转保存页面")
-    @RequestMapping("forwordTSApplicationSave")
-    public String forwordTSApplicationSave(HttpServletRequest request){
+    @RequestMapping("forwordTSMenuNameSave")
+    public String forwordTSMenuNameSave(HttpServletRequest request){
         try {
-            applicationService.forwordTSApplicationSave(request);
+            menuService.forwordTSMenuNameSave(request);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return applicationPath + "menu-save";
+        return menuPath + "menu-save";
     }
     @Api(description  = "应用保存")
-    @RequestMapping("applicationSave")
+    @RequestMapping("menuSave")
     @ResponseBody
-    public RestResult applicationSave(@RequestBody TSApplicationDto dto) {
+    public RestResult menuSave(@RequestBody SysMenuMainDto dto) {
         RestResult result = new RestResult();
         try {
-            result= applicationService.applicationSave(dto);
+            result= menuService.menuSave(dto);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);
@@ -80,12 +80,12 @@ public class SysMenuMainController {
         return result;
     }
     @Api(description  = "应用删除")
-    @RequestMapping("applicationDelete")
+    @RequestMapping("menuDelete")
     @ResponseBody
-    public RestResult applicationDelete(HttpServletRequest request) {
+    public RestResult menuDelete(HttpServletRequest request) {
         RestResult result = new RestResult();
         try {
-            applicationService.applicationDelete(request);
+            menuService.menuDelete(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);
@@ -94,12 +94,12 @@ public class SysMenuMainController {
         return result;
     }
     @Api(description  = "搜索应用树")
-    @RequestMapping("searchTSApplicationTree")
+    @RequestMapping("searchTSMenuNameTree")
     @ResponseBody
-    public RestResult searchTSApplicationTree(HttpServletRequest request) {
+    public RestResult searchTSMenuNameTree(HttpServletRequest request) {
         RestResult result = new RestResult();
         try {
-            result = applicationService.searchTSApplicationTree(request);
+            result = menuService.searchTSMenuNameTree(request);
         } catch (Exception e) {
             e.printStackTrace();
             result.setType(RestResult.MESSAGE_TYPE_WARNING);

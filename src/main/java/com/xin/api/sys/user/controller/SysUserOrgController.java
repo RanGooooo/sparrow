@@ -1,4 +1,4 @@
-package com.xin.sparrow.system.management.organization.group.controller;
+package com.xin.api.sys.user.controller;
 
 
 import com.xin.sparrow.common.dto.RestResult;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("TSGroupController")
-public class TSGroupController {
+public class SysUserOrgController {
 
     private static final String groupPath = "system/group/";
 

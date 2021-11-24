@@ -1,4 +1,4 @@
-package com.xin.sparrow.system.management.organization.role.entity;
+package com.xin.api.sys.user.entity;
 
 import org.apache.ibatis.type.Alias;
 import org.hibernate.annotations.GenericGenerator;

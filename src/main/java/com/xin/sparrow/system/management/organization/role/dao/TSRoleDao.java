@@ -1,7 +1,7 @@
 package com.xin.sparrow.system.management.organization.role.dao;
 
 import com.xin.sparrow.system.management.organization.role.dto.TSRoleDto;
-import com.xin.sparrow.system.management.organization.role.entity.TSRole;
+import com.xin.api.sys.user.entity.TSRole;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xin.sparrow.system.management.organization.group.dao.TSGroupDao">
 
-    <select id="searchTSGroupList" resultType="com.xin.sparrow.system.management.organization.group.entity.TSGroup">
+    <select id="searchTSGroupList" resultType="com.xin.api.sys.user.entity.TSGroup">
         SELECT * FROM t_s_group
     </select>
 

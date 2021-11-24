@@ -1,4 +1,4 @@
-package com.xin.sparrow.system.management.organization.group.entity;
+package com.xin.api.sys.user.entity;
 
 import com.xin.sparrow.common.annotation.check.NotNull;
 import org.apache.ibatis.type.Alias;

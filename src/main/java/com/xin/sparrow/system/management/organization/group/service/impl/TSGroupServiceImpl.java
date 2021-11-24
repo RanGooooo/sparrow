@@ -5,7 +5,7 @@ import com.xin.sparrow.common.dto.RestResult;
 import com.xin.sparrow.system.management.organization.group.dao.TSGroupDao;
 import com.xin.sparrow.system.management.organization.group.dao.TSGroupRepository;
 import com.xin.sparrow.system.management.organization.group.dto.TSGroupDto;
-import com.xin.sparrow.system.management.organization.group.entity.TSGroup;
+import com.xin.api.sys.user.entity.TSGroup;
 import com.xin.sparrow.system.management.organization.group.service.TSGroupService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

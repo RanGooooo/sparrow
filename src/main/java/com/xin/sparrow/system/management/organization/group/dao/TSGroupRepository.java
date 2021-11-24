@@ -1,6 +1,6 @@
 package com.xin.sparrow.system.management.organization.group.dao;
 
-import com.xin.sparrow.system.management.organization.group.entity.TSGroup;
+import com.xin.api.sys.user.entity.TSGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

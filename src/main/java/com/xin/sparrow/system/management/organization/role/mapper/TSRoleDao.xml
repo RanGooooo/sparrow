@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xin.sparrow.system.management.organization.role.dao.TSRoleDao">
 
-    <select id="searchTSRoleList" resultType="com.xin.sparrow.system.management.organization.role.entity.TSRole">
+    <select id="searchTSRoleList" resultType="com.xin.api.sys.user.entity.TSRole">
         SELECT * FROM t_s_role
     </select>
 

@@ -3,7 +3,7 @@ package com.xin.api.sys.user.service.impl;
 import com.xin.sparrow.common.annotation.check.CheckData;
 import com.xin.sparrow.common.dto.RestResult;
 import com.xin.api.sys.user.constant.TSUserConstant;
-import com.xin.api.sys.user.dao.TSUserDao;
+import com.xin.api.sys.user.dao.SysUserMainMapper;
 import com.xin.api.sys.user.dao.TSUserRepository;
 import com.xin.api.sys.user.dto.TSUserDto;
 import com.xin.api.sys.user.entity.TSUser;
@@ -22,7 +22,7 @@ import java.util.List;
 public class TSUserServiceImpl implements TSUserService {
 
     @Autowired
-    private TSUserDao userDao;
+    private SysUserMainMapper userDao;
 
     @Autowired
     private TSUserRepository userRepository;

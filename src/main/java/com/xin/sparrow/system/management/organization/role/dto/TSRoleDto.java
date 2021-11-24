@@ -1,6 +1,6 @@
 package com.xin.sparrow.system.management.organization.role.dto;
 
-import com.xin.sparrow.system.management.organization.role.entity.TSRole;
+import com.xin.api.sys.user.entity.TSRole;
 
 public class TSRoleDto extends TSRole{
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TSUserDao {
+public interface SysUserMainMapper {
 
 
     List<TSUser> searchTSUserList(TSUserDto dto);

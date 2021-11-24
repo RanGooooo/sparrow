@@ -4,7 +4,7 @@ import com.xin.sparrow.common.dto.RestResult;
 import com.xin.sparrow.system.management.organization.role.dao.TSRoleDao;
 import com.xin.sparrow.system.management.organization.role.dao.TSRoleRepository;
 import com.xin.sparrow.system.management.organization.role.dto.TSRoleDto;
-import com.xin.sparrow.system.management.organization.role.entity.TSRole;
+import com.xin.api.sys.user.entity.TSRole;
 import com.xin.sparrow.system.management.organization.role.service.TSRoleService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

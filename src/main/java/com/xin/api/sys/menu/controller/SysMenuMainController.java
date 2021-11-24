@@ -21,20 +21,13 @@ import java.util.List;
 
 @Controller
 @ApiGroup(description  = "应用管理")
-@RequestMapping("TSApplicationController")
-public class TSApplicationController {
+@RequestMapping("sysMenuMainController")
+public class SysMenuMainController {
 
     private static final String applicationPath = "system/management/menu/";
 
     @Autowired
     private TSApplicationService applicationService;
-
-
-    @Api(description  = "跳转应用列表")
-    @RequestMapping("forwordTSApplicationList")
-    public String forwordTSApplicationList(){
-        return applicationPath + "menu-list";
-    }
 
     @Api(description  = "搜索应用列表")
     @RequestMapping(value = "searchTSApplicationList",method = {RequestMethod.GET,RequestMethod.POST})

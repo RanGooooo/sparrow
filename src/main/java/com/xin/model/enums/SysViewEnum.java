@@ -6,7 +6,9 @@ package com.xin.model.enums;
 */
 public enum SysViewEnum {
 
+    CONSOLE_MAIN("console_main","sys/console/console_main","控制台"),
     LOGIN_MAIN("login_main","sys/login/login_main","登录页面"),
+    MENU_MAIN_LIST("menu_main_list","sys/menu/menu_main_list","菜单列表"),
 
 	;
     public final String systemcode;

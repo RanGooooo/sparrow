@@ -142,7 +142,7 @@
             searchTSApplicationList(){
                 const self = this;
                 common.ajax({
-                    url:"/TSApplicationController/searchMyTSApplicationList",
+                    url:"/sysMenuMainController/searchMyTSApplicationList",
                     success:function(result){
                         self.applicationList = result.data;
                         self.$set(self.applicationActiveCollapseIds,0,self.applicationList[0].id);

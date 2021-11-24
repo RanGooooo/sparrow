@@ -1,45 +1,27 @@
 package com.xin.api.sys.user.entity;
 
-import org.apache.ibatis.type.Alias;
-import org.hibernate.annotations.GenericGenerator;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
-import javax.persistence.*;
-
-
-
-@Entity
-@Table(name = "role_db")
-@Alias(value = "SysUserRole")
+/**
+* 作者:  zhaohongyu
+* 创建时间:  2021-11-24 14:25
+*/
+@Data
+@TableName("sys_user_role")
 public class SysUserRole {
-/**角色code*/
-private String code;
-/**主键*/
-private String id;
-/**角色名称*/
-private String name;
-@Column(name ="code")
-public String getCode() {
-return code;
-}
-public void setCode(String code) {
-this.code = code;
-}
-@Id
-@GeneratedValue(generator = "paymentableGenerator")
-@GenericGenerator(name = "paymentableGenerator", strategy = "uuid")
-@Column(name ="ID",nullable=false,length=36)
-public String getId() {
-return id;
-}
-public void setId(String id) {
-this.id = id;
-}
-@Column(name ="name")
-public String getName() {
-return name;
-}
-public void setName(String name) {
-this.name = name;
-}
+
+    /**
+     * 角色code
+     */
+    private String code;
+    /**
+     * 主键
+     */
+    private String id;
+    /**
+     * 角色名称
+     */
+    private String name;
 
 }

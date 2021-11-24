@@ -6,7 +6,7 @@
         SELECT * FROM t_s_group
     </select>
 
-    <select id="searchTSGroupTree" resultType="com.xin.sparrow.system.management.organization.group.dto.TSGroupDto">
+    <select id="searchTSGroupTree" resultType="com.xin.api.sys.user.dto.SysUserOrgDto">
         SELECT * FROM t_s_group
         <where>
             <if test="parentGroupId!=null and parentGroupId!=''">

@@ -1,7 +1,7 @@
 package com.xin.api.sys.user.service;
 
 import com.xin.sparrow.common.dto.RestResult;
-import com.xin.sparrow.system.management.organization.group.dto.TSGroupDto;
+import com.xin.api.sys.user.dto.SysUserOrgDto;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,7 +11,7 @@ public interface SysUserOrgService {
 
     void forwordTSGroupSave(HttpServletRequest request) throws Exception;
 
-    RestResult groupSave(TSGroupDto dto) throws Exception;
+    RestResult groupSave(SysUserOrgDto dto) throws Exception;
 
     void groupDelete(HttpServletRequest request) throws Exception;
 

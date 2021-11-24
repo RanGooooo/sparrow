@@ -3,8 +3,7 @@ package com.xin.api.sys.user.service.impl;
 import com.xin.api.sys.user.entity.SysUserRole;
 import com.xin.sparrow.common.dto.RestResult;
 import com.xin.api.sys.user.dao.SysUserRoleMapper;
-import com.xin.api.sys.user.dao.TSRoleRepository;
-import com.xin.sparrow.system.management.organization.role.dto.TSRoleDto;
+import com.xin.api.sys.user.dto.SysUserRoleDto;
 import com.xin.api.sys.user.service.SysUserRoleService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +19,14 @@ import java.util.List;
 public class SysUserRoleServiceImpl implements SysUserRoleService {
 
     @Autowired
-    private SysUserRoleMapper roleDao;
+    private SysUserRoleMapper sysUserRoleMapper;
 
-    @Autowired
-    private TSRoleRepository roleRepository;
 
     @Override
     public RestResult searchTSRoleList(HttpServletRequest request) throws Exception {
         RestResult result = new RestResult();
-        TSRoleDto dto = new TSRoleDto();
-        List<SysUserRole> list = roleDao.searchTSRoleList(dto);
+        SysUserRoleDto dto = new SysUserRoleDto();
+        List<SysUserRole> list = sysUserRoleMapper.searchTSRoleList(dto);
         result.setObject(list);
         return result;
     }
@@ -37,20 +34,20 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
     @Override
     public void forwordTSRoleSave(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
-        SysUserRole entity = roleRepository.findTSRoleById(id);
+        SysUserRole entity = sysUserRoleMapper.selectById(id);
         request.setAttribute("role",entity);
     }
 
     @Override
-    public void roleSave(TSRoleDto dto) throws Exception{
+    public void roleSave(SysUserRoleDto dto) throws Exception{
         //TODO 判空代码 稍后添加
         String id = dto.getId();
         SysUserRole entity = new SysUserRole();
         if(!StringUtils.isEmpty(id)){
-            entity  = roleRepository.findTSRoleById(id);
+            entity  = sysUserRoleMapper.selectById(id);
         }
         BeanUtils.copyProperties(dto,entity);
-        roleRepository.save(entity);
+        sysUserRoleMapper.insert(entity);
     }
 
     @Override
@@ -59,7 +56,7 @@ public class SysUserRoleServiceImpl implements SysUserRoleService {
         if(StringUtils.isEmpty(id)){
             throw new Exception("删除TSRole_ZH失败，主键为空");
         }
-        roleRepository.deleteById(id);
+        sysUserRoleMapper.deleteById(id);
     }
 
 

@@ -2,7 +2,7 @@ package com.xin.api.sys.user.controller;
 
 
 import com.xin.sparrow.common.dto.RestResult;
-import com.xin.sparrow.system.management.organization.group.dto.TSGroupDto;
+import com.xin.api.sys.user.dto.SysUserOrgDto;
 import com.xin.api.sys.user.service.SysUserOrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -68,7 +68,7 @@ public class SysUserOrgController {
 
     @RequestMapping("groupSave")
     @ResponseBody
-    public RestResult groupSave(TSGroupDto dto) {
+    public RestResult groupSave(SysUserOrgDto dto) {
         RestResult result = new RestResult();
         try {
             result = groupService.groupSave(dto);

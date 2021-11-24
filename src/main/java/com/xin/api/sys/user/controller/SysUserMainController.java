@@ -2,7 +2,7 @@ package com.xin.api.sys.user.controller;
 
 
 import com.xin.sparrow.common.dto.RestResult;
-import com.xin.api.sys.user.dto.TSUserDto;
+import com.xin.api.sys.user.dto.SysUserMainDto;
 import com.xin.api.sys.user.service.SysUserMainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,7 +52,7 @@ public class SysUserMainController {
 
     @RequestMapping("userSave")
     @ResponseBody
-    public RestResult userSave(TSUserDto dto) {
+    public RestResult userSave(SysUserMainDto dto) {
         RestResult result = new RestResult();
         try {
             userService.userSave(dto);

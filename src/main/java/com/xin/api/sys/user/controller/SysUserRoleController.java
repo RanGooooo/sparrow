@@ -2,7 +2,7 @@ package com.xin.api.sys.user.controller;
 
 
 import com.xin.sparrow.common.dto.RestResult;
-import com.xin.sparrow.system.management.organization.role.dto.TSRoleDto;
+import com.xin.api.sys.user.dto.SysUserRoleDto;
 import com.xin.api.sys.user.service.SysUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,7 +51,7 @@ public class SysUserRoleController {
 
     @RequestMapping("roleSave")
     @ResponseBody
-    public RestResult roleSave(TSRoleDto dto) {
+    public RestResult roleSave(SysUserRoleDto dto) {
         RestResult result = new RestResult();
         try {
             roleService.roleSave(dto);

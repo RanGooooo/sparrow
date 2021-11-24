@@ -4,8 +4,7 @@ import com.xin.sparrow.common.annotation.check.CheckData;
 import com.xin.sparrow.common.dto.RestResult;
 import com.xin.api.sys.user.constant.TSUserConstant;
 import com.xin.api.sys.user.dao.SysUserMainMapper;
-import com.xin.api.sys.user.dao.TSUserRepository;
-import com.xin.api.sys.user.dto.TSUserDto;
+import com.xin.api.sys.user.dto.SysUserMainDto;
 import com.xin.api.sys.user.entity.SysUserMain;
 import com.xin.api.sys.user.service.SysUserMainService;
 import org.springframework.beans.BeanUtils;
@@ -22,16 +21,13 @@ import java.util.List;
 public class SysUserMainServiceImpl implements SysUserMainService {
 
     @Autowired
-    private SysUserMainMapper userDao;
-
-    @Autowired
-    private TSUserRepository userRepository;
+    private SysUserMainMapper sysUserMainMapper;
 
     @Override
     public RestResult searchTSUserList(HttpServletRequest request) throws Exception {
         RestResult result = new RestResult();
-        TSUserDto dto = new TSUserDto();
-        List<SysUserMain> list = userDao.searchTSUserList(dto);
+        SysUserMainDto dto = new SysUserMainDto();
+        List<SysUserMain> list = sysUserMainMapper.searchTSUserList(dto);
         result.setObject(list);
         return result;
     }
@@ -39,20 +35,20 @@ public class SysUserMainServiceImpl implements SysUserMainService {
     @Override
     public void forwordTSUserSave(HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
-        SysUserMain entity = userRepository.findTSUserById(id);
+        SysUserMain entity = sysUserMainMapper.selectById(id);
         request.setAttribute("user",entity);
     }
 
     @Override
-    public void userSave(@CheckData  TSUserDto dto) throws Exception{
+    public void userSave(@CheckData SysUserMainDto dto) throws Exception{
         String id = dto.getId();
         SysUserMain entity = new SysUserMain();
         if(!StringUtils.isEmpty(id)){
-            entity  = userRepository.findTSUserById(id);
+            entity  = sysUserMainMapper.selectById(id);
         }
         BeanUtils.copyProperties(dto,entity);
         entity.setAccountState(TSUserConstant.ACCOUNT_STATE_01);
-        userRepository.save(entity);
+        sysUserMainMapper.insert(entity);
     }
 
     @Override
@@ -61,7 +57,7 @@ public class SysUserMainServiceImpl implements SysUserMainService {
         if(StringUtils.isEmpty(id)){
             throw new Exception("删除TSUser_ZH失败，主键为空");
         }
-        userRepository.deleteById(id);
+        sysUserMainMapper.deleteById(id);
     }
 
 
